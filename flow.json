@@ -1,6 +1,6 @@
 [
     {
-        "id": "48efa0b981b7656e",
+        "id": "26def2e3da099090",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
@@ -8,16 +8,943 @@
         "env": []
     },
     {
-        "id": "105e8f95cf0fb995",
+        "id": "b492b82f98ccd4b8",
+        "type": "tab",
+        "label": "Sync Meters",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "Connect to Meter - TCP",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "1be24b8ff09f02b8",
+        "type": "tab",
+        "label": "Push Data",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "dd97952271ad3668",
+        "type": "tab",
+        "label": "Device Status Update",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "db51f51e0afa79eb",
+        "type": "junction",
+        "z": "f6f2187d.f17ca8",
+        "x": 220,
+        "y": 280,
+        "wires": [
+            [
+                "cb998e7079defac3",
+                "28b1eb73f233ce21",
+                "da6be638.259418",
+                "822560ca7ca4f3e9"
+            ]
+        ]
+    },
+    {
+        "id": "8177c09fa8ce40ba",
+        "type": "docker-server",
+        "name": "hostDocker"
+    },
+    {
+        "id": "c038eacb999612b4",
+        "type": "http in",
+        "z": "26def2e3da099090",
+        "name": "",
+        "url": "/getMeterDLMS",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 250,
+        "y": 180,
+        "wires": [
+            [
+                "07d19c40ebde3dc4"
+            ]
+        ]
+    },
+    {
+        "id": "2b79644fb16c7d53",
+        "type": "http response",
+        "z": "26def2e3da099090",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 720,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "07d19c40ebde3dc4",
+        "type": "function",
+        "z": "26def2e3da099090",
+        "name": "function 1",
+        "func": "msg.payload = \"Got IT !! <br>\"\nmsg.payload += \"<br> IP: \" + msg.req.query.ip\nmsg.payload += \"<br> Port: \" + msg.req.query.port\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 180,
+        "wires": [
+            [
+                "2b79644fb16c7d53"
+            ]
+        ]
+    },
+    {
+        "id": "b3f128a5d9d6e29b",
         "type": "inject",
-        "z": "48efa0b981b7656e",
+        "z": "b492b82f98ccd4b8",
         "name": "",
         "props": [
             {
                 "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"username\":\"tenant@thingsboard.org\",\"password\":\"tenant\"}",
+        "payloadType": "json",
+        "x": 170,
+        "y": 180,
+        "wires": [
+            [
+                "a4f2f9a56bd8ebc4"
+            ]
+        ]
+    },
+    {
+        "id": "55260687d30d3c8e",
+        "type": "http request",
+        "z": "b492b82f98ccd4b8",
+        "name": "Login",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://10.10.168.216:8080/api/auth/login",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 370,
+        "y": 180,
+        "wires": [
+            [
+                "976fe08379e031b2"
+            ]
+        ]
+    },
+    {
+        "id": "2702cbe47beefc8f",
+        "type": "debug",
+        "z": "b492b82f98ccd4b8",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "tokenDetails",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "976fe08379e031b2",
+        "type": "change",
+        "z": "b492b82f98ccd4b8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "tokenDetails",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
             },
             {
-                "p": "topic",
+                "t": "set",
+                "p": "tokenDetails.token",
+                "pt": "msg",
+                "to": "$join($append(\"Bearer\", msg.tokenDetails.token)\t, \" \")",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 600,
+        "y": 180,
+        "wires": [
+            [
+                "2702cbe47beefc8f",
+                "966c6c1833260601"
+            ]
+        ]
+    },
+    {
+        "id": "966c6c1833260601",
+        "type": "http request",
+        "z": "b492b82f98ccd4b8",
+        "name": "Get Devices",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://10.10.168.216:8080/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=6407c800-6fc7-11ed-acc7-7f84f79e863d",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "tokenDetails.token"
+            }
+        ],
+        "x": 370,
+        "y": 300,
+        "wires": [
+            [
+                "fba4dd6a02d531ca",
+                "232f99d20fa231dd"
+            ]
+        ]
+    },
+    {
+        "id": "fba4dd6a02d531ca",
+        "type": "debug",
+        "z": "b492b82f98ccd4b8",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "80fbc66f188dcc30",
+        "type": "http request",
+        "z": "b492b82f98ccd4b8",
+        "name": "Get DeviceTelemetry",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1100,
+        "y": 400,
+        "wires": [
+            [
+                "115fcf78609cc66a",
+                "3ffdf296e9aa7540"
+            ]
+        ]
+    },
+    {
+        "id": "f6960afb7445e1a5",
+        "type": "split",
+        "z": "b492b82f98ccd4b8",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "device",
+        "x": 530,
+        "y": 400,
+        "wires": [
+            [
+                "cd26b197f7021021"
+            ]
+        ]
+    },
+    {
+        "id": "8c04918e22707249",
+        "type": "debug",
+        "z": "b492b82f98ccd4b8",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "232f99d20fa231dd",
+        "type": "change",
+        "z": "b492b82f98ccd4b8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.data",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 400,
+        "wires": [
+            [
+                "f6960afb7445e1a5"
+            ]
+        ]
+    },
+    {
+        "id": "2b4e6515351f8aea",
+        "type": "function",
+        "z": "b492b82f98ccd4b8",
+        "name": "Build Telemetry Requist",
+        "func": "let device = msg.payload\nlet deviceId = msg.payload.id\n\nmsg.url = \"http://10.10.168.216:8080/api/plugins/telemetry/DEVICE/\" + msg.payload.id.id +\"/values/attributes/SERVER_SCOPE\"\nmsg.headers= {\n    \"Authorization\": msg.tokenDetails.token\n    ,\"Content-Type\":\"application/json\"\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 400,
+        "wires": [
+            [
+                "80fbc66f188dcc30"
+            ]
+        ]
+    },
+    {
+        "id": "115fcf78609cc66a",
+        "type": "function",
+        "z": "b492b82f98ccd4b8",
+        "name": "Build Device",
+        "func": "\nmsg.payload.forEach(function(telemetry) {\n    if (telemetry.key === \"ip\") msg.host = telemetry.value\n    if (telemetry.key === \"port\") msg.port = telemetry.value\n    if (telemetry.key === \"meterSerial\") msg.serial = telemetry.value \n    if (telemetry.key === \"key\") msg.key = telemetry.value \n\n});\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 480,
+        "wires": [
+            [
+                "8c04918e22707249",
+                "80afdebdfd0afae7"
+            ]
+        ]
+    },
+    {
+        "id": "3ffdf296e9aa7540",
+        "type": "debug",
+        "z": "b492b82f98ccd4b8",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1320,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "a739cd2b99eae162",
+        "type": "link out",
+        "z": "b492b82f98ccd4b8",
+        "d": true,
+        "name": "Link - Get Meeter Data",
+        "mode": "link",
+        "links": [
+            "5b9f3735771c738d"
+        ],
+        "x": 615,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "80afdebdfd0afae7",
+        "type": "change",
+        "z": "b492b82f98ccd4b8",
+        "name": "Clear unusedData",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "statusCode",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "responseUrl",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "redirectList",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "retry",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "tokenDetails",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "headers",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "parts",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 490,
+        "y": 580,
+        "wires": [
+            [
+                "a739cd2b99eae162"
+            ]
+        ]
+    },
+    {
+        "id": "a4f2f9a56bd8ebc4",
+        "type": "trigger",
+        "z": "b492b82f98ccd4b8",
+        "name": "",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "-6",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 170,
+        "y": 100,
+        "wires": [
+            [
+                "e0af04f6e65c7a9b"
+            ]
+        ]
+    },
+    {
+        "id": "e0af04f6e65c7a9b",
+        "type": "change",
+        "z": "b492b82f98ccd4b8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"username\":\"tenant@thingsboard.org\",\"password\":\"tenant\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 100,
+        "wires": [
+            [
+                "55260687d30d3c8e"
+            ]
+        ]
+    },
+    {
+        "id": "cd26b197f7021021",
+        "type": "change",
+        "z": "b492b82f98ccd4b8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "deviceId",
+                "pt": "msg",
+                "to": "payload.id.id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "token",
+                "pt": "msg",
+                "to": "tokenDetails.token",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 680,
+        "y": 360,
+        "wires": [
+            [
+                "2b4e6515351f8aea"
+            ]
+        ]
+    },
+    {
+        "id": "3cc11d24.ff01a2",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
+        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
+        "x": 350,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "23fa21f1.dc05de",
+        "type": "tcp request",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "server": "",
+        "port": "",
+        "out": "sit",
+        "ret": "string",
+        "splitc": " ",
+        "newline": "",
+        "trim": false,
+        "tls": "",
+        "x": 970,
+        "y": 340,
+        "wires": [
+            [
+                "5d79bde5e052453e",
+                "2fd1328642b74be3"
+            ]
+        ]
+    },
+    {
+        "id": "3f8055d.fc07faa",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "host",
+                "v": "10.123.245.154",
+                "vt": "str"
+            },
+            {
+                "p": "port",
+                "v": "8000",
+                "vt": "str"
+            },
+            {
+                "p": "serial",
+                "v": "20671901",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "x": 130,
+        "y": 340,
+        "wires": [
+            [
+                "db51f51e0afa79eb"
+            ]
+        ]
+    },
+    {
+        "id": "da6be638.259418",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Set Meter Awake (1) string",
+        "func": "msg.payload = \"FFFFFF\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 340,
+        "wires": [
+            [
+                "23fa21f1.dc05de"
+            ]
+        ]
+    },
+    {
+        "id": "0840999b57cfc9fb",
+        "type": "join",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "mode": "custom",
+        "build": "string",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "120",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "num",
+        "reduceFixup": "",
+        "x": 670,
+        "y": 440,
+        "wires": [
+            [
+                "acbaf1707d5f5dab"
+            ]
+        ]
+    },
+    {
+        "id": "5d79bde5e052453e",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Update Complete When all data Recived",
+        "func": "if (msg.payload.includes(\"!\"))\n    msg.complete = true\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 440,
+        "wires": [
+            [
+                "0840999b57cfc9fb"
+            ]
+        ]
+    },
+    {
+        "id": "28b1eb73f233ce21",
+        "type": "delay",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 380,
+        "y": 180,
+        "wires": [
+            [
+                "dc5c159f01604d49"
+            ]
+        ]
+    },
+    {
+        "id": "dc5c159f01604d49",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Set GET request string",
+        "func": "//msg.payload = \"/?20671901!\\r\\n\"\nmsg.payload = \"/?\"+msg.serial+\"!\\r\\n\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 180,
+        "wires": [
+            [
+                "23fa21f1.dc05de"
+            ]
+        ]
+    },
+    {
+        "id": "cb998e7079defac3",
+        "type": "delay",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 380,
+        "y": 240,
+        "wires": [
+            [
+                "ac13b7dd5a89b33f"
+            ]
+        ]
+    },
+    {
+        "id": "ac13b7dd5a89b33f",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Set Meter Awake (2) string",
+        "func": "msg.payload = \"FFFFFF\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 240,
+        "wires": [
+            [
+                "23fa21f1.dc05de"
+            ]
+        ]
+    },
+    {
+        "id": "5b9f3735771c738d",
+        "type": "link in",
+        "z": "f6f2187d.f17ca8",
+        "name": "link - Start Getting Meeter Data",
+        "links": [
+            "a739cd2b99eae162"
+        ],
+        "x": 165,
+        "y": 260,
+        "wires": [
+            [
+                "db51f51e0afa79eb"
+            ]
+        ]
+    },
+    {
+        "id": "822560ca7ca4f3e9",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "Meter Input Log",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 200,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "acbaf1707d5f5dab",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Format Data",
+        "func": "let dataString = msg.payload;\nlet dataArray = dataString.split(\"\\n\")\n\n//msg.payload = dataArray\n\n\nlet array = dataArray\n\nmsg.regData = {}\n\nmsg.regData[\"rawData\"] = msg.payload\n//msg.regData[\"Model\"] = array\n\narray.forEach(function (reg) {\n\n    let dataPair = reg.split(\"(\")\n    if (dataPair.length > 1) {\n        let key = dataPair[0]\n        let value1 = dataPair[1].replace(\")\", \"\").split(\"*\")[0]\n        let unit1 = dataPair[1].replace(\")\", \"\").split(\"*\")[1]\n        let value2 = dataPair[2] ? dataPair[2].replace(\")\", \"\") : dataPair[2]\n        msg.regData[key + \"_value1\"] = value1\n        msg.regData[key + \"_unit1\"] = unit1\n        msg.regData[key + \"_value2\"] = value2\n    }\n\n});\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 520,
+        "wires": [
+            [
+                "5b26d699abbbcf13",
+                "4733e2435a95cb5c"
+            ]
+        ]
+    },
+    {
+        "id": "5b26d699abbbcf13",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "regData",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "4733e2435a95cb5c",
+        "type": "link out",
+        "z": "f6f2187d.f17ca8",
+        "name": "Push to thingsboard",
+        "mode": "link",
+        "links": [
+            "8fecc386a03723ba"
+        ],
+        "x": 1085,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "44480bd101592e5e",
+        "type": "catch",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "scope": [
+            "23fa21f1.dc05de"
+        ],
+        "uncaught": false,
+        "x": 870,
+        "y": 80,
+        "wires": [
+            [
+                "5869b7c803c0e56d",
+                "73e504d0ac36328e"
+            ]
+        ]
+    },
+    {
+        "id": "5869b7c803c0e56d",
+        "type": "link out",
+        "z": "f6f2187d.f17ca8",
+        "name": "Report Meeter In-Active",
+        "mode": "link",
+        "links": [
+            "3a1fe03d18a7e55a"
+        ],
+        "x": 1035,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "2fd1328642b74be3",
+        "type": "link out",
+        "z": "f6f2187d.f17ca8",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [
+            "0b7a791912f25722"
+        ],
+        "x": 1135,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "73e504d0ac36328e",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "Error: Report Connection Errors",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1110,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "ebdd57bbdd870c9d",
+        "type": "inject",
+        "z": "1be24b8ff09f02b8",
+        "name": "",
+        "props": [
+            {
+                "p": "regData",
+                "v": "{\"rawData\":\"/ISk5MT174-0004\\r\\n\\n/ISk5MT174-0004\\r\\n\\n\\u00021-0:0.9.1*255(193124)\\r\\n1-0:0.9.2*255(1221010)\\r\\n1-0:0.0.0*255(20671901)\\r\\n1-0:0.1.0*255(4)\\r\\n1-0:0.2.0*255(1.03)\\r\\n1-0:0.2.2*255(G11)\\r\\n0-0:C.1.0*255(20671901)\\r\\n0-0:C.1.6*255(FDF5)\\r\\n0-0:C.51.1*255(4)\\r\\n0-0:C.51.2*255(1210915001240)\\r\\n0-0:C.51.2*01(1210915001240)\\r\\n0-0:C.51.2*02(0210317102223)\\r\\n0-0:C.51.2*03(0210317102215)\\r\\n0-0:C.51.3*255(0)\\r\\n0-0:C.51.4*255()\\r\\n0-0:C.51.4*01()\\r\\n0-0:C.51.4*02()\\r\\n0-0:C.51.4*03()\\r\\n0-0:C.51.5*255(0)\\r\\n0-0:C.51.6*255()\\r\\n0-0:C.51.6*01()\\r\\n0-0:C.51.6*02()\\r\\n0-0:C.51.6*03()\\r\\n0-0:C.6.1*255(95.3654)\\r\\n0-0:C.7.0*255(30)\\r\\n1-0:1.6.0*255(00.00*kW)(2210101930)\\r\\n1-0:1.8.0*255(0000000.061*kWh)\\r\\n1-0:1.6.1*255(00.00*kW)(2210101930)\\r\\n1-0:1.8.1*255(0000000.061*kWh)\\r\\n1-0:1.6.2*255(00.00*kW)(0001011300)\\r\\n1-0:1.8.2*255(0000000.000*kWh)\\r\\n1-0:1.6.3*255(00.00*kW)(0001011300)\\r\\n1-0:1.8.3*255(0000000.000*kWh)\\r\\n1-0:1.6.4*255(00.00*kW)(0001011300)\\r\\n1-0:1.8.4*255(0000000.000*kWh)\\r\\n1-0:2.6.0*255(00.00*kW)(2210101930)\\r\\n1-0:2.8.0*255(0000000.000*kWh)\\r\\n1-0:2.6.1*255...\",\"\\u00021-0:0.9.1*255_value1\":\"193124\\r\",\"1-0:0.9.2*255_value1\":\"1221010\\r\",\"1-0:0.0.0*255_value1\":\"20671901\\r\",\"1-0:0.1.0*255_value1\":\"4\\r\",\"1-0:0.2.0*255_value1\":\"1.03\\r\",\"1-0:0.2.2*255_value1\":\"G11\\r\",\"0-0:C.1.0*255_value1\":\"20671901\\r\",\"0-0:C.1.6*255_value1\":\"FDF5\\r\",\"0-0:C.51.1*255_value1\":\"4\\r\",\"0-0:C.51.2*255_value1\":\"1210915001240\\r\",\"0-0:C.51.2*01_value1\":\"1210915001240\\r\",\"0-0:C.51.2*02_value1\":\"0210317102223\\r\",\"0-0:C.51.2*03_value1\":\"0210317102215\\r\",\"0-0:C.51.3*255_value1\":\"0\\r\",\"0-0:C.51.4*255_value1\":\"\\r\",\"0-0:C.51.4*01_value1\":\"\\r\",\"0-0:C.51.4*02_value1\":\"\\r\",\"0-0:C.51.4*03_value1\":\"\\r\",\"0-0:C.51.5*255_value1\":\"0\\r\",\"0-0:C.51.6*255_value1\":\"\\r\",\"0-0:C.51.6*01_value1\":\"\\r\",\"0-0:C.51.6*02_value1\":\"\\r\",\"0-0:C.51.6*03_value1\":\"\\r\",\"0-0:C.6.1*255_value1\":\"95.3654\\r\",\"0-0:C.7.0*255_value1\":\"30\\r\",\"1-0:1.6.0*255_value1\":\"00.00\",\"1-0:1.6.0*255_unit1\":\"kW\",\"1-0:1.6.0*255_value2\":\"2210101930\\r\",\"1-0:1.8.0*255_value1\":\"0000000.061\",\"1-0:1.8.0*255_unit1\":\"kWh\\r\",\"1-0:1.6.1*255_value1\":\"00.00\",\"1-0:1.6.1*255_unit1\":\"kW\",\"1-0:1.6.1*255_value2\":\"2210101930\\r\",\"1-0:1.8.1*255_value1\":\"0000000.061\",\"1-0:1.8.1*255_unit1\":\"kWh\\r\",\"1-0:1.6.2*255_value1\":\"00.00\",\"1-0:1.6.2*255_unit1\":\"kW\",\"1-0:1.6.2*255_value2\":\"0001011300\\r\",\"1-0:1.8.2*255_value1\":\"0000000.000\",\"1-0:1.8.2*255_unit1\":\"kWh\\r\",\"1-0:1.6.3*255_value1\":\"00.00\",\"1-0:1.6.3*255_unit1\":\"kW\",\"1-0:1.6.3*255_value2\":\"0001011300\\r\",\"1-0:1.8.3*255_value1\":\"0000000.000\",\"1-0:1.8.3*255_unit1\":\"kWh\\r\",\"1-0:1.6.4*255_value1\":\"00.00\",\"1-0:1.6.4*255_unit1\":\"kW\",\"1-0:1.6.4*255_value2\":\"0001011300\\r\",\"1-0:1.8.4*255_value1\":\"0000000.000\",\"1-0:1.8.4*255_unit1\":\"kWh\\r\",\"1-0:2.6.0*255_value1\":\"00.00\",\"1-0:2.6.0*255_unit1\":\"kW\",\"1-0:2.6.0*255_value2\":\"2210101930\\r\",\"1-0:2.8.0*255_value1\":\"0000000.000\",\"1-0:2.8.0*255_unit1\":\"kWh\\r\",\"1-0:2.6.1*255_value1\":\"00.00\",\"1-0:2.6.1*255_unit1\":\"kW\",\"1-0:2.6.1*255_value2\":\"2210101930\\r\",\"1-0:2.8.1*255_value1\":\"0000000.000\",\"1-0:2.8.1*255_unit1\":\"kWh\\r\",\"2.6.2*255_value1\":\"00.00\",\"2.6.2*255_unit1\":\"kW\",\"2.6.2*255_value2\":\"0001011300\\r\",\"1-0:2.8.2*255_value1\":\"0000000.000\",\"1-0:2.8.2*255_unit1\":\"kWh\\r\",\"1-0:2.6.3*255_value1\":\"00.00\",\"1-0:2.6.3*255_unit1\":\"kW\",\"1-0:2.6.3*255_value2\":\"0001011300\\r\",\"1-0:2.8.3*255_value1\":\"0000000.000\",\"1-0:2.8.3*255_unit1\":\"kWh\\r\",\"1-0:2.6.4*255_value1\":\"00.00\",\"1-0:2.6.4*255_unit1\":\"kW\",\"1-0:2.6.4*255_value2\":\"0001011300\\r\",\"1-0:2.8.4*255_value1\":\"0000000.000\",\"1-0:2.8.4*255_unit1\":\"kWh\\r\",\"1-0:15.6.0*255_value1\":\"00.00\",\"1-0:15.6.0*255_unit1\":\"kW\",\"1-0:15.6.0*255_value2\":\"2210101930\\r\",\"1-0:15.8.0*255_value1\":\"0000000.061\",\"1-0:15.8.0*255_unit1\":\"kWh\\r\",\"1-0:15.6.1*255_value1\":\"00.00\",\"1-0:15.6.1*255_unit1\":\"kW\",\"1-0:15.6.1*255_value2\":\"2210101930\\r\",\"1-0:15.8.1*255_value1\":\"0000000.061\",\"1-0:15.8.1*255_unit1\":\"kWh\\r\",\"1-0:15.6.2*255_value1\":\"00.00\",\"1-0:15.6.2*255_unit1\":\"kW\",\"1-0:15.6.2*255_value2\":\"0001011300\\r\",\"1-0:15.8.2*255_value1\":\"0000000.000\",\"1-0:15.8.2*255_unit1\":\"kWh\\r\",\"1-0:15.6.3*255_value1\":\"00.00\",\"1-0:15.6.3*255_unit1\":\"kW\",\"1-0:15.6.3*255_value2\":\"0001011300\\r\",\"1-0:15.8.3*255_value1\":\"0000000.000\",\"1-0:15.8.3*255_unit1\":\"kWh\\r\",\"1-0:15.6.4*255_value1\":\"00.00\",\"1-0:15.6.4*255_unit1\":\"kW\",\"1-0:15.6.4*255_value2\":\"0001\",\"1-0:15.8.4*255_value1\":\"0000000.000\",\"1-0:15.8.4*255_unit1\":\"kWh\\r\",\"1-0:3.8.0*255_value1\":\"0000000.001\",\"1-0:3.8.0*255_unit1\":\"kVArh\\r\",\"1-0:3.8.1*255_value1\":\"0000000.001\",\"1-0:3.8.1*255_unit1\":\"kVArh\\r\",\"1-0:3.8.2*255_value1\":\"0000000.000\",\"1-0:3.8.2*255_unit1\":\"kVArh\\r\",\"1-0:3.8.3*255_value1\":\"0000000.000\",\"1-0:3.8.3*255_unit1\":\"kVArh\\r\",\"1-0:3.8.4*255_value1\":\"0000000.000\",\"1-0:3.8.4*255_unit1\":\"kVArh\\r\",\"1-0:4.8.0*255_value1\":\"0000000.000\",\"1-0:4.8.0*255_unit1\":\"kVArh\\r\",\"1-0:4.8.1*255_value1\":\"0000000.000\",\"1-0:4.8.1*255_unit1\":\"kVArh\\r\",\"1-0:4.8.2*255_value1\":\"0000000.000\",\"1-0:4.8.2*255_unit1\":\"kVArh\\r\",\"1-0:4.8.3*255_value1\":\"0000000.000\",\"1-0:4.8.3*255_unit1\":\"kVArh\\r\",\"1-0:4.8.4*255_value1\":\"0000000.000\",\"1-0:4.8.4*255_unit1\":\"kVArh\\r\",\"1-0:5.8.0*255_value1\":\"0000000.001\",\"1-0:5.8.0*255_unit1\":\"kVArh\\r\",\"1-0:5.8.1*255_value1\":\"0000000.001\",\"1-0:5.8.1*255_unit1\":\"kVArh\\r\",\"1-0:5.8.2*255_value1\":\"0000000.000\",\"1-0:5.8.2*255_unit1\":\"kVArh\\r\",\"1-0:5.8.3*255_value1\":\"0000000.000\",\"1-0:5.8.3*255_unit1\":\"kVArh\\r\",\"1-0:5.8.4*255_value1\":\"0000000.000\",\"1-0:5.8.4*255_unit1\":\"kVArh\\r\",\"1-0:6.8.0*255_value1\":\"0000000.000\",\"1-0:6.8.0*255_unit1\":\"kVArh\\r\",\"1-0:6.8.1*255_value1\":\"0000000.000\",\"1-0:6.8.1*255_unit1\":\"kVArh\\r\",\"1-0:6.8.2*255_value1\":\"0000000.000\",\"1-0:6.8.2*255_unit1\":\"kVArh\\r\",\"1-0:6.8.3*255_value1\":\"0000000.000\",\"1-0:6.8.3*255_unit1\":\"kVArh\\r\",\"1-0:6.8.4*255_value1\":\"0000000.000\",\"1-0:6.8.4*255_unit1\":\"kVArh\\r\",\"1-0:7.8.0*255_value1\":\"0000000.000\",\"1-0:7.8.0*255_unit1\":\"kVArh\\r\",\"1-0:7.8.1*255_value1\":\"0000000.000\",\"1-0:7.8.1*255_unit1\":\"kVArh\\r\",\"1-0:7.8.2*255_value1\":\"0000000.000\",\"1-0:7.8.2*255_unit1\":\"kVArh\\r\",\"1-0:7.8.3*255_value1\":\"0000000.000\",\"1-0:7.8.3*255_unit1\":\"kVArh\\r\",\"1-0:7.8.4*255_value1\":\"0000000.000\",\"1-0:7.8.4*255_unit1\":\"kVArh\\r\",\"1-0:8.8.0*255_value1\":\"0000000.000\",\"1-0:8.8.0*255_unit1\":\"kVArh\\r\",\"1-0:8.8.1*255_value1\":\"0000000.000\",\"1-0:8.8.1*255_unit1\":\"kVArh\\r\",\"1-0:8.8.2*255_value1\":\"0000000.000\",\"1-0:8.8.2*255_unit1\":\"kVArh\\r\",\"1-0:8.8.3*255_value1\":\"0000000.000\",\"1-0:8.8.3*255_unit1\":\"kVAr\",\"1-0:8.8.4*255_value1\":\"0000000.000\",\"1-0:8.8.4*255_unit1\":\"kVArh\\r\",\"0-0:F.F.0*255_value1\":\"0000000\\r\",\"1-0:0.1.2*01_value1\":\"2210010000\\r\",\"1-0:0.1.2*02_value1\":\"2209010000\\r\",\"1-0:0.1.2*03_value1\":\"2208191851\\r\",\"1-0:0.1.2*04_value1\":\"2109132202\\r\",\"1-0:0.1.2*05_value1\":\"0001011300\\r\",\"1-0:0.1.2*06_value1\":\"0001011300\\r\",\"1-0:0.1.2*07_value1\":\"0001011300\\r\",\"1-0:0.1.2*08_value1\":\"0001011300\\r\",\"1-0:0.1.2*09_value1\":\"0001011300\\r\",\"1-0:0.1.2*10_value1\":\"0001011300\\r\",\"1-0:0.1.2*11_value1\":\"0001011300\\r\",\"1-0:0.1.2*12_value1\":\"0001011300\\r\",\"1-0:0.1.2*13_value1\":\"0001011300\\r\",\"1-0:0.1.2*14_value1\":\"0001011300\\r\",\"1-0:0.1.2*15_value1\":\"0001011300\\r\",\"1-0:1.6.0*01_value1\":\"00.00\",\"1-0:1.6.0*01_unit1\":\"kW\",\"1-0:1.6.0*01_value2\":\"2210010000\\r\",\"1-0:1.6.0*02_value1\":\"00.00\",\"1-0:1.6.0*02_unit1\":\"kW\",\"1-0:1.6.0*02_value2\":\"22090\",\"1-0:1.6.0*03_value1\":\"00.24\",\"1-0:1.6.0*03_unit1\":\"kW\",\"1-0:1.6.0*03_value2\":\"2109151515\\r\",\"1-0:1.6.0*04_value1\":\"00.00\",\"1-0:1.6.0*04_unit1\":\"kW\",\"1-0:1.6.0*04_value2\":\"2109132215\\r\",\"1-0:1.6.0*05_value1\":\"00.00\",\"1-0:1.6.0*05_unit1\":\"kW\",\"1-0:1.6.0*05_value2\":\"0001011300\\r\",\"1-0:1.6.0*06_value1\":\"00.00\",\"1-0:1.6.0*06_unit1\":\"kW\",\"1-0:1.6.0*06_value2\":\"0001011300\\r\",\"1-0:1.6.0*07_value1\":\"00.00\",\"1-0:1.6.0*07_unit1\":\"kW\",\"1-0:1.6.0*07_value2\":\"0001011300\\r\",\"1-0:1.6.0*08_value1\":\"00.00\",\"1-0:1.6.0*08_unit1\":\"kW\",\"1-0:1.6.0*08_value2\":\"0001011300\\r\",\"1-0:1.6.0*09_value1\":\"00.00\",\"1-0:1.6.0*09_unit1\":\"kW\",\"1-0:1.6.0*09_value2\":\"0001011300\\r\",\"1-0:1.6.0*10_value1\":\"00.00\",\"1-0:1.6.0*10_unit1\":\"kW\",\"1-0:1.6.0*10_value2\":\"0001011300\\r\",\"1-0:1.6.0*11_value1\":\"00.00\",\"1-0:1.6.0*11_unit1\":\"kW\",\"1-0:1.6.0*11_value2\":\"0001011300\\r\",\"1-0:1.6.0*12_value1\":\"00.00\",\"1-0:1.6.0*12_unit1\":\"kW\",\"1-0:1.6.0*12_value2\":\"0001011300\\r\",\"1-0:1.6.0*13_value1\":\"00.00\",\"1-0:1.6.0*13_unit1\":\"kW\",\"1-0:1.6.0*13_value2\":\"0001011300\\r\",\"1-0:1.6.0*14_value1\":\"00.00\",\"1-0:1.6.0*14_unit1\":\"kW\",\"1-0:1.6.0*14_value2\":\"0001011300\\r\",\"1-0:1.6.0*15_value1\":\"00.00\",\"1-0:1.6.0*15_unit1\":\"kW\",\"1-0:1.6.0*15_value2\":\"0001011300\\r\",\"1-0:1.8.0*01_value1\":\"0000000.061\",\"1-0:1.8.0*01_unit1\":\"kWh\\r\",\"1-0:1.8.0*02_value1\":\"0000000.061\",\"1-0:1.8.0*02_unit1\":\"kWh\\r\",\"1-0:1.8.0*03_value1\":\"0000000.061\",\"1-0:1.8.0*03_unit1\":\"kWh\\r\",\"1-0:1.8.0*04_value1\":\"0000000.000\",\"1-0:1.8.0*04_unit1\":\"kWh\\r\",\"1-0:1.8.0*05_value1\":\"0000000.000\",\"1-0:1.8.0*05_unit1\":\"kWh\\r\",\"1-0:1.8.0*06_value1\":\"0000000.000\",\"1-0:1.8.0*06_unit1\":\"kWh\\r\",\"1-0:1.8.0*07_value1\":\"0000000.000\",\"1-0:1.8.0*07_unit1\":\"kWh\\r\",\"1-0:1.8.0*08_value1\":\"0000000.000\",\"1-0:1.8.0*08_unit1\":\"kWh\\r\",\"1-0:1.8.0*09_value1\":\"0000000.000\",\"1-0:1.8.0*09_unit1\":\"kWh\\r\",\"1-0:1.8.0*10_value1\":\"0000000.000\",\"1-0:1.8.0*10_unit1\":\"kWh\\r\",\"1-0:1.8.0*11_value1\":\"0000000.000\",\"1-0:1.8.0*11_unit1\":\"kWh\\r\",\"1-0:1.8.0*12_value1\":\"0000000.000\",\"1-0:1.8.0*12_unit1\":\"kWh\\r\",\"1-0:1.8.0*13_value1\":\"0000000.000\",\"1-0:1.8.0*13_unit1\":\"kWh\\r\",\"1-0:1.8.0*14_value1\":\"0000000.000\",\"1-0:1.8.0*14_unit1\":\"kWh\\r\",\"1-0:1.8.0*15_value1\":\"0000000.000\",\"1-0:1.8.0*15_unit1\":\"kWh\\r\",\"1-0:1.6.1*01_value1\":\"00.00\",\"1-0:1.6.1*01_unit1\":\"kW\",\"1-0:1.6.1*01_value2\":\"2210010000\\r\",\"1-0:1.6.1*02_value1\":\"00.00\",\"1-0:1.6.1*02_unit1\":\"kW\",\"1-0:1.6.1*02_value2\":\"2209010000\\r\",\"3_value1\":\"0000000.000\",\"3_unit1\":\"kWh\\r\",\"1-0:1.6.1*04_value1\":\"00.00\",\"1-0:1.6.1*04_unit1\":\"kW\",\"1-0:1.6.1*04_value2\":\"2109132215\\r\",\"1-0:1.6.1*05_value1\":\"00.00\",\"1-0:1.6.1*05_unit1\":\"kW\",\"1-0:1.6.1*05_value2\":\"0001011300\\r\",\"1-0:1.6.1*06_value1\":\"00.00\",\"1-0:1.6.1*06_unit1\":\"kW\",\"1-0:1.6.1*06_value2\":\"0001011300\\r\",\"1-0:1.6.1*07_value1\":\"00.00\",\"1-0:1.6.1*07_unit1\":\"kW\",\"1-0:1.6.1*07_value2\":\"0001011300\\r\",\"1-0:1.6.1*08_value1\":\"00.00\",\"1-0:1.6.1*08_unit1\":\"kW\",\"1-0:1.6.1*08_value2\":\"0001011300\\r\",\"1-0:1.6.1*09_value1\":\"00.00\",\"1-0:1.6.1*09_unit1\":\"kW\",\"1-0:1.6.1*09_value2\":\"0001011300\\r\",\"1-0:1.6.1*10_value1\":\"00.00\",\"1-0:1.6.1*10_unit1\":\"kW\",\"1-0:1.6.1*10_value2\":\"0001011300\\r\",\"1-0:1.6.1*11_value1\":\"00.00\",\"1-0:1.6.1*11_unit1\":\"kW\",\"1-0:1.6.1*11_value2\":\"0001011300\\r\",\"1-0:1.6.1*12_value1\":\"00.00\",\"1-0:1.6.1*12_unit1\":\"kW\",\"1-0:1.6.1*12_value2\":\"0001011300\\r\",\"1-0:1.6.1*13_value1\":\"00.00\",\"1-0:1.6.1*13_unit1\":\"kW\",\"1-0:1.6.1*13_value2\":\"0001011300\\r\",\"1-0:1.6.1*14_value1\":\"00.00\",\"1-0:1.6.1*14_unit1\":\"kW\",\"1-0:1.6.1*14_value2\":\"0001011300\\r\",\"1-0:1.6.1*15_value1\":\"00.00\",\"1-0:1.6.1*15_unit1\":\"kW\",\"1-0:1.6.1*15_value2\":\"0001011300\\r\",\"1-0:1.6.2*01_value1\":\"00.00\",\"1-0:1.6.2*01_unit1\":\"kW\",\"1-0:1.6.2*01_value2\":\"0001011300\\r\",\"1-0:1.6.2*02_value1\":\"00.00\",\"1-0:1.6.2*02_unit1\":\"kW\",\"1-0:1.6.2*02_value2\":\"\",\"1-0:1.6.2*03_value1\":\"00.00\",\"1-0:1.6.2*03_unit1\":\"kW\",\"1-0:1.6.2*03_value2\":\"0001011300\\r\",\"1-0:1.6.2*04_value1\":\"00.00\",\"1-0:1.6.2*04_unit1\":\"kW\",\"1-0:1.6.2*04_value2\":\"0001011300\\r\",\"1-0:1.6.2*05_value1\":\"00.00\",\"1-0:1.6.2*05_unit1\":\"kW\",\"1-0:1.6.2*05_value2\":\"0001011300\\r\",\"1-0:1.6.2*06_value1\":\"00.00\",\"1-0:1.6.2*06_unit1\":\"kW\",\"1-0:1.6.2*06_value2\":\"0001011300\\r\",\"1-0:1.6.2*07_value1\":\"00.00\",\"1-0:1.6.2*07_unit1\":\"kW\",\"1-0:1.6.2*07_value2\":\"0001011300\\r\",\"1-0:1.6.2*08_value1\":\"00.00\",\"1-0:1.6.2*08_unit1\":\"kW\",\"1-0:1.6.2*08_value2\":\"0001011300\\r\",\"1-0:1.6.2*09_value1\":\"00.00\",\"1-0:1.6.2*09_unit1\":\"kW\",\"1-0:1.6.2*09_value2\":\"0001011300\\r\",\"1-0:1.6.2*10_value1\":\"00.00\",\"1-0:1.6.2*10_unit1\":\"kW\",\"1-0:1.6.2*10_value2\":\"0001011300\\r\",\"1-0:1.6.2*11_value1\":\"00.00\",\"1-0:1.6.2*11_unit1\":\"kW\",\"1-0:1.6.2*11_value2\":\"0001011300\\r\",\"1-0:1.6.2*12_value1\":\"00.00\",\"1-0:1.6.2*12_unit1\":\"kW\",\"1-0:1.6.2*12_value2\":\"0001011300\\r\",\"1-0:1.6.2*13_value1\":\"00.00\",\"1-0:1.6.2*13_unit1\":\"kW\",\"1-0:1.6.2*13_value2\":\"0001011300\\r\",\"1-0:1.6.2*14_value1\":\"00.00\",\"1-0:1.6.2*14_unit1\":\"kW\",\"1-0:1.6.2*14_value2\":\"0001011300\\r\",\"1-0:1.6.2*15_value1\":\"00.00\",\"1-0:1.6.2*15_unit1\":\"kW\",\"1-0:1.6.2*15_value2\":\"0001011300\\r\",\"1-0:1.6.3*01_value1\":\"00.00\",\"1-0:1.6.3*01_unit1\":\"kW\",\"1-0:1.6.3*01_value2\":\"0001011300\\r\",\"1-0:1.6.3*02_value1\":\"00.00\",\"1-0:1.6.3*02_unit1\":\"kW\",\"1-0:1.6.3*02_value2\":\"0001011300\\r\",\"1-0:1.6.3*03_value1\":\"00.00\",\"1-0:1.6.3*03_unit1\":\"kW\",\"1-0:1.6.3*03_value2\":\"0001011300\\r\",\"1-0:1.6.3*04_value1\":\"00.00\",\"1-0:1.6.3*04_unit1\":\"kW\",\"1-0:1.6.3*04_value2\":\"0001011300\\r\",\"1-0:1.6.3*05_value1\":\"00.00\",\"1-0:1.6.3*05_unit1\":\"kW\",\"1-0:1.6.3*05_value2\":\"0001011300\\r\",\"1-0:1.6.3*06_value1\":\"00.00\",\"1-0:1.6.3*06_unit1\":\"kW\",\"1-0:1.6.3*06_value2\":\"0001011300\\r\",\"1-0:1.6.3*07_value1\":\"00.00\",\"1-0:1.6.3*07_unit1\":\"kW\",\"1-0:1.6.3*07_value2\":\"0001011300\\r\",\"1-0:1.6.3*08_value1\":\"00.00\",\"1-0:1.6.3*08_unit1\":\"kW\",\"1-0:1.6.3*08_value2\":\"0001011300\\r\",\"1-0:1.6.3*09_value1\":\"00.00\",\"1-0:1.6.3*09_unit1\":\"kW\",\"1-0:1.6.3*09_value2\":\"0001011300\\r\",\"1-0:1.6.3*10_value1\":\"00.00\",\"1-0:1.6.3*10_unit1\":\"kW\",\"1-0:1.6.3*10_value2\":\"0001011300\\r\",\"1-0:1.6.3*11_value1\":\"00.00\",\"1-0:1.6.3*11_unit1\":\"kW\",\"1-0:1.6.3*11_value2\":\"0001011300\\r\",\"1-0:1.6.3*12_value1\":\"00.00\",\"1-0:1.6.3*12_unit1\":\"kW\",\"1-0:1.6.3*12_value2\":\"0001011300\\r\",\"1-0:1.6.3*13_value1\":\"00.00\",\"1-0:1.6.3*13_unit1\":\"kW\",\"1-0:1.6.3*13_value2\":\"0001011300\\r\",\"1-0:1.6.3*14_value1\":\"00.00\",\"1-0:1.6.3*14_unit1\":\"kW\",\"1-0:1.6.3*14_value2\":\"0001011300\\r\",\"1-0:1.6.3*15_value1\":\"00.00\",\"1-0:1.6.3*15_unit1\":\"kW\",\"1-0:1.6.3*15_value2\":\"0001011300\\r\",\":1.6.4*01_value1\":\"00.00\",\":1.6.4*01_unit1\":\"kW\",\":1.6.4*01_value2\":\"0001011300\\r\",\"1-0:1.6.4*02_value1\":\"00.00\",\"1-0:1.6.4*02_unit1\":\"kW\",\"1-0:1.6.4*02_value2\":\"0001011300\\r\",\"1-0:1.6.4*03_value1\":\"00.00\",\"1-0:1.6.4*03_unit1\":\"kW\",\"1-0:1.6.4*03_value2\":\"0001011300\\r\",\"1-0:1.6.4*04_value1\":\"00.00\",\"1-0:1.6.4*04_unit1\":\"kW\",\"1-0:1.6.4*04_value2\":\"0001011300\\r\",\"1-0:1.6.4*05_value1\":\"00.00\",\"1-0:1.6.4*05_unit1\":\"kW\",\"1-0:1.6.4*05_value2\":\"0001011300\\r\",\"1-0:1.6.4*06_value1\":\"00.00\",\"1-0:1.6.4*06_unit1\":\"kW\",\"1-0:1.6.4*06_value2\":\"0001011300\\r\",\"1-0:1.6.4*07_value1\":\"00.00\",\"1-0:1.6.4*07_unit1\":\"kW\",\"1-0:1.6.4*07_value2\":\"0001011300\\r\",\"1-0:1.6.4*08_value1\":\"00.00\",\"1-0:1.6.4*08_unit1\":\"kW\",\"1-0:1.6.4*08_value2\":\"0001011300\\r\",\"1-0:1.6.4*09_value1\":\"00.00\",\"1-0:1.6.4*09_unit1\":\"kW\",\"1-0:1.6.4*09_value2\":\"0001011300\\r\",\"1-0:1.6.4*10_value1\":\"00.00\",\"1-0:1.6.4*10_unit1\":\"kW\",\"1-0:1.6.4*10_value2\":\"0001011300\\r\",\"1-0:1.6.4*11_value1\":\"00.00\",\"1-0:1.6.4*11_unit1\":\"kW\",\"1-0:1.6.4*11_value2\":\"0001011300\\r\",\"1-0:1.6.4*12_value1\":\"00.00\",\"1-0:1.6.4*12_unit1\":\"kW\",\"1-0:1.6.4*12_value2\":\"0001011300\\r\",\"1-0:1.6.4*13_value1\":\"00.00\",\"1-0:1.6.4*13_unit1\":\"kW\",\"1-0:1.6.4*13_value2\":\"0001011300\\r\",\"1-0:1.6.4*14_value1\":\"00.00\",\"1-0:1.6.4*14_unit1\":\"kW\",\"1-0:1.6.4*14_value2\":\"0001011300\\r\",\"1-0:1.6.4*15_value1\":\"00\",\".00*kW)_value1\":\"0001011300\\r\",\"1-0:1.8.1*01_value1\":\"0000000.061\",\"1-0:1.8.1*01_unit1\":\"kWh\\r\",\"1-0:1.8.1*02_value1\":\"0000000.061\",\"1-0:1.8.1*02_unit1\":\"kWh\\r\",\"1-0:1.8.1*03_value1\":\"0000000.061\",\"1-0:1.8.1*03_unit1\":\"kWh\\r\",\"1-0:1.8.1*04_value1\":\"0000000.000\",\"1-0:1.8.1*04_unit1\":\"kWh\\r\",\"1-0:1.8.1*05_value1\":\"0000000.000\",\"1-0:1.8.1*05_unit1\":\"kWh\\r\",\"1-0:1.8.1*06_value1\":\"0000000.000\",\"1-0:1.8.1*06_unit1\":\"kWh\\r\",\"1-0:1.8.1*07_value1\":\"0000000.000\",\"1-0:1.8.1*07_unit1\":\"kWh\\r\",\"1-0:1.8.1*08_value1\":\"0000000.000\",\"1-0:1.8.1*08_unit1\":\"kWh\\r\",\"1-0:1.8.1*09_value1\":\"0000000.000\",\"1-0:1.8.1*09_unit1\":\"kWh\\r\",\"1-0:1.8.1*10_value1\":\"0000000.000\",\"1-0:1.8.1*10_unit1\":\"kWh\\r\",\"1-0:1.8.1*11_value1\":\"0000000.000\",\"1-0:1.8.1*11_unit1\":\"kWh\\r\",\"1-0:1.8.1*12_value1\":\"0000000.000\",\"1-0:1.8.1*12_unit1\":\"kWh\\r\",\"1-0:1.8.1*13_value1\":\"0000000.000\",\"1-0:1.8.1*13_unit1\":\"kWh\\r\",\"1-0:1.8.1*14_value1\":\"0000000.000\",\"1-0:1.8.1*14_unit1\":\"kWh\\r\",\"1-0:1.8.1*15_value1\":\"0000000.000\",\"1-0:1.8.1*15_unit1\":\"kWh\\r\",\"1-0:1.8.2*01_value1\":\"0000000.000\",\"1-0:1.8.2*01_unit1\":\"kWh\\r\",\"1-0:1.8.2*02_value1\":\"0000000.000\",\"1-0:1.8.2*02_unit1\":\"kWh\\r\",\"1-0:1.8.2*03_value1\":\"0000000.000\",\"1-0:1.8.2*03_unit1\":\"kWh\\r\",\"1-0:1.8.2*04_value1\":\"0000000.000\",\"1-0:1.8.2*04_unit1\":\"kWh\\r\",\"1-0:1.8.2*05_value1\":\"0000000.000\",\"1-0:1.8.2*05_unit1\":\"kWh\\r\",\"1-0:1.8.2*06_value1\":\"0000000.000\",\"1-0:1.8.2*06_unit1\":\"kWh\\r\",\"1-0:1.8.2*07_value1\":\"0000000.000\",\"1-0:1.8.2*07_unit1\":\"kWh\\r\",\"1-0:1.8.2*08_value1\":\"0000000.000\",\"1-0:1.8.2*08_unit1\":\"kWh\\r\",\"1-0:1.8.2*09_value1\":\"0000000.000\",\"1-0:1.8.2*09_unit1\":\"kWh\\r\",\"1-0:1.8.2*10_value1\":\"0000000.000\",\"1-0:1.8.2*10_unit1\":\"kWh\\r\",\"1-0:1.8.2*11_value1\":\"0000000.000\",\"1-0:1.8.2*11_unit1\":\"kWh\\r\",\"1-0:1.8.2*12_value1\":\"0000000.000\",\"1-0:1.8.2*12_unit1\":\"kWh\\r\",\"1-0:1.8.2*13_value1\":\"0000000.000\",\"1-0:1.8.2*13_unit1\":\"kWh\\r\",\"1-0:1.8.2*14_value1\":\"0000000.000\",\"1-0:1.8.2*14_unit1\":\"kWh\\r\",\"1-0:1.8.2*15_value1\":\"0000000.000\",\"1-0:1.8.2*15_unit1\":\"kWh\\r\",\"1-0:1.8.3*01_value1\":\"0000000.000\",\"1-0:1.8.3*01_unit1\":\"kWh\\r\",\"1-0:1.8.3*02_value1\":\"0000000.000\",\"1-0:1.8.3*02_unit1\":\"kWh\\r\",\"1-0:1.8.3*04_value1\":\"0000000.000\",\"1-0:1.8.3*04_unit1\":\"kWh\\r\",\"1-0:1.8.3*05_value1\":\"0000000.000\",\"1-0:1.8.3*05_unit1\":\"kWh\\r\",\"1-0:1.8.3*06_value1\":\"0000000.000\",\"1-0:1.8.3*06_unit1\":\"kWh\\r\",\"1-0:1.8.3*07_value1\":\"0000000.000\",\"1-0:1.8.3*07_unit1\":\"kWh\\r\",\"1-0:1.8.3*08_value1\":\"0000000.000\",\"1-0:1.8.3*08_unit1\":\"kWh\\r\",\"1-0:1.8.3*09_value1\":\"0000000.000\",\"1-0:1.8.3*09_unit1\":\"kWh\\r\",\"1-0:1.8.3*10_value1\":\"0000000.000\",\"1-0:1.8.3*10_unit1\":\"kWh\\r\",\"1-0:1.8.3*11_value1\":\"0000000.000\",\"1-0:1.8.3*11_unit1\":\"kWh\\r\",\"1-0:1.8.3*12_value1\":\"0000000.000\",\"1-0:1.8.3*12_unit1\":\"kWh\\r\",\"1-0:1.8.3*13_value1\":\"0000000.000\",\"1-0:1.8.3*13_unit1\":\"kWh\\r\",\"1-0:1.8.3*14_value1\":\"0000000.000\",\"1-0:1.8.3*14_unit1\":\"kWh\\r\",\"1-0:1.8.3*15_value1\":\"0000000.000\",\"1-0:1.8.3*15_unit1\":\"kWh\\r\",\"1-0:1.8.4*01_value1\":\"0000000.000\",\"1-0:1.8.4*01_unit1\":\"kWh\\r\",\"1-0:1.8.4*02_value1\":\"0000000.000\",\"1-0:1.8.4*02_unit1\":\"kWh\\r\",\"1-0:1.8.4*03_value1\":\"0000000.000\",\"1-0:1.8.4*03_unit1\":\"kWh\\r\",\"1-0:1.8.4*04_value1\":\"0000000.000\",\"1-0:1.8.4*04_unit1\":\"kWh\\r\",\"1-0:1.8.4*05_value1\":\"0000000.000\",\"1-0:1.8.4*05_unit1\":\"kWh\\r\",\"1-0:1.8.4*06_value1\":\"0000000.000\",\"1-0:1.8.4*06_unit1\":\"kWh\\r\",\"1-0:1.8.4*07_value1\":\"0000000.000\",\"1-0:1.8.4*07_unit1\":\"kWh\\r\",\"1-0:1.8.4*08_value1\":\"0000000.000\",\"1-0:1.8.4*08_unit1\":\"kWh\\r\",\"1-0:1.8.4*09_value1\":\"0000000.000\",\"1-0:1.8.4*09_unit1\":\"kWh\\r\",\"1-0:1.8.4*10_value1\":\"0000000.000\",\"1-0:1.8.4*10_unit1\":\"kWh\\r\",\"1-0:1.8.4*11_value1\":\"0000000.000\",\"1-0:1.8.4*11_unit1\":\"kWh\\r\",\"1-0:1.8.4*12_value1\":\"0000000.000\",\"1-0:1.8.4*12_unit1\":\"kWh\\r\",\"1-0:1.8.4*13_value1\":\"0000000.000\",\"1-0:1.8.4*13_unit1\":\"kWh\\r\",\"1-0:1.8.4*14_value1\":\"0000000.000\",\"1-0:1.8.4*14_unit1\":\"kWh\\r\",\"1-0:1.8.4*15_value1\":\"0000000.000\",\"1-0:1.8.4*15_unit1\":\"kWh\\r\",\"1-0:2.8.0*01_value1\":\"0000000.000\",\"1-0:2.8.0*01_unit1\":\"kWh\\r\",\"1-0:2.8.0*02_value1\":\"0000000.000\",\"1-0:2.8.0*02_unit1\":\"kWh\\r\",\"1-0:2.8.0*03_value1\":\"0000000.000\",\"1-0:2.8.0*03_unit1\":\"kWh\\r\",\"1-0:2.8.0*04_value1\":\"0000000.000\",\"1-0:2.8.0*04_unit1\":\"kWh\\r\",\"1-0:2.8.0*05_value1\":\"0000000.000\",\"1-0:2.8.0*05_unit1\":\"kWh\\r\",\"1-0:2.8.0*06_value1\":\"0000000.000\",\"1-0:2.8.0*06_unit1\":\"kWh\\r\",\"1-0:2.8.0*07_value1\":\"0000000.000\",\"1-0:2.8.0*07_unit1\":\"kWh\\r\",\"1-0:2.8.0*08_value1\":\"0000000.000\",\"1-0:2.8.0*08_unit1\":\"kWh\\r\",\"1-0:2.8.0*09_value1\":\"0000000.000\",\"1-0:2.8.0*09_unit1\":\"kWh\\r\",\"1-0:2.8.0*10_value1\":\"0000000.000\",\"1-0:2.8.0*10_unit1\":\"kWh\\r\",\"1-0:2.8.0*11_value1\":\"0000000.000\",\"1-0:2.8.0*11_unit1\":\"kWh\\r\",\"1-0:2.8.0*12_value1\":\"0000000.000\",\"1-0:2.8.0*12_unit1\":\"kWh\\r\",\"1-0:2.8.0*13_value1\":\"0000000.000\",\"1-0:2.8.0*13_unit1\":\"kWh\\r\",\"1-0:2.8.0*14_value1\":\"0000000.000\",\"1-0:2.8.0*14_unit1\":\"kWh\\r\",\"1-0:2.8.0*15_value1\":\"0000000.000\",\"1-0:2.8.0*15_unit1\":\"kWh\\r\",\"1-0:2.6.1*01_value1\":\"00.00\",\"1-0:2.6.1*01_unit1\":\"kW\",\"1-0:2.6.1*01_value2\":\"2210010000\\r\",\"1-0:2.6.1*02_value1\":\"00.00\",\"1-0:2.6.1*02_unit1\":\"kW\",\"1-0:2.6.1*02_value2\":\"2209010000\\r\",\"1-0:2.6.1*03_value1\":\"00.00\",\"1-0:2.6.1*03_unit1\":\"kW\",\"1-0:2.6.1*03_value2\":\"2208191900\\r\",\"1-0:2.6.1*04_value1\":\"00.00\",\"1-0:2.6.1*04_unit1\":\"kW\",\"1-0:2.6.1*04_value2\":\"2109132215\\r\",\"1-0:2.6.1*05_value1\":\"00.00\",\"1-0:2.6.1*05_unit1\":\"kW\",\"1-0:2.6.1*05_value2\":\"0001011300\\r\",\"1-0:2.6.1*06_value1\":\"00.00\",\"1-0:2.6.1*06_unit1\":\"kW\",\"1-0:2.6.1*06_value2\":\"0001011300\\r\",\"0:2.6.1*07_value1\":\"00.00\",\"0:2.6.1*07_unit1\":\"kW\",\"0:2.6.1*07_value2\":\"0001011300\\r\",\"1-0:2.6.1*08_value1\":\"00.00\",\"1-0:2.6.1*08_unit1\":\"kW\",\"1-0:2.6.1*08_value2\":\"0001011300\\r\",\"1-0:2.6.1*09_value1\":\"00.00\",\"1-0:2.6.1*09_unit1\":\"kW\",\"1-0:2.6.1*09_value2\":\"0001011300\\r\",\"1-0:2.6.1*10_value1\":\"00.00\",\"1-0:2.6.1*10_unit1\":\"kW\",\"1-0:2.6.1*10_value2\":\"0001011300\\r\",\"1-0:2.6.1*11_value1\":\"00.00\",\"1-0:2.6.1*11_unit1\":\"kW\",\"1-0:2.6.1*11_value2\":\"0001011300\\r\",\"1-0:2.6.1*12_value1\":\"00.00\",\"1-0:2.6.1*12_unit1\":\"kW\",\"1-0:2.6.1*12_value2\":\"0001011300\\r\",\"1-0:2.6.1*13_value1\":\"00.00\",\"1-0:2.6.1*13_unit1\":\"kW\",\"1-0:2.6.1*13_value2\":\"0001011300\\r\",\"1-0:2.6.1*14_value1\":\"00.00\",\"1-0:2.6.1*14_unit1\":\"kW\",\"1-0:2.6.1*14_value2\":\"0001011300\\r\",\"1-0:2.6.1*15_value1\":\"00.00\",\"1-0:2.6.1*15_unit1\":\"kW\",\"1-0:2.6.1*15_value2\":\"0001011300\\r\",\"1-0:2.6.2*01_value1\":\"00.00\",\"1-0:2.6.2*01_unit1\":\"kW\",\"1-0:2.6.2*01_value2\":\"0001011300\\r\",\"1-0:2.6.2*02_value1\":\"00.00\",\"1-0:2.6.2*02_unit1\":\"kW\",\"1-0:2.6.2*02_value2\":\"0001011300\\r\",\"1-0:2.6.2*03_value1\":\"00.00\",\"1-0:2.6.2*03_unit1\":\"kW\",\"1-0:2.6.2*03_value2\":\"0001011300\\r\",\"1-0:2.6.2*04_value1\":\"00.00\",\"1-0:2.6.2*04_unit1\":\"kW\",\"1-0:2.6.2*04_value2\":\"0001011300\\r\",\"1-0:2.6.2*05_value1\":\"00.00\",\"1-0:2.6.2*05_unit1\":\"kW\",\"1-0:2.6.2*05_value2\":\"0001011300\\r\",\"1-0:2.6.2*06_value1\":\"0\",\"0.00*kW)_value1\":\"0001011300\\r\",\"1-0:2.6.2*07_value1\":\"00.00\",\"1-0:2.6.2*07_unit1\":\"kW\",\"1-0:2.6.2*07_value2\":\"0001011300\\r\",\"1-0:2.6.2*08_value1\":\"00.00\",\"1-0:2.6.2*08_unit1\":\"kW\",\"1-0:2.6.2*08_value2\":\"0001011300\\r\",\"1-0:2.6.2*09_value1\":\"00.00\",\"1-0:2.6.2*09_unit1\":\"kW\",\"1-0:2.6.2*09_value2\":\"0001011300\\r\",\"1-0:2.6.2*10_value1\":\"00.00\",\"1-0:2.6.2*10_unit1\":\"kW\",\"1-0:2.6.2*10_value2\":\"0001011300\\r\",\"1-0:2.6.2*11_value1\":\"00.00\",\"1-0:2.6.2*11_unit1\":\"kW\",\"1-0:2.6.2*11_value2\":\"0001011300\\r\",\"1-0:2.6.2*12_value1\":\"00.00\",\"1-0:2.6.2*12_unit1\":\"kW\",\"1-0:2.6.2*12_value2\":\"0001011300\\r\",\"1-0:2.6.2*13_value1\":\"00.00\",\"1-0:2.6.2*13_unit1\":\"kW\",\"1-0:2.6.2*13_value2\":\"0001011300\\r\",\"1-0:2.6.2*14_value1\":\"00.00\",\"1-0:2.6.2*14_unit1\":\"kW\",\"1-0:2.6.2*14_value2\":\"0001011300\\r\",\"1-0:2.6.2*15_value1\":\"00.00\",\"1-0:2.6.2*15_unit1\":\"kW\",\"1-0:2.6.2*15_value2\":\"0001011300\\r\",\"1-0:2.6.3*01_value1\":\"00.00\",\"1-0:2.6.3*01_unit1\":\"kW\",\"1-0:2.6.3*01_value2\":\"0001011300\\r\",\"1-0:2.6.3*02_value1\":\"00.00\",\"1-0:2.6.3*02_unit1\":\"kW\",\"1-0:2.6.3*02_value2\":\"0001011300\\r\",\"1-0:2.6.3*03_value1\":\"00.00\",\"1-0:2.6.3*03_unit1\":\"kW\",\"1-0:2.6.3*03_value2\":\"0001011300\\r\",\"1-0:2.6.3*04_value1\":\"00.00\",\"1-0:2.6.3*04_unit1\":\"kW\",\"1-0:2.6.3*04_value2\":\"0001011300\\r\",\"1-0:2.6.3*05_value1\":\"00.00\",\"1-0:2.6.3*05_unit1\":\"kW\",\"1-0:2.6.3*05_value2\":\"0001011300\\r\",\"1-0:2.6.3*06_value1\":\"00.00\",\"1-0:2.6.3*06_unit1\":\"kW\",\"1-0:2.6.3*06_value2\":\"0001011300\\r\",\"1-0:2.6.3*07_value1\":\"00.00\",\"1-0:2.6.3*07_unit1\":\"kW\",\"1-0:2.6.3*07_value2\":\"0001011300\\r\",\"1-0:2.6.3*08_value1\":\"00.00\",\"1-0:2.6.3*08_unit1\":\"kW\",\"1-0:2.6.3*08_value2\":\"0001011300\\r\",\"1-0:2.6.3*09_value1\":\"00.00\",\"1-0:2.6.3*09_unit1\":\"kW\",\"1-0:2.6.3*09_value2\":\"0001011300\\r\",\"1-0:2.6.3*10_value1\":\"00.00\",\"1-0:2.6.3*10_unit1\":\"kW\",\"1-0:2.6.3*10_value2\":\"0001011300\\r\",\"1-0:2.6.3*11_value1\":\"00.00\",\"1-0:2.6.3*11_unit1\":\"kW\",\"1-0:2.6.3*11_value2\":\"0001011300\\r\",\"1-0:2.6.3*12_value1\":\"00.00\",\"1-0:2.6.3*12_unit1\":\"kW\",\"1-0:2.6.3*12_value2\":\"0001011300\\r\",\"1-0:2.6.3*13_value1\":\"00.00\",\"1-0:2.6.3*13_unit1\":\"kW\",\"1-0:2.6.3*13_value2\":\"0001011300\\r\",\"1-0:2.6.3*14_value1\":\"00.00\",\"1-0:2.6.3*14_unit1\":\"kW\",\"1-0:2.6.3*14_value2\":\"0001011300\\r\",\"1-0:2.6.3*15_value1\":\"00.00\",\"1-0:2.6.3*15_unit1\":\"kW\",\"1-0:2.6.3*15_value2\":\"0001011300\\r\",\"1-0:2.6.4*01_value1\":\"00.00\",\"1-0:2.6.4*01_unit1\":\"kW\",\"1-0:2.6.4*01_value2\":\"0001011300\\r\",\"1-0:2.6.4*02_value1\":\"00.00\",\"1-0:2.6.4*02_unit1\":\"kW\",\"1-0:2.6.4*02_value2\":\"0001011300\\r\",\"1-0:2.6.4*03_value1\":\"00.00\",\"1-0:2.6.4*03_unit1\":\"kW\",\"1-0:2.6.4*03_value2\":\"0001011300\\r\",\"1-0:2.6.4*04_value1\":\"00.00\",\"1-0:2.6.4*04_unit1\":\"kW\",\"1-0:2.6.4*04_value2\":\"0001011\",\"1-0:2.6.4*05_value1\":\"00.00\",\"1-0:2.6.4*05_unit1\":\"kW\",\"1-0:2.6.4*05_value2\":\"0001011300\\r\",\"1-0:2.6.4*06_value1\":\"00.00\",\"1-0:2.6.4*06_unit1\":\"kW\",\"1-0:2.6.4*06_value2\":\"0001011300\\r\",\"1-0:2.6.4*07_value1\":\"00.00\",\"1-0:2.6.4*07_unit1\":\"kW\",\"1-0:2.6.4*07_value2\":\"0001011300\\r\",\"1-0:2.6.4*08_value1\":\"00.00\",\"1-0:2.6.4*08_unit1\":\"kW\",\"1-0:2.6.4*08_value2\":\"0001011300\\r\",\"1-0:2.6.4*09_value1\":\"00.00\",\"1-0:2.6.4*09_unit1\":\"kW\",\"1-0:2.6.4*09_value2\":\"0001011300\\r\",\"1-0:2.6.4*10_value1\":\"00.00\",\"1-0:2.6.4*10_unit1\":\"kW\",\"1-0:2.6.4*10_value2\":\"0001011300\\r\",\"1-0:2.6.4*11_value1\":\"00.00\",\"1-0:2.6.4*11_unit1\":\"kW\",\"1-0:2.6.4*11_value2\":\"0001011300\\r\",\"1-0:2.6.4*12_value1\":\"00.00\",\"1-0:2.6.4*12_unit1\":\"kW\",\"1-0:2.6.4*12_value2\":\"0001011300\\r\",\"1-0:2.6.4*13_value1\":\"00.00\",\"1-0:2.6.4*13_unit1\":\"kW\",\"1-0:2.6.4*13_value2\":\"0001011300\\r\",\"1-0:2.6.4*14_value1\":\"00.00\",\"1-0:2.6.4*14_unit1\":\"kW\",\"1-0:2.6.4*14_value2\":\"0001011300\\r\",\"1-0:2.6.4*15_value1\":\"00.00\",\"1-0:2.6.4*15_unit1\":\"kW\",\"1-0:2.6.4*15_value2\":\"0001011300\\r\",\"1-0:2.8.1*01_value1\":\"0000000.000\",\"1-0:2.8.1*01_unit1\":\"kWh\\r\",\"1-0:2.8.1*02_value1\":\"0000000.000\",\"1-0:2.8.1*02_unit1\":\"kWh\\r\",\"1-0:2.8.1*03_value1\":\"0000000.000\",\"1-0:2.8.1*03_unit1\":\"kWh\\r\",\"1-0:2.8.1*04_value1\":\"0000000.000\",\"1-0:2.8.1*04_unit1\":\"kWh\\r\",\"1-0:2.8.1*05_value1\":\"0000000.000\",\"1-0:2.8.1*05_unit1\":\"kWh\\r\",\"1-0:2.8.1*06_value1\":\"0000000.000\",\"1-0:2.8.1*06_unit1\":\"kWh\\r\",\"1-0:2.8.1*07_value1\":\"0000000.000\",\"1-0:2.8.1*07_unit1\":\"kWh\\r\",\"1-0:2.8.1*08_value1\":\"0000000.000\",\"1-0:2.8.1*08_unit1\":\"kWh\\r\",\"1-0:2.8.1*09_value1\":\"0000000.000\",\"1-0:2.8.1*09_unit1\":\"kWh\\r\",\"1-0:2.8.1*10_value1\":\"0000000.000\",\"1-0:2.8.1*10_unit1\":\"kWh\\r\",\"1-0:2.8.1*11_value1\":\"0000000.000\",\"1-0:2.8.1*11_unit1\":\"kWh\\r\",\"1-0:2.8.1*12_value1\":\"0000000.000\",\"1-0:2.8.1*12_unit1\":\"kWh\\r\",\"1-0:2.8.1*13_value1\":\"0000000.000\",\"1-0:2.8.1*13_unit1\":\"kWh\\r\",\"1-0:2.8.1*14_value1\":\"0000000.000\",\"1-0:2.8.1*14_unit1\":\"kWh\\r\",\"1-0:2.8.1*15_value1\":\"0000000.000\",\"1-0:2.8.1*15_unit1\":\"kWh\\r\",\"1-0:2.8.2*01_value1\":\"0000000.000\",\"1-0:2.8.2*01_unit1\":\"kWh\\r\",\"1-0:2.8.2*02_value1\":\"0000000.000\",\"1-0:2.8.2*02_unit1\":\"kWh\\r\",\"1-0:2.8.2*03_value1\":\"0000000.000\",\"1-0:2.8.2*03_unit1\":\"kWh\\r\",\"1-0:2.8.2*04_value1\":\"0000000.000\",\"1-0:2.8.2*04_unit1\":\"kWh\\r\",\"1-0:2.8.2*05_value1\":\"0000000.000\",\"1-0:2.8.2*05_unit1\":\"kWh\\r\",\"0:2.8.2*06_value1\":\"0000000.000\",\"0:2.8.2*06_unit1\":\"kWh\\r\",\"1-0:2.8.2*07_value1\":\"0000000.000\",\"1-0:2.8.2*07_unit1\":\"kWh\\r\",\"1-0:2.8.2*08_value1\":\"0000000.000\",\"1-0:2.8.2*08_unit1\":\"kWh\\r\",\"1-0:2.8.2*09_value1\":\"0000000.000\",\"1-0:2.8.2*09_unit1\":\"kWh\\r\",\"1-0:2.8.2*10_value1\":\"0000000.000\",\"1-0:2.8.2*10_unit1\":\"kWh\\r\",\"1-0:2.8.2*11_value1\":\"0000000.000\",\"1-0:2.8.2*11_unit1\":\"kWh\\r\",\"1-0:2.8.2*12_value1\":\"0000000.000\",\"1-0:2.8.2*12_unit1\":\"kWh\\r\",\"1-0:2.8.2*13_value1\":\"0000000.000\",\"1-0:2.8.2*13_unit1\":\"kWh\\r\",\"1-0:2.8.2*14_value1\":\"0000000.000\",\"1-0:2.8.2*14_unit1\":\"kWh\\r\",\"1-0:2.8.2*15_value1\":\"0000000.000\",\"1-0:2.8.2*15_unit1\":\"kWh\\r\",\"1-0:2.8.3*01_value1\":\"0000000.000\",\"1-0:2.8.3*01_unit1\":\"kWh\\r\",\"1-0:2.8.3*02_value1\":\"0000000.000\",\"1-0:2.8.3*02_unit1\":\"kWh\\r\",\"1-0:2.8.3*03_value1\":\"0000000.000\",\"1-0:2.8.3*03_unit1\":\"kWh\\r\",\"1-0:2.8.3*04_value1\":\"0000000.000\",\"1-0:2.8.3*04_unit1\":\"kWh\\r\",\"1-0:2.8.3*05_value1\":\"0000000.000\",\"1-0:2.8.3*05_unit1\":\"kWh\\r\",\"1-0:2.8.3*06_value1\":\"0000000.000\",\"1-0:2.8.3*06_unit1\":\"kWh\\r\",\"1-0:2.8.3*07_value1\":\"0000000.000\",\"1-0:2.8.3*07_unit1\":\"kWh\\r\",\"1-0:2.8.3*08_value1\":\"0000000.000\",\"1-0:2.8.3*08_unit1\":\"kWh\\r\",\"1-0:2.8.3*09_value1\":\"0000000.000\",\"1-0:2.8.3*09_unit1\":\"kWh\\r\",\"1-0:2.8.3*10_value1\":\"0000000.000\",\"1-0:2.8.3*10_unit1\":\"kWh\\r\",\"1-0:2.8.3*11_value1\":\"0000000.000\",\"1-0:2.8.3*11_unit1\":\"kWh\\r\",\"1-0:2.8.3*12_value1\":\"0000000.000\",\"1-0:2.8.3*12_unit1\":\"kWh\\r\",\"1-0:2.8.3*13_value1\":\"0000000.000\",\"1-0:2.8.3*13_unit1\":\"kWh\\r\",\"1-0:2.8.3*14_value1\":\"0000000.000\",\"1-0:2.8.3*14_unit1\":\"kWh\\r\",\"1-0:2.8.3*15_value1\":\"0000000.000\",\"1-0:2.8.3*15_unit1\":\"kWh\\r\",\"1-0:2.8.4*01_value1\":\"0000000.000\",\"1-0:2.8.4*01_unit1\":\"kWh\\r\",\"1-0:2.8.4*02_value1\":\"0000000.000\",\"1-0:2.8.4*02_unit1\":\"kWh\\r\",\"1-0:2.8.4*03_value1\":\"0000000.000\",\"1-0:2.8.4*03_unit1\":\"kWh\\r\",\"1-0:2.8.4*04_value1\":\"0000000.000\",\"1-0:2.8.4*04_unit1\":\"kWh\\r\",\"1-0:2.8.4*05_value1\":\"0000000.000\",\"1-0:2.8.4*05_unit1\":\"kWh\\r\",\"1-0:2.8.4*06_value1\":\"0000000.000\",\"1-0:2.8.4*06_unit1\":\"kWh\\r\",\"1-0:2.8.4*07_value1\":\"0000000.000\",\"1-0:2.8.4*07_unit1\":\"kWh\\r\",\"1-0:2.8.4*08_value1\":\"0000000.000\",\"1-0:2.8.4*08_unit1\":\"kWh\\r\",\":2.8.4*09_value1\":\"0000000.000\",\":2.8.4*09_unit1\":\"kWh\\r\",\"1-0:2.8.4*10_value1\":\"0000000.000\",\"1-0:2.8.4*10_unit1\":\"kWh\\r\",\"1-0:2.8.4*11_value1\":\"0000000.000\",\"1-0:2.8.4*11_unit1\":\"kWh\\r\",\"1-0:2.8.4*12_value1\":\"0000000.000\",\"1-0:2.8.4*12_unit1\":\"kWh\\r\",\"1-0:2.8.4*13_value1\":\"0000000.000\",\"1-0:2.8.4*13_unit1\":\"kWh\\r\",\"1-0:2.8.4*14_value1\":\"0000000.000\",\"1-0:2.8.4*14_unit1\":\"kWh\\r\",\"1-0:2.8.4*15_value1\":\"0000000.000\",\"1-0:2.8.4*15_unit1\":\"kWh\\r\",\"1-0:3.8.0*01_value1\":\"0000000.001\",\"1-0:3.8.0*01_unit1\":\"kVArh\\r\",\"1-0:3.8.0*02_value1\":\"0000000.001\",\"1-0:3.8.0*02_unit1\":\"kVArh\\r\",\"1-0:3.8.0*03_value1\":\"0000000.001\",\"1-0:3.8.0*03_unit1\":\"kVArh\\r\",\"1-0:3.8.0*04_value1\":\"0000000.000\",\"1-0:3.8.0*04_unit1\":\"kVArh\\r\",\"1-0:3.8.0*05_value1\":\"0000000.000\",\"1-0:3.8.0*05_unit1\":\"kVArh\\r\",\"1-0:3.8.0*06_value1\":\"0000000.000\",\"1-0:3.8.0*06_unit1\":\"kVArh\\r\",\"1-0:3.8.0*07_value1\":\"0000000.000\",\"1-0:3.8.0*07_unit1\":\"kVArh\\r\",\"1-0:3.8.0*08_value1\":\"0000000.000\",\"1-0:3.8.0*08_unit1\":\"kVArh\\r\",\"1-0:3.8.0*09_value1\":\"0000000.000\",\"1-0:3.8.0*09_unit1\":\"kVArh\\r\",\"1-0:3.8.0*10_value1\":\"0000000.000\",\"1-0:3.8.0*10_unit1\":\"kVArh\\r\",\"1-0:3.8.0*11_value1\":\"0000000.000\",\"1-0:3.8.0*11_unit1\":\"kVArh\\r\",\"1-0:3.8.0*12_value1\":\"0000000.000\",\"1-0:3.8.0*12_unit1\":\"kVArh\\r\",\"1-0:3.8.0*13_value1\":\"0000000.000\",\"1-0:3.8.0*13_unit1\":\"kVArh\\r\",\"1-0:3.8.0*14_value1\":\"0000000.000\",\"1-0:3.8.0*14_unit1\":\"kVArh\\r\",\"1-0:3.8.0*15_value1\":\"0000000.000\",\"1-0:3.8.0*15_unit1\":\"kVArh\\r\",\"1-0:4.8.0*01_value1\":\"0000000.000\",\"1-0:4.8.0*01_unit1\":\"kVArh\\r\",\"1-0:4.8.0*02_value1\":\"0000000.000\",\"1-0:4.8.0*02_unit1\":\"kVArh\\r\",\"1-0:4.8.0*03_value1\":\"0000000.000\",\"1-0:4.8.0*03_unit1\":\"kVArh\\r\",\"1-0:4.8.0*04_value1\":\"0000000.000\",\"1-0:4.8.0*04_unit1\":\"kVArh\\r\",\"1-0:4.8.0*05_value1\":\"0000000.000\",\"1-0:4.8.0*05_unit1\":\"kVArh\\r\",\"1-0:4.8.0*06_value1\":\"0000000.000\",\"1-0:4.8.0*06_unit1\":\"kVArh\\r\",\"1-0:4.8.0*07_value1\":\"0000000.000\",\"1-0:4.8.0*07_unit1\":\"kVArh\\r\",\"1-0:4.8.0*08_value1\":\"0000000.000\",\"1-0:4.8.0*08_unit1\":\"kVArh\\r\",\"1-0:4.8.0*09_value1\":\"0000000.000\",\"1-0:4.8.0*09_unit1\":\"kVArh\\r\",\"1-0:4.8.0*10_value1\":\"00000\",\"1-0:4.8.0*11_value1\":\"0000000.000\",\"1-0:4.8.0*11_unit1\":\"kVArh\\r\",\"1-0:4.8.0*12_value1\":\"0000000.000\",\"1-0:4.8.0*12_unit1\":\"kVArh\\r\",\"1-0:4.8.0*13_value1\":\"0000000.000\",\"1-0:4.8.0*13_unit1\":\"kVArh\\r\",\"1-0:4.8.0*14_value1\":\"0000000.000\",\"1-0:4.8.0*14_unit1\":\"kVArh\\r\",\"1-0:4.8.0*15_value1\":\"0000000.000\",\"1-0:4.8.0*15_unit1\":\"kVArh\\r\",\"1-0:5.8.0*01_value1\":\"0000000.001\",\"1-0:5.8.0*01_unit1\":\"kVArh\\r\",\"1-0:5.8.0*02_value1\":\"0000000.001\",\"1-0:5.8.0*02_unit1\":\"kVArh\\r\",\"1-0:5.8.0*03_value1\":\"0000000.001\",\"1-0:5.8.0*03_unit1\":\"kVArh\\r\",\"1-0:5.8.0*04_value1\":\"0000000.000\",\"1-0:5.8.0*04_unit1\":\"kVArh\\r\",\"1-0:5.8.0*05_value1\":\"0000000.000\",\"1-0:5.8.0*05_unit1\":\"kVArh\\r\",\"1-0:5.8.0*06_value1\":\"0000000.000\",\"1-0:5.8.0*06_unit1\":\"kVArh\\r\",\"1-0:5.8.0*07_value1\":\"0000000.000\",\"1-0:5.8.0*07_unit1\":\"kVArh\\r\",\"1-0:5.8.0*08_value1\":\"0000000.000\",\"1-0:5.8.0*08_unit1\":\"kVArh\\r\",\"1-0:5.8.0*09_value1\":\"0000000.000\",\"1-0:5.8.0*09_unit1\":\"kVArh\\r\",\"1-0:5.8.0*10_value1\":\"0000000.000\",\"1-0:5.8.0*10_unit1\":\"kVArh\\r\",\"1-0:5.8.0*11_value1\":\"0000000.000\",\"1-0:5.8.0*11_unit1\":\"kVArh\\r\",\"1-0:5.8.0*12_value1\":\"0000000.000\",\"1-0:5.8.0*12_unit1\":\"kVArh\\r\",\"1-0:5.8.0*13_value1\":\"0000000.000\",\"1-0:5.8.0*13_unit1\":\"kVArh\\r\",\"1-0:5.8.0*14_value1\":\"0000000.000\",\"1-0:5.8.0*14_unit1\":\"kVArh\\r\",\"1-0:5.8.0*15_value1\":\"0000000.000\",\"1-0:5.8.0*15_unit1\":\"kVArh\\r\",\"1-0:6.8.0*01_value1\":\"0000000.000\",\"1-0:6.8.0*01_unit1\":\"kVArh\\r\",\"1-0:6.8.0*02_value1\":\"0000000.000\",\"1-0:6.8.0*02_unit1\":\"kVArh\\r\",\"1-0:6.8.0*03_value1\":\"0000000.000\",\"1-0:6.8.0*03_unit1\":\"kVArh\\r\",\"1-0:6.8.0*04_value1\":\"0000000.000\",\"1-0:6.8.0*04_unit1\":\"kVArh\\r\",\"1-0:6.8.0*05_value1\":\"0000000.000\",\"1-0:6.8.0*05_unit1\":\"kVArh\\r\",\"1-0:6.8.0*06_value1\":\"0000000.000\",\"1-0:6.8.0*06_unit1\":\"kVArh\\r\",\"1-0:6.8.0*07_value1\":\"0000000.000\",\"1-0:6.8.0*07_unit1\":\"kVArh\\r\",\"1-0:6.8.0*08_value1\":\"0000000.000\",\"1-0:6.8.0*08_unit1\":\"kVArh\\r\",\"1-0:6.8.0*09_value1\":\"0000000.000\",\"1-0:6.8.0*09_unit1\":\"kVArh\\r\",\"1-0:6.8.0*10_value1\":\"0000000.000\",\"1-0:6.8.0*10_unit1\":\"kVArh\\r\",\"1-0:6.8.0*11_value1\":\"000000\",\"1-0:6.8.0*12_value1\":\"0000000.000\",\"1-0:6.8.0*12_unit1\":\"kVArh\\r\",\"1-0:6.8.0*13_value1\":\"0000000.000\",\"1-0:6.8.0*13_unit1\":\"kVArh\\r\",\"1-0:6.8.0*14_value1\":\"0000000.000\",\"1-0:6.8.0*14_unit1\":\"kVArh\\r\",\"1-0:6.8.0*15_value1\":\"0000000.000\",\"1-0:6.8.0*15_unit1\":\"kVArh\\r\",\"1-0:7.8.0*01_value1\":\"0000000.000\",\"1-0:7.8.0*01_unit1\":\"kVArh\\r\",\"1-0:7.8.0*02_value1\":\"0000000.000\",\"1-0:7.8.0*02_unit1\":\"kVArh\\r\",\"1-0:7.8.0*03_value1\":\"0000000.000\",\"1-0:7.8.0*03_unit1\":\"kVArh\\r\",\"1-0:7.8.0*04_value1\":\"0000000.000\",\"1-0:7.8.0*04_unit1\":\"kVArh\\r\",\"1-0:7.8.0*05_value1\":\"0000000.000\",\"1-0:7.8.0*05_unit1\":\"kVArh\\r\",\"1-0:7.8.0*06_value1\":\"0000000.000\",\"1-0:7.8.0*06_unit1\":\"kVArh\\r\",\"1-0:7.8.0*07_value1\":\"0000000.000\",\"1-0:7.8.0*07_unit1\":\"kVArh\\r\",\"1-0:7.8.0*08_value1\":\"0000000.000\",\"1-0:7.8.0*08_unit1\":\"kVArh\\r\",\"1-0:7.8.0*09_value1\":\"0000000.000\",\"1-0:7.8.0*09_unit1\":\"kVArh\\r\",\"1-0:7.8.0*10_value1\":\"0000000.000\",\"1-0:7.8.0*10_unit1\":\"kVArh\\r\",\"1-0:7.8.0*11_value1\":\"0000000.000\",\"1-0:7.8.0*11_unit1\":\"kVArh\\r\",\"1-0:7.8.0*12_value1\":\"0000000.000\",\"1-0:7.8.0*12_unit1\":\"kVArh\\r\",\"1-0:7.8.0*13_value1\":\"0000000.000\",\"1-0:7.8.0*13_unit1\":\"kVArh\\r\",\"1-0:7.8.0*14_value1\":\"0000000.000\",\"1-0:7.8.0*14_unit1\":\"kVArh\\r\",\"1-0:7.8.0*15_value1\":\"0000000.000\",\"1-0:7.8.0*15_unit1\":\"kVArh\\r\",\"1-0:8.8.0*01_value1\":\"0000000.000\",\"1-0:8.8.0*01_unit1\":\"kVArh\\r\",\"1-0:8.8.0*02_value1\":\"0000000.000\",\"1-0:8.8.0*02_unit1\":\"kVArh\\r\",\"1-0:8.8.0*03_value1\":\"0000000.000\",\"1-0:8.8.0*03_unit1\":\"kVArh\\r\",\"1-0:8.8.0*04_value1\":\"0000000.000\",\"1-0:8.8.0*04_unit1\":\"kVArh\\r\",\"1-0:8.8.0*05_value1\":\"0000000.000\",\"1-0:8.8.0*05_unit1\":\"kVArh\\r\",\"1-0:8.8.0*06_value1\":\"0000000.000\",\"1-0:8.8.0*06_unit1\":\"kVArh\\r\",\"1-0:8.8.0*07_value1\":\"0000000.000\",\"1-0:8.8.0*07_unit1\":\"kVArh\\r\",\"1-0:8.8.0*08_value1\":\"0000000.000\",\"1-0:8.8.0*08_unit1\":\"kVArh\\r\",\"1-0:8.8.0*09_value1\":\"0000000.000\",\"1-0:8.8.0*09_unit1\":\"kVArh\\r\",\"1-0:8.8.0*10_value1\":\"0000000.000\",\"1-0:8.8.0*10_unit1\":\"kVArh\\r\",\"1-0:8.8.0*11_value1\":\"0000000.000\",\"1-0:8.8.0*11_unit1\":\"kVArh\\r\",\"1-0:8.8.0*12_value1\":\"0000000\",\"1-0:8.8.0*13_value1\":\"0000000.000\",\"1-0:8.8.0*13_unit1\":\"kVArh\\r\",\"1-0:8.8.0*14_value1\":\"0000000.000\",\"1-0:8.8.0*14_unit1\":\"kVArh\\r\",\"1-0:8.8.0*15_value1\":\"0000000.000\",\"1-0:8.8.0*15_unit1\":\"kVArh\\r\"}",
+                "vt": "json"
+            },
+            {
+                "p": "key",
+                "v": "T2_TEST_TOKEN",
                 "vt": "str"
             }
         ],
@@ -26,12 +953,235 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 140,
+        "x": 150,
         "y": 160,
         "wires": [
-            []
+            [
+                "6402213bf2574e41"
+            ]
+        ]
+    },
+    {
+        "id": "8bcf64e59a5be2dd",
+        "type": "http request",
+        "z": "1be24b8ff09f02b8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 550,
+        "y": 160,
+        "wires": [
+            [
+                "c2c10efb6fdbbee7"
+            ]
+        ]
+    },
+    {
+        "id": "c2c10efb6fdbbee7",
+        "type": "debug",
+        "z": "1be24b8ff09f02b8",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "6402213bf2574e41",
+        "type": "function",
+        "z": "1be24b8ff09f02b8",
+        "name": "Build Req",
+        "func": "msg.url = \"http://mytb:9090/api/v1/\"+msg.key+\"/telemetry\"\nmsg.payload = msg.regData\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 160,
+        "wires": [
+            [
+                "8bcf64e59a5be2dd",
+                "c2c10efb6fdbbee7"
+            ]
+        ]
+    },
+    {
+        "id": "8fecc386a03723ba",
+        "type": "link in",
+        "z": "1be24b8ff09f02b8",
+        "name": "link - Start Pushing to ThingsBoard",
+        "links": [
+            "4733e2435a95cb5c"
+        ],
+        "x": 125,
+        "y": 80,
+        "wires": [
+            [
+                "6402213bf2574e41"
+            ]
+        ]
+    },
+    {
+        "id": "ca897dd588850fdd",
+        "type": "inject",
+        "z": "dd97952271ad3668",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "headers",
+                "v": "{\"Authorization\":\"Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZW5hbnRAdGhpbmdzYm9hcmQub3JnIiwic2NvcGVzIjpbIlRFTkFOVF9BRE1JTiJdLCJ1c2VySWQiOiI3ZTg3MWIxMC0zZTUxLTExZWQtYTZhZC1jNTg3MWI2ZGQ1ZDIiLCJlbmFibGVkIjp0cnVlLCJpc1B1YmxpYyI6ZmFsc2UsInRlbmFudElkIjoiN2Q4MDBiNTAtM2U1MS0xMWVkLWE2YWQtYzU4NzFiNmRkNWQyIiwiY3VzdG9tZXJJZCI6IjEzODE0MDAwLTFkZDItMTFiMi04MDgwLTgwODA4MDgwODA4MCIsImlzcyI6InRoaW5nc2JvYXJkLmlvIiwiaWF0IjoxNjY1NjY5NDA2LCJleHAiOjE2NjU2Nzg0MDZ9.wnAkyecp83rjetqqLZxubXv2h3Uqyhn1X1-bAvEcHRCTIGE3DjtIGfvEGlULI4phyugbPQkkfyglP3mnnWJRrg\",\"Content-Type\":\"application/json\"}",
+                "vt": "json"
+            },
+            {
+                "p": "url",
+                "v": "http://mytb:9090/api/plugins/telemetry/DEVICE/06618c50-3e52-11ed-bc13-b37a369ce579/SERVER_SCOPE",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"active\":true}",
+        "payloadType": "json",
+        "x": 310,
+        "y": 220,
+        "wires": [
+            [
+                "434c3932adea1691"
+            ]
+        ]
+    },
+    {
+        "id": "434c3932adea1691",
+        "type": "http request",
+        "z": "dd97952271ad3668",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 650,
+        "y": 220,
+        "wires": [
+            [
+                "076c9bc612599986"
+            ]
+        ]
+    },
+    {
+        "id": "076c9bc612599986",
+        "type": "debug",
+        "z": "dd97952271ad3668",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "3a1fe03d18a7e55a",
+        "type": "link in",
+        "z": "dd97952271ad3668",
+        "name": "Meter Offline",
+        "links": [
+            "5869b7c803c0e56d"
+        ],
+        "x": 265,
+        "y": 120,
+        "wires": [
+            [
+                "c9d9a92f451a2b86"
+            ]
+        ]
+    },
+    {
+        "id": "c9d9a92f451a2b86",
+        "type": "function",
+        "z": "dd97952271ad3668",
+        "name": "MeterDown",
+        "func": "msg.payload = { \"active\": false }\nmsg.headers = { \"Authorization\": msg.token, \"Content-Type\": \"application/json\" }\nmsg.url = \"http://mytb:9090/api/plugins/telemetry/DEVICE/\" + msg.deviceId + \"/SERVER_SCOPE\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 120,
+        "wires": [
+            [
+                "434c3932adea1691"
+            ]
+        ]
+    },
+    {
+        "id": "0b7a791912f25722",
+        "type": "link in",
+        "z": "dd97952271ad3668",
+        "name": "Meter Online",
+        "links": [
+            "2fd1328642b74be3"
+        ],
+        "x": 265,
+        "y": 340,
+        "wires": [
+            [
+                "ae394f13c075beaa"
+            ]
+        ]
+    },
+    {
+        "id": "ae394f13c075beaa",
+        "type": "function",
+        "z": "dd97952271ad3668",
+        "name": "MeterDown",
+        "func": "msg.payload = { \"active\": true }\nmsg.headers = { \"Authorization\": msg.token, \"Content-Type\": \"application/json\" }\nmsg.url = \"http://mytb:9090/api/plugins/telemetry/DEVICE/\" + msg.deviceId + \"/SERVER_SCOPE\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 340,
+        "wires": [
+            [
+                "434c3932adea1691"
+            ]
         ]
     }
 ]
