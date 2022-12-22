@@ -735,7 +735,7 @@
         "type": "function",
         "z": "cc8be11b90b5343c",
         "name": "function 3",
-        "func": "let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\nlet host = \"10.100.0.36\"\nlet port = \"4059\"\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" +obis+ \"'\"\nreturn msg;",
+        "func": "let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\nlet host = \"10.100.0.19\"\nlet port = \"4059\"\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" +obis+ \"'\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
