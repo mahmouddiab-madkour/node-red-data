@@ -750,6 +750,97 @@
         ]
     },
     {
+        "id": "3687cb1df3e0bd10",
+        "type": "exec",
+        "z": "cc8be11b90b5343c",
+        "command": "python3",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 380,
+        "y": 1160,
+        "wires": [
+            [
+                "ad9f0ba20af54645"
+            ],
+            [
+                "ad9f0ba20af54645"
+            ],
+            [
+                "ad9f0ba20af54645"
+            ]
+        ]
+    },
+    {
+        "id": "a0dd3268893455c8",
+        "type": "inject",
+        "z": "cc8be11b90b5343c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 1160,
+        "wires": [
+            [
+                "c506dc1c67900f9c"
+            ]
+        ]
+    },
+    {
+        "id": "ad9f0ba20af54645",
+        "type": "debug",
+        "z": "cc8be11b90b5343c",
+        "name": "debug 18",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 540,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "c506dc1c67900f9c",
+        "type": "function",
+        "z": "cc8be11b90b5343c",
+        "name": "function 5",
+        "func": "let obis = \"0.0.1.0.0.255:2\"\nlet host = \"10.100.0.19\"\nlet port = \"4059\"\n\n\n\nlet file = \"\"\nlet WriteFunction = \"\"\n\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \"-o 'D: \\temp\\Gurux.DLMS.Python\\Gurux.DLMS.Client.WriteExample.python\\10_100_96.xml' -M 'SetCurrentTime:Non'\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 1320,
+        "wires": [
+            [
+                "3687cb1df3e0bd10"
+            ]
+        ]
+    },
+    {
         "id": "0b30a54fbfd394ce",
         "type": "inject",
         "z": "5ccf433d1e1252fa",
