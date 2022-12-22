@@ -484,7 +484,7 @@
         "op2": "0",
         "op1type": "str",
         "op2type": "str",
-        "duration": "-6",
+        "duration": "-5",
         "extend": false,
         "overrideDelay": false,
         "units": "min",
