@@ -826,7 +826,7 @@
         "type": "function",
         "z": "cc8be11b90b5343c",
         "name": "function 5",
-        "func": "let obis = \"0.0.1.0.0.255:2\"\nlet host = \"10.100.0.19\"\nlet port = \"4059\"\n\n\n\nlet file = \"\"\nlet WriteFunction = \"\"\n\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \"-o 'D: \\temp\\Gurux.DLMS.Python\\Gurux.DLMS.Client.WriteExample.python\\10_100_96.xml' -M 'SetCurrentTime:Non'\"\nreturn msg;",
+        "func": "let obis = \"0.0.1.0.0.255:2\"\nlet host = \"10.100.0.19\"\nlet port = \"4059\"\n\n\n\nlet file = \"\"\nlet WriteFunction = \"\"\n\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o 'D: \\temp\\Gurux.DLMS.Python\\Gurux.DLMS.Client.WriteExample.python\\10_100_96.xml' -M 'SetCurrentTime:Non'\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
