@@ -2577,7 +2577,7 @@
         "type": "function",
         "z": "9233b0c84f38dab5",
         "name": "function 8",
-        "func": "let obis = \"0.0.19.10.0.255:2\"\nlet host = msg.req.query.ip\nhost = \"10.100.0.19\"\nlet port = msg.req.query.port\nport = \"4059\"\nlet method = msg.req.query.method\nmethod = \"SetCredit\"\n\nlet amount = msg.req.query.amount\n\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o '10_100_96.xml' -M '\" + method +\":\"+amount+\"'\"\nreturn msg;",
+        "func": "let obis = \"0.0.19.10.0.255:2\"\nlet host = msg.req.query.ip\nhost = \"10.100.0.19\"\nlet port = msg.req.query.port\nport = \"4059\"\nlet method = msg.req.query.method\n\nlet amount = msg.req.query.amount\n\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o '10_100_96.xml' -M '\" + method +\":\"+amount+\"'\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
