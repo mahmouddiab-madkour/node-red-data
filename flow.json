@@ -2520,7 +2520,7 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "req.query",
+        "complete": "req.query.amount",
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
