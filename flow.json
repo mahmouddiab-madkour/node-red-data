@@ -2495,7 +2495,8 @@
         "wires": [
             [
                 "615c887b24b23a9e",
-                "aa617f4970d19987"
+                "aa617f4970d19987",
+                "5c6885de98c8e9a9"
             ]
         ]
     },
@@ -2508,6 +2509,23 @@
         "headers": {},
         "x": 330,
         "y": 640,
+        "wires": []
+    },
+    {
+        "id": "5c6885de98c8e9a9",
+        "type": "debug",
+        "z": "9233b0c84f38dab5",
+        "name": "debug 21",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 740,
         "wires": []
     }
 ]
