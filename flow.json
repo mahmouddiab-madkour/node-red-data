@@ -882,7 +882,7 @@
         "type": "http in",
         "z": "cc8be11b90b5343c",
         "name": "",
-        "url": "/SetCurrentTime",
+        "url": "/SetCurrentTime2",
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
