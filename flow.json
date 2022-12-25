@@ -835,7 +835,7 @@
         "type": "file",
         "z": "cc8be11b90b5343c",
         "name": "Write Template",
-        "filename": "/usr/src/node-red/10_100_96.xml",
+        "filename": "10_100_96.xml",
         "filenameType": "str",
         "appendNewline": true,
         "createDir": false,
