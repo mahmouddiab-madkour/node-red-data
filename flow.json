@@ -796,8 +796,7 @@
         "y": 1160,
         "wires": [
             [
-                "c506dc1c67900f9c",
-                "de930736b2dca5bf"
+                "c506dc1c67900f9c"
             ]
         ]
     },
@@ -823,7 +822,7 @@
         "type": "function",
         "z": "cc8be11b90b5343c",
         "name": "function 5",
-        "func": "let obis = \"0.0.1.0.0.255:2\"\nlet host = \"10.100.0.19\"\nlet port = \"4059\"\n\n\n\nlet file = \"\"\nlet WriteFunction = \"\"\n\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o '/usr/src/app/10_100_96.xml' -M 'SetCurrentTime:Non'\"\nreturn msg;",
+        "func": "let obis = \"0.0.1.0.0.255:2\"\nlet host = \"10.100.0.19\"\nlet port = \"4059\"\n\n\n\nlet file = \"\"\nlet WriteFunction = \"\"\n\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o '/usr/src/node-red/10_100_96.xml' -M 'SetCurrentTime:Non'\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -835,23 +834,6 @@
             [
                 "3687cb1df3e0bd10"
             ]
-        ]
-    },
-    {
-        "id": "de930736b2dca5bf",
-        "type": "file",
-        "z": "cc8be11b90b5343c",
-        "name": "",
-        "filename": "/usr/src/app/10_100_96.xml",
-        "filenameType": "str",
-        "appendNewline": true,
-        "createDir": false,
-        "overwriteFile": "false",
-        "encoding": "none",
-        "x": 480,
-        "y": 1060,
-        "wires": [
-            []
         ]
     },
     {
