@@ -761,8 +761,8 @@
         "winHide": false,
         "oldrc": false,
         "name": "",
-        "x": 380,
-        "y": 1160,
+        "x": 560,
+        "y": 1260,
         "wires": [
             [
                 "ad9f0ba20af54645"
@@ -813,8 +813,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 540,
-        "y": 1280,
+        "x": 720,
+        "y": 1260,
         "wires": []
     },
     {
@@ -828,8 +828,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 260,
-        "y": 1320,
+        "x": 400,
+        "y": 1260,
         "wires": [
             [
                 "3687cb1df3e0bd10"
@@ -840,14 +840,14 @@
         "id": "0b552cd254a994d0",
         "type": "file",
         "z": "cc8be11b90b5343c",
-        "name": "",
+        "name": "Write Template",
         "filename": "/usr/src/node-red/10_100_96.xml",
         "filenameType": "str",
         "appendNewline": true,
         "createDir": false,
         "overwriteFile": "true",
         "encoding": "none",
-        "x": 300,
+        "x": 240,
         "y": 1080,
         "wires": [
             [
@@ -859,7 +859,7 @@
         "id": "9c5949627ff19dcf",
         "type": "file in",
         "z": "cc8be11b90b5343c",
-        "name": "",
+        "name": "Read Template",
         "filename": "/usr/src/app/10_100_96.xml",
         "filenameType": "str",
         "format": "utf8",
@@ -867,7 +867,7 @@
         "sendError": false,
         "encoding": "none",
         "allProps": false,
-        "x": 140,
+        "x": 100,
         "y": 1240,
         "wires": [
             [
