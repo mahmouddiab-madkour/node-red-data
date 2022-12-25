@@ -786,8 +786,8 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 70,
-        "y": 1260,
+        "x": 130,
+        "y": 1180,
         "wires": [
             [
                 "9c5949627ff19dcf"
@@ -866,6 +866,23 @@
         "wires": [
             [
                 "0b552cd254a994d0"
+            ]
+        ]
+    },
+    {
+        "id": "e5a9d9add1bd36e4",
+        "type": "http in",
+        "z": "cc8be11b90b5343c",
+        "name": "",
+        "url": "/setCurrentTime",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 1340,
+        "wires": [
+            [
+                "9c5949627ff19dcf"
             ]
         ]
     },
