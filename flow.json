@@ -2647,7 +2647,8 @@
         "wires": [
             [
                 "70beeb476a93c7b7",
-                "3d692f8daee00714"
+                "3d692f8daee00714",
+                "74e3242854e47981"
             ]
         ]
     },
@@ -2708,6 +2709,23 @@
         ],
         "x": 1305,
         "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "74e3242854e47981",
+        "type": "debug",
+        "z": "9233b0c84f38dab5",
+        "name": "debug 24",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 220,
+        "y": 1180,
         "wires": []
     }
 ]
