@@ -2520,7 +2520,7 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "req.params",
+        "complete": "req.headers",
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
