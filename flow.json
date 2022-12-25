@@ -54,6 +54,14 @@
         "env": []
     },
     {
+        "id": "9233b0c84f38dab5",
+        "type": "tab",
+        "label": "Write Meter - Gurux",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "db51f51e0afa79eb",
         "type": "junction",
         "z": "f6f2187d.f17ca8",
@@ -2203,5 +2211,154 @@
                 "4314ceea63cb9cda"
             ]
         ]
+    },
+    {
+        "id": "ebec0114e1b01097",
+        "type": "exec",
+        "z": "9233b0c84f38dab5",
+        "command": "python3",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 840,
+        "y": 240,
+        "wires": [
+            [
+                "fbec2ee6eb8bdd3f"
+            ],
+            [
+                "fbec2ee6eb8bdd3f"
+            ],
+            [
+                "fbec2ee6eb8bdd3f"
+            ]
+        ]
+    },
+    {
+        "id": "2c78c955d49818fd",
+        "type": "inject",
+        "z": "9233b0c84f38dab5",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 190,
+        "y": 160,
+        "wires": [
+            [
+                "60f8829e1a026da9"
+            ]
+        ]
+    },
+    {
+        "id": "fbec2ee6eb8bdd3f",
+        "type": "debug",
+        "z": "9233b0c84f38dab5",
+        "name": "debug 19",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "5275ebb343bb1765",
+        "type": "function",
+        "z": "9233b0c84f38dab5",
+        "name": "function 6",
+        "func": "let obis = \"0.0.1.0.0.255:2\"\nlet host = \"10.100.0.19\"\nlet port = \"4059\"\n\n\n\nlet file = \"\"\nlet WriteFunction = \"\"\n\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o '10_100_96.xml' -M 'SetCurrentTime:Non'\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 240,
+        "wires": [
+            [
+                "ebec0114e1b01097"
+            ]
+        ]
+    },
+    {
+        "id": "d282699141301a5e",
+        "type": "file",
+        "z": "9233b0c84f38dab5",
+        "name": "Write Template",
+        "filename": "10_100_96.xml",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 520,
+        "y": 240,
+        "wires": [
+            [
+                "5275ebb343bb1765"
+            ]
+        ]
+    },
+    {
+        "id": "60f8829e1a026da9",
+        "type": "file in",
+        "z": "9233b0c84f38dab5",
+        "name": "Read Template",
+        "filename": "/usr/src/app/10_100_96.xml",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 320,
+        "y": 240,
+        "wires": [
+            [
+                "d282699141301a5e"
+            ]
+        ]
+    },
+    {
+        "id": "ad1fb619fae01fa3",
+        "type": "http in",
+        "z": "9233b0c84f38dab5",
+        "name": "",
+        "url": "/SetCurrentTime",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 320,
+        "wires": [
+            [
+                "60f8829e1a026da9",
+                "409d5f7ee489fd86"
+            ]
+        ]
+    },
+    {
+        "id": "409d5f7ee489fd86",
+        "type": "http response",
+        "z": "9233b0c84f38dab5",
+        "name": "In Progress",
+        "statusCode": "200",
+        "headers": {},
+        "x": 350,
+        "y": 380,
+        "wires": []
     }
 ]
