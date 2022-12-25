@@ -796,7 +796,8 @@
         "y": 1160,
         "wires": [
             [
-                "c506dc1c67900f9c"
+                "c506dc1c67900f9c",
+                "0b552cd254a994d0"
             ]
         ]
     },
@@ -834,6 +835,23 @@
             [
                 "3687cb1df3e0bd10"
             ]
+        ]
+    },
+    {
+        "id": "0b552cd254a994d0",
+        "type": "file",
+        "z": "cc8be11b90b5343c",
+        "name": "",
+        "filename": "/usr/src/node-red/10_100_96.xml",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 300,
+        "y": 1080,
+        "wires": [
+            []
         ]
     },
     {
