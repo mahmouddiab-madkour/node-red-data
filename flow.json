@@ -796,7 +796,7 @@
         "y": 1160,
         "wires": [
             [
-                "0b552cd254a994d0"
+                "9c5949627ff19dcf"
             ]
         ]
     },
@@ -852,6 +852,26 @@
         "wires": [
             [
                 "c506dc1c67900f9c"
+            ]
+        ]
+    },
+    {
+        "id": "9c5949627ff19dcf",
+        "type": "file in",
+        "z": "cc8be11b90b5343c",
+        "name": "",
+        "filename": "/usr/src/app/10_100_96.xml",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 140,
+        "y": 1240,
+        "wires": [
+            [
+                "0b552cd254a994d0"
             ]
         ]
     },
