@@ -2495,8 +2495,7 @@
         "wires": [
             [
                 "615c887b24b23a9e",
-                "aa617f4970d19987",
-                "c9f3a6ab119f8056"
+                "aa617f4970d19987"
             ]
         ]
     },
@@ -2512,20 +2511,152 @@
         "wires": []
     },
     {
-        "id": "c9f3a6ab119f8056",
+        "id": "0d941dea03865b1e",
+        "type": "exec",
+        "z": "9233b0c84f38dab5",
+        "command": "python3",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 900,
+        "y": 980,
+        "wires": [
+            [
+                "1ddb3c94673a6525"
+            ],
+            [
+                "1ddb3c94673a6525"
+            ],
+            [
+                "1ddb3c94673a6525"
+            ]
+        ]
+    },
+    {
+        "id": "3596bc256b26be4c",
+        "type": "inject",
+        "z": "9233b0c84f38dab5",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 165,
+        "y": 900.5555419921875,
+        "wires": [
+            [
+                "70beeb476a93c7b7"
+            ]
+        ]
+    },
+    {
+        "id": "1ddb3c94673a6525",
         "type": "debug",
         "z": "9233b0c84f38dab5",
-        "name": "debug 21",
+        "name": "debug 22",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "req",
+        "complete": "payload",
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 320,
-        "y": 740,
+        "x": 1100,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "4301439bacf93f72",
+        "type": "function",
+        "z": "9233b0c84f38dab5",
+        "name": "function 8",
+        "func": "let obis = \"0.0.19.10.0.255:2\"\nlet host = msg.req.query.ip\nhost = \"10.100.0.19\"\nlet port = msg.req.query.port\nport = \"4059\"\nlet method = msg.req.query.method\nmethod = \"SetCredit\"\n\nlet amount = msg.req.query.amount\n\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o '10_100_96.xml' -M '\" + method +\":\"+amount+\"'\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 980,
+        "wires": [
+            [
+                "0d941dea03865b1e"
+            ]
+        ]
+    },
+    {
+        "id": "be372b175c796b43",
+        "type": "file",
+        "z": "9233b0c84f38dab5",
+        "name": "Write Template",
+        "filename": "10_100_96.xml",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 525,
+        "y": 980.5555419921875,
+        "wires": [
+            [
+                "4301439bacf93f72"
+            ]
+        ]
+    },
+    {
+        "id": "70beeb476a93c7b7",
+        "type": "file in",
+        "z": "9233b0c84f38dab5",
+        "name": "Read Template",
+        "filename": "/usr/src/app/10_100_96.xml",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 325,
+        "y": 980.5555419921875,
+        "wires": [
+            [
+                "be372b175c796b43"
+            ]
+        ]
+    },
+    {
+        "id": "95e5901fe875b969",
+        "type": "http in",
+        "z": "9233b0c84f38dab5",
+        "name": "",
+        "url": "/write",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 65,
+        "y": 980.5555419921875,
+        "wires": [
+            [
+                "70beeb476a93c7b7",
+                "3d692f8daee00714"
+            ]
+        ]
+    },
+    {
+        "id": "3d692f8daee00714",
+        "type": "http response",
+        "z": "9233b0c84f38dab5",
+        "name": "In Progress",
+        "statusCode": "200",
+        "headers": {},
+        "x": 325,
+        "y": 1080.5555419921875,
         "wires": []
     }
 ]
