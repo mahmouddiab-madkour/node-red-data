@@ -2056,7 +2056,8 @@
         "name": "link - Start Pushing to ThingsBoard",
         "links": [
             "0ed4d359f53813f2",
-            "38965ba3b9d58267"
+            "38965ba3b9d58267",
+            "c86738eb328eea89"
         ],
         "x": 125,
         "y": 80,
@@ -2530,7 +2531,8 @@
             ],
             [
                 "1ddb3c94673a6525",
-                "1ad788667bbc37c7"
+                "1ad788667bbc37c7",
+                "79c82f933b85480b"
             ],
             [
                 "1ddb3c94673a6525"
@@ -2674,6 +2676,38 @@
         "statusType": "auto",
         "x": 1080,
         "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "79c82f933b85480b",
+        "type": "function",
+        "z": "9233b0c84f38dab5",
+        "name": "Build Error",
+        "func": "msg.regData = {}\n\nmsg.regData[\"Write Error\"] = msg.payload\nmsg.regData[msg.req.query.method + \"_Write Error\"] = msg.req.query.method + msg.req.query.amount + msg.error.source.name + \" : \" + msg.payload\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1150,
+        "y": 980,
+        "wires": [
+            [
+                "c86738eb328eea89"
+            ]
+        ]
+    },
+    {
+        "id": "c86738eb328eea89",
+        "type": "link out",
+        "z": "9233b0c84f38dab5",
+        "name": "link out 4",
+        "mode": "link",
+        "links": [
+            "fea414a95f926870"
+        ],
+        "x": 1305,
+        "y": 1020,
         "wires": []
     }
 ]
