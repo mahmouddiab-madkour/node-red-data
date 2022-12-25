@@ -2683,7 +2683,7 @@
         "type": "function",
         "z": "9233b0c84f38dab5",
         "name": "Build Error",
-        "func": "msg.regData = {}\n\nmsg.regData[\"Write Error\"] = msg.payload\nmsg.regData[msg.req.query.method + \"_Write Error\"] = msg.req.query.method + msg.req.query.amount + msg.error.source.name + \" : \" + msg.payload\nreturn msg;",
+        "func": "msg.regData = {}\n\nmsg.regData[\"Write Error\"] = msg.payload\nmsg.regData[msg.req.query.method + \"_Write Error\"] = msg.req.query.method + \":\" + msg.req.query.amount + \" : \" + msg.payload\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
