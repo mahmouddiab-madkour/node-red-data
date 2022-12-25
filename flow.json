@@ -25,7 +25,7 @@
     {
         "id": "83e12f2fbbc1c363",
         "type": "tab",
-        "label": "Connect to Meter - Gurux",
+        "label": "Read Meter - Gurux",
         "disabled": false,
         "info": "",
         "env": []
