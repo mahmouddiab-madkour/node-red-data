@@ -2811,6 +2811,33 @@
         "x": 350,
         "y": 520,
         "wires": [
+            [
+                "1c2fbbd703571f20"
+            ]
+        ]
+    },
+    {
+        "id": "1c2fbbd703571f20",
+        "type": "change",
+        "z": "02206fa51f6a9be8",
+        "name": "Set Init global config",
+        "rules": [
+            {
+                "t": "set",
+                "p": "baseURL",
+                "pt": "global",
+                "to": "http://localhost:8080/",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 620,
+        "y": 520,
+        "wires": [
             []
         ]
     }
