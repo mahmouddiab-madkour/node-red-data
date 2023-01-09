@@ -2988,7 +2988,8 @@
         "y": 600,
         "wires": [
             [
-                "8aa3c87309bb31f0"
+                "8aa3c87309bb31f0",
+                "28c7a638e1ab4bb8"
             ]
         ]
     },
@@ -3025,10 +3026,70 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 840,
-        "y": 680,
+        "x": 600,
+        "y": 900,
         "wires": [
             []
         ]
+    },
+    {
+        "id": "a8e4d6ec73a89759",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "Query Next Batch",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 780,
+        "wires": [
+            [
+                "2d245ea19521bd35"
+            ]
+        ]
+    },
+    {
+        "id": "28c7a638e1ab4bb8",
+        "type": "switch",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "property": "hasNext",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "true",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1310,
+        "y": 660,
+        "wires": [
+            [
+                "a8e4d6ec73a89759"
+            ]
+        ]
+    },
+    {
+        "id": "2d245ea19521bd35",
+        "type": "debug",
+        "z": "02206fa51f6a9be8",
+        "name": "debug 32",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1260,
+        "y": 780,
+        "wires": []
     }
 ]
