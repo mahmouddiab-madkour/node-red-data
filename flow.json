@@ -3054,8 +3054,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 830,
-        "y": 780,
+        "x": 530,
+        "y": 720,
         "wires": [
             [
                 "67833da0c7aa928f"
@@ -3079,8 +3079,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 1160,
-        "y": 700,
+        "x": 720,
+        "y": 660,
         "wires": [
             [
                 "a8e4d6ec73a89759"
@@ -3104,8 +3104,8 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 530,
-        "y": 700,
+        "x": 510,
+        "y": 600,
         "wires": [
             [
                 "f05687fab95fc876"
