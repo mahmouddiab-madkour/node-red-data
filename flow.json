@@ -2995,8 +2995,8 @@
         "y": 600,
         "wires": [
             [
-                "8aa3c87309bb31f0",
-                "28c7a638e1ab4bb8"
+                "28c7a638e1ab4bb8",
+                "0a0f670ec7afdf66"
             ]
         ]
     },
@@ -3013,8 +3013,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1300,
-        "y": 600,
+        "x": 1580,
+        "y": 620,
         "wires": []
     },
     {
@@ -3026,7 +3026,7 @@
         "timeout": "5",
         "timeoutUnits": "seconds",
         "rate": "1",
-        "nbRateUnits": "5",
+        "nbRateUnits": "1",
         "rateUnits": "minute",
         "randomFirst": "1",
         "randomLast": "5",
@@ -3034,10 +3034,12 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 640,
-        "y": 920,
+        "x": 1350,
+        "y": 620,
         "wires": [
-            []
+            [
+                "8aa3c87309bb31f0"
+            ]
         ]
     },
     {
@@ -3051,12 +3053,12 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 950,
-        "y": 780,
+        "x": 510,
+        "y": 800,
         "wires": [
             [
                 "2d245ea19521bd35",
-                "f05687fab95fc876"
+                "67833da0c7aa928f"
             ]
         ]
     },
@@ -3064,7 +3066,7 @@
         "id": "28c7a638e1ab4bb8",
         "type": "switch",
         "z": "02206fa51f6a9be8",
-        "name": "",
+        "name": "If There more pages",
         "property": "payload.hasNext",
         "propertyType": "msg",
         "rules": [
@@ -3077,7 +3079,7 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 1250,
+        "x": 1160,
         "y": 700,
         "wires": [
             [
@@ -3098,8 +3100,33 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1260,
-        "y": 780,
+        "x": 900,
+        "y": 840,
         "wires": []
+    },
+    {
+        "id": "67833da0c7aa928f",
+        "type": "delay",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "200",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 530,
+        "y": 700,
+        "wires": [
+            [
+                "f05687fab95fc876"
+            ]
+        ]
     }
 ]
