@@ -3309,7 +3309,25 @@
         "x": 1730,
         "y": 780,
         "wires": [
-            []
+            [
+                "6f1c5bef61b1aa16"
+            ]
         ]
+    },
+    {
+        "id": "6f1c5bef61b1aa16",
+        "type": "debug",
+        "z": "02206fa51f6a9be8",
+        "name": "debug 32",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2000,
+        "y": 780,
+        "wires": []
     }
 ]
