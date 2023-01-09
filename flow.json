@@ -3038,7 +3038,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "Query Next Batch",
-        "func": "msg.payload = \"Yes\"\nreturn msg;",
+        "func": "msg.devicePage = msg.devicePage + 1\nmsg.payload = \"Yes\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
