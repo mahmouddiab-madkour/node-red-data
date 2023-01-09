@@ -3376,7 +3376,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "Build Telemetry Req",
-        "func": "let deviceId = msg.deviceId\n\nmsg.url = global.get(\"baseURL\") + \"/api/DEVICE/\" + deviceId +\"/credentials\"\n\nreturn msg;",
+        "func": "let deviceId = msg.deviceId\n\nmsg.url = global.get(\"baseURL\") + \"/api/device/\" + deviceId +\"/credentials\"\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
