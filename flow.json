@@ -752,7 +752,7 @@
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "",
+        "url": "http://10.10.168.216:8080/api/plugins/telemetry/DEVICE/468b3d10-8b9d-11ed-a729-4d5c2f062be6",
         "tls": "",
         "persist": false,
         "proxy": "",
