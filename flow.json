@@ -2932,7 +2932,7 @@
                 "t": "set",
                 "p": "devicePage",
                 "pt": "msg",
-                "to": "1",
+                "to": "0",
                 "tot": "num"
             }
         ],
