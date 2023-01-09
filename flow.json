@@ -2876,7 +2876,9 @@
         "x": 1010,
         "y": 520,
         "wires": [
-            []
+            [
+                "209a39880c5e7bca"
+            ]
         ]
     },
     {
@@ -2896,6 +2898,39 @@
             [
                 "c9036e3dcc3ce1a3"
             ]
+        ]
+    },
+    {
+        "id": "209a39880c5e7bca",
+        "type": "change",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "tokenDetails",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "tokenDetails.token",
+                "pt": "msg",
+                "to": "$join($append(\"Bearer\", msg.tokenDetails.token)\t, \" \")",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1220,
+        "y": 520,
+        "wires": [
+            []
         ]
     }
 ]
