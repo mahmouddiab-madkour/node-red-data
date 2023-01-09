@@ -3385,7 +3385,7 @@
         "id": "c8d7ada22428476b",
         "type": "function",
         "z": "02206fa51f6a9be8",
-        "name": "Build Telemetry Req",
+        "name": "Build meter Key Req",
         "func": "let deviceId = msg.deviceId\n\nmsg.url = global.get(\"baseURL\") + \"/api/device/\" + deviceId +\"/credentials\"\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -3404,7 +3404,7 @@
         "id": "a0a9dea7bd3e70df",
         "type": "http request",
         "z": "02206fa51f6a9be8",
-        "name": "Get DeviceTelemetry",
+        "name": "Get Device Key",
         "method": "GET",
         "ret": "obj",
         "paytoqs": "ignore",
@@ -3429,7 +3429,7 @@
                 "valueValue": "application/json"
             }
         ],
-        "x": 1080,
+        "x": 1060,
         "y": 1040,
         "wires": [
             [
@@ -3574,7 +3574,7 @@
         "type": "function",
         "z": "27eea1c2d9ac95bb",
         "name": "function 12",
-        "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.read_obis\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -c \" + \"64\" + \" -a \" + \"Low\" + \" -P \" + \"MH_@DSEM\" + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" +obis+ \"'\"\nreturn msg;",
+        "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.read_obis\nlet clientAdd = msg\nlet password = msg\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -c \" + \"64\" + \" -a \" + \"Low\" + \" -P \" + \"MH_@DSEM\" + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" +obis+ \"'\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3600,8 +3600,8 @@
         "y": 480,
         "wires": [
             [
-                "f1fa44d08cbcb7eb",
-                "f7c77cf25c5cbc64"
+                "f7c77cf25c5cbc64",
+                "411739f032457819"
             ]
         ]
     },
@@ -3724,10 +3724,12 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 670,
-        "y": 680,
+        "x": 390,
+        "y": 480,
         "wires": [
-            []
+            [
+                "f1fa44d08cbcb7eb"
+            ]
         ]
     }
 ]
