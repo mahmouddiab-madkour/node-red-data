@@ -639,7 +639,7 @@
         "method": "GET",
         "ret": "obj",
         "paytoqs": "ignore",
-        "url": "http://10.10.168.216:8080/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=6407c800-6fc7-11ed-acc7-7f84f79e863d,91c72800-9013-11ed-a729-4d5c2f062be6",
+        "url": "http://10.10.168.216:8080/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=6407c800-6fc7-11ed-acc7-7f84f79e863d",
         "tls": "",
         "persist": false,
         "proxy": "",
