@@ -2787,7 +2787,7 @@
         "y": 520,
         "wires": [
             [
-                "0d1c04df5e2655fe"
+                "1c2fbbd703571f20"
             ]
         ]
     },
@@ -2808,12 +2808,10 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 350,
+        "x": 590,
         "y": 520,
         "wires": [
-            [
-                "1c2fbbd703571f20"
-            ]
+            []
         ]
     },
     {
@@ -2828,6 +2826,13 @@
                 "pt": "global",
                 "to": "http://localhost:8080/",
                 "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "cred",
+                "pt": "global",
+                "to": "{\"username\":\"tenant@thingsboard.org\",\"password\":\"tenant\"}",
+                "tot": "json"
             }
         ],
         "action": "",
@@ -2835,10 +2840,12 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 620,
+        "x": 320,
         "y": 520,
         "wires": [
-            []
+            [
+                "0d1c04df5e2655fe"
+            ]
         ]
     }
 ]
