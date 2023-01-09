@@ -803,7 +803,7 @@
         "type": "function",
         "z": "cc8be11b90b5343c",
         "name": "function 10",
-        "func": "let key = msg.payload[1]\n\nmsg.url = \"http://localhost:8080/api/plugins/telemetry/DEVICE/468b3d10-8b9d-11ed-a729-4d5c2f062be6/values/timeseries?keys=\" + \"0.0.96.1.0.255:2\"\nreturn msg;",
+        "func": "let key = msg.payload[1]\n\nmsg.url = \"http://10.10.168.216:8080/api/plugins/telemetry/DEVICE/468b3d10-8b9d-11ed-a729-4d5c2f062be6/values/timeseries?keys=\" + \"0.0.96.1.0.255:2\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
