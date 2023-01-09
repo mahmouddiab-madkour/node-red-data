@@ -3062,7 +3062,7 @@
             {
                 "t": "eq",
                 "v": "true",
-                "vt": "str"
+                "vt": "jsonata"
             }
         ],
         "checkall": "true",
