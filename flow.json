@@ -3332,7 +3332,7 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "meterpass",
+        "complete": "billObis",
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
