@@ -1420,8 +1420,7 @@
         "name": "link out 2",
         "mode": "link",
         "links": [
-            "4f5647010896317b",
-            "a2e9780ff9d3ae58"
+            "4f5647010896317b"
         ],
         "x": 625,
         "y": 640,
@@ -3595,7 +3594,6 @@
         "z": "27eea1c2d9ac95bb",
         "name": "Gurux Read V2",
         "links": [
-            "ed032813e283ab01",
             "fe2bba608a4cb55d"
         ],
         "x": 295,
