@@ -3596,8 +3596,8 @@
         "links": [
             "fe2bba608a4cb55d"
         ],
-        "x": 295,
-        "y": 360,
+        "x": 215,
+        "y": 480,
         "wires": [
             [
                 "f1fa44d08cbcb7eb",
@@ -3705,6 +3705,29 @@
             [
                 "a54d25a717f6b718"
             ]
+        ]
+    },
+    {
+        "id": "411739f032457819",
+        "type": "switch",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "property": "read_obis",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": ".",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 670,
+        "y": 680,
+        "wires": [
+            []
         ]
     }
 ]
