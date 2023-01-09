@@ -3256,7 +3256,8 @@
         "y": 960,
         "wires": [
             [
-                "92a9738c295c70db"
+                "92a9738c295c70db",
+                "c8d7ada22428476b"
             ]
         ]
     },
@@ -3375,7 +3376,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "Build Telemetry Req",
-        "func": "let device = msg.payload\nlet deviceId = msg.payload.id\n\nmsg.url = global.get(\"baseURL\")+\"/api/plugins/telemetry/DEVICE/\" + msg.payload.id.id +\"/values/attributes/SERVER_SCOPE\"\n\nreturn msg;",
+        "func": "let deviceId = msg.deviceId\n\nmsg.url = global.get(\"baseURL\") + \"/api/DEVICE/\" + msg.payload.id.id +\"/credentials\"\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3418,10 +3419,28 @@
                 "valueValue": "application/json"
             }
         ],
-        "x": 1060,
+        "x": 1100,
         "y": 1220,
         "wires": [
-            []
+            [
+                "172e4ec94b2e7a5b"
+            ]
         ]
+    },
+    {
+        "id": "172e4ec94b2e7a5b",
+        "type": "debug",
+        "z": "02206fa51f6a9be8",
+        "name": "debug 33",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1300,
+        "y": 1220,
+        "wires": []
     }
 ]
