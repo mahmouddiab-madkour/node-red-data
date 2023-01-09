@@ -2812,7 +2812,8 @@
         "y": 480,
         "wires": [
             [
-                "57daca4d04a5faa6"
+                "57daca4d04a5faa6",
+                "3faf059f7957f7ba"
             ]
         ]
     },
@@ -2846,8 +2847,7 @@
         "y": 520,
         "wires": [
             [
-                "0d1c04df5e2655fe",
-                "57daca4d04a5faa6"
+                "0d1c04df5e2655fe"
             ]
         ]
     },
@@ -2931,5 +2931,22 @@
         "x": 1300,
         "y": 520,
         "wires": []
+    },
+    {
+        "id": "3faf059f7957f7ba",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "Set Login",
+        "func": "msg.payload = global.cred\nmsg.url = global.baseURL + \"/api/auth/login\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 580,
+        "wires": [
+            []
+        ]
     }
 ]
