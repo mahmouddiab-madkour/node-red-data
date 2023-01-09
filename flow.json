@@ -723,7 +723,8 @@
         "y": 1880,
         "wires": [
             [
-                "9b091b1644bc2172"
+                "9b091b1644bc2172",
+                "840513e44f1e3b76"
             ]
         ]
     },
@@ -742,6 +743,35 @@
         "x": 1240,
         "y": 1880,
         "wires": []
+    },
+    {
+        "id": "840513e44f1e3b76",
+        "type": "http request",
+        "z": "cc8be11b90b5343c",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "tokenDetails.token"
+            }
+        ],
+        "x": 1210,
+        "y": 1960,
+        "wires": [
+            []
+        ]
     },
     {
         "id": "0b30a54fbfd394ce",
