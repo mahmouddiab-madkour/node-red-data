@@ -1527,8 +1527,7 @@
         "name": "Gurux Read",
         "links": [
             "ed032813e283ab01",
-            "7a6cc5a0c86a6d57",
-            "fe2bba608a4cb55d"
+            "7a6cc5a0c86a6d57"
         ],
         "x": 155,
         "y": 280,
@@ -3491,7 +3490,6 @@
         "name": "link out 5",
         "mode": "link",
         "links": [
-            "4f5647010896317b",
             "a2e9780ff9d3ae58"
         ],
         "x": 1305,
