@@ -3038,7 +3038,8 @@
         "y": 600,
         "wires": [
             [
-                "8aa3c87309bb31f0"
+                "8aa3c87309bb31f0",
+                "b3a62d262b247ff4"
             ]
         ]
     },
@@ -3109,6 +3110,206 @@
             [
                 "f05687fab95fc876"
             ]
+        ]
+    },
+    {
+        "id": "b3a62d262b247ff4",
+        "type": "change",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.data",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1600,
+        "y": 600,
+        "wires": [
+            [
+                "35ba9307f83b14e3"
+            ]
+        ]
+    },
+    {
+        "id": "35ba9307f83b14e3",
+        "type": "split",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "device",
+        "x": 1770,
+        "y": 600,
+        "wires": [
+            [
+                "2b2b65cbdf7eab42"
+            ]
+        ]
+    },
+    {
+        "id": "2b2b65cbdf7eab42",
+        "type": "change",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "deviceId",
+                "pt": "msg",
+                "to": "payload.id.id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "token",
+                "pt": "msg",
+                "to": "tokenDetails.token",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1920,
+        "y": 560,
+        "wires": [
+            [
+                "9e9491c95846755a"
+            ]
+        ]
+    },
+    {
+        "id": "9e9491c95846755a",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "Build Telemetry Requist",
+        "func": "let device = msg.payload\nlet deviceId = msg.payload.id\n\nmsg.url = global.get(\"baseURL\")+\"/api/plugins/telemetry/DEVICE/\" + msg.payload.id.id +\"/values/attributes/SERVER_SCOPE\"\nmsg.headers= {\n    \"Authorization\": msg.tokenDetails.token\n    ,\"Content-Type\":\"application/json\"\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2070,
+        "y": 600,
+        "wires": [
+            [
+                "f31c3e508a25fbc2"
+            ]
+        ]
+    },
+    {
+        "id": "f31c3e508a25fbc2",
+        "type": "http request",
+        "z": "02206fa51f6a9be8",
+        "name": "Get DeviceTelemetry",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 2340,
+        "y": 600,
+        "wires": [
+            [
+                "3c4273ac4474d039"
+            ]
+        ]
+    },
+    {
+        "id": "3c4273ac4474d039",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "Build Device",
+        "func": "\nmsg.payload.forEach(function(telemetry) {\n    if (telemetry.key === \"ip\") msg.host = telemetry.value\n    if (telemetry.key === \"port\") msg.port = telemetry.value\n    if (telemetry.key === \"meterSerial\") msg.serial = telemetry.value \n    if (telemetry.key === \"key\") msg.key = telemetry.value \n    if (telemetry.key === \"read_obis\") msg.read_obis = telemetry.value \n\n});\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1610,
+        "y": 680,
+        "wires": [
+            [
+                "92a9738c295c70db"
+            ]
+        ]
+    },
+    {
+        "id": "92a9738c295c70db",
+        "type": "change",
+        "z": "02206fa51f6a9be8",
+        "name": "Clear unusedData",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "statusCode",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "responseUrl",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "redirectList",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "retry",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "tokenDetails",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "headers",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "parts",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1730,
+        "y": 780,
+        "wires": [
+            []
         ]
     }
 ]
