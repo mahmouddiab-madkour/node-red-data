@@ -3007,5 +3007,28 @@
         "x": 1300,
         "y": 600,
         "wires": []
+    },
+    {
+        "id": "0a0f670ec7afdf66",
+        "type": "delay",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "5",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1080,
+        "y": 740,
+        "wires": [
+            []
+        ]
     }
 ]
