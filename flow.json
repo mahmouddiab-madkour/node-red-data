@@ -777,7 +777,8 @@
         "y": 1960,
         "wires": [
             [
-                "906437f83ff04ede"
+                "906437f83ff04ede",
+                "b7bf9fe4d7a9dab1"
             ]
         ]
     },
@@ -794,7 +795,79 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1400,
-        "y": 1940,
+        "y": 1960,
+        "wires": []
+    },
+    {
+        "id": "b7bf9fe4d7a9dab1",
+        "type": "function",
+        "z": "cc8be11b90b5343c",
+        "name": "function 10",
+        "func": "let key = msg.payload[1]\n\nmsg.url = \"http://localhost:8080/api/plugins/telemetry/DEVICE/468b3d10-8b9d-11ed-a729-4d5c2f062be6/values/timeseries?keys=\" + key\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1390,
+        "y": 2080,
+        "wires": [
+            [
+                "405d7d97c512bb3c"
+            ]
+        ]
+    },
+    {
+        "id": "405d7d97c512bb3c",
+        "type": "http request",
+        "z": "cc8be11b90b5343c",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "X-Authorization",
+                "valueType": "msg",
+                "valueValue": "tokenDetails.token"
+            },
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 1590,
+        "y": 2080,
+        "wires": [
+            [
+                "cebbebe0f6c8f179"
+            ]
+        ]
+    },
+    {
+        "id": "cebbebe0f6c8f179",
+        "type": "debug",
+        "z": "cc8be11b90b5343c",
+        "name": "debug 29",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1760,
+        "y": 1980,
         "wires": []
     },
     {
