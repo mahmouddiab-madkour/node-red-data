@@ -3190,7 +3190,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "Build Telemetry Req",
-        "func": "let device = msg.payload\nlet deviceId = msg.payload.id\n\nmsg.url = global.get(\"baseURL\")+\"/api/plugins/telemetry/DEVICE/\" + msg.payload.id.id +\"/values/attributes/SERVER_SCOPE\"\n\nreturn msg;",
+        "func": "//let device = msg.payload\nlet deviceId = msg.deviceId\n\nmsg.url = global.get(\"baseURL\")+\"/api/plugins/telemetry/DEVICE/\" + msg.payload.id.id +\"/values/attributes/SERVER_SCOPE\"\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3252,8 +3252,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1750,
-        "y": 880,
+        "x": 1290,
+        "y": 960,
         "wires": [
             [
                 "92a9738c295c70db"
@@ -3368,6 +3368,60 @@
             [
                 "2b2b65cbdf7eab42"
             ]
+        ]
+    },
+    {
+        "id": "c8d7ada22428476b",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "Build Telemetry Req",
+        "func": "let device = msg.payload\nlet deviceId = msg.payload.id\n\nmsg.url = global.get(\"baseURL\")+\"/api/plugins/telemetry/DEVICE/\" + msg.payload.id.id +\"/values/attributes/SERVER_SCOPE\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1320,
+        "y": 1100,
+        "wires": [
+            [
+                "a0a9dea7bd3e70df"
+            ]
+        ]
+    },
+    {
+        "id": "a0a9dea7bd3e70df",
+        "type": "http request",
+        "z": "02206fa51f6a9be8",
+        "name": "Get DeviceTelemetry",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "tokenDetails.token"
+            },
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 1060,
+        "y": 1220,
+        "wires": [
+            []
         ]
     }
 ]
