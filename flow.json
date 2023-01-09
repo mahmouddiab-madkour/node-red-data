@@ -554,7 +554,7 @@
         "method": "POST",
         "ret": "obj",
         "paytoqs": "ignore",
-        "url": "http://192.168.8.100:8080/api/auth/login",
+        "url": "http://10.10.168.216:8080/api/auth/login",
         "tls": "",
         "persist": false,
         "proxy": "",
