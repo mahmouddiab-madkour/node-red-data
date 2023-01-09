@@ -3190,7 +3190,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "Build Telemetry Req",
-        "func": "//let device = msg.payload\nlet deviceId = msg.deviceId\n\nmsg.url = global.get(\"baseURL\")+\"/api/plugins/telemetry/DEVICE/\" + msg.payload.id.id +\"/values/attributes/SERVER_SCOPE\"\n\nreturn msg;",
+        "func": "let deviceId = msg.deviceId\n\nmsg.url = global.get(\"baseURL\") + \"/api/plugins/telemetry/DEVICE/\" + deviceId +\"/values/attributes/SERVER_SCOPE\"\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
