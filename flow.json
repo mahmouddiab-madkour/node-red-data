@@ -2947,7 +2947,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "SetGet Devices Req",
-        "func": "msg.url = global.get(\"baseURL\") + \"/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=6407c800-6fc7-11ed-acc7-7f84f79e863d\"\nreturn msg;",
+        "func": "msg.url = global.get(\"baseURL\") + \"/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
