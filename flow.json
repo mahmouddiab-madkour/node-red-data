@@ -3346,13 +3346,15 @@
         "checkall": "false",
         "repair": false,
         "outputs": 2,
-        "x": 1850,
-        "y": 460,
+        "x": 1770,
+        "y": 360,
         "wires": [
             [
                 "2b2b65cbdf7eab42"
             ],
-            []
+            [
+                "2b2b65cbdf7eab42"
+            ]
         ]
     }
 ]
