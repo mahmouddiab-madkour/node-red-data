@@ -3312,8 +3312,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1890,
-        "y": 800,
+        "x": 1650,
+        "y": 1220,
         "wires": [
             [
                 "6f1c5bef61b1aa16"
@@ -3333,8 +3333,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1840,
-        "y": 980,
+        "x": 1880,
+        "y": 1220,
         "wires": []
     },
     {
@@ -3437,8 +3437,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1560,
-        "y": 1240,
+        "x": 1400,
+        "y": 1220,
         "wires": [
             [
                 "92a9738c295c70db"
