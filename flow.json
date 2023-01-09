@@ -3056,7 +3056,7 @@
         "type": "switch",
         "z": "02206fa51f6a9be8",
         "name": "",
-        "property": "hasNext",
+        "property": "payload.hasNext",
         "propertyType": "msg",
         "rules": [
             {
