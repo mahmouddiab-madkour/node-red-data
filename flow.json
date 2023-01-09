@@ -2916,7 +2916,7 @@
                 "t": "set",
                 "p": "url",
                 "pt": "msg",
-                "to": "$append($globalContext(\"baseURL\"), \"/api/auth/login\")\t\t\t\t",
+                "to": "$append($flowContext(\"baseURL\"), \"/api/auth/login\")\t\t\t\t\t\t",
                 "tot": "jsonata"
             }
         ],
