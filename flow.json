@@ -2812,8 +2812,7 @@
         "y": 520,
         "wires": [
             [
-                "3faf059f7957f7ba",
-                "364b6be4af15c624"
+                "3faf059f7957f7ba"
             ]
         ]
     },
@@ -2898,56 +2897,5 @@
                 "c9036e3dcc3ce1a3"
             ]
         ]
-    },
-    {
-        "id": "364b6be4af15c624",
-        "type": "change",
-        "z": "02206fa51f6a9be8",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "cred",
-                "tot": "global"
-            },
-            {
-                "t": "set",
-                "p": "url",
-                "pt": "msg",
-                "to": "$append($flowContext(\"baseURL\"), \"/api/auth/login\")\t\t\t\t\t\t",
-                "tot": "jsonata"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 820,
-        "y": 600,
-        "wires": [
-            [
-                "1ddbf8a3f6809371"
-            ]
-        ]
-    },
-    {
-        "id": "1ddbf8a3f6809371",
-        "type": "debug",
-        "z": "02206fa51f6a9be8",
-        "name": "debug 31",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "url",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1060,
-        "y": 600,
-        "wires": []
     }
 ]
