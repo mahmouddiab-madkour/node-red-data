@@ -2936,7 +2936,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "Set Login",
-        "func": "msg.payload = global.cred\nmsg.url = global.baseURL + \"/api/auth/login\"\nreturn msg;",
+        "func": "msg.payload = global.get(\"cred\")\nmsg.url = global.get(\"baseURL\") + \"/api/auth/login\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
