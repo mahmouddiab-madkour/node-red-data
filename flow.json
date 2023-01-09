@@ -2927,6 +2927,13 @@
                 "pt": "msg",
                 "to": "$join($append(\"Bearer\", msg.tokenDetails.token)\t, \" \")",
                 "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "devicePage",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
             }
         ],
         "action": "",
@@ -2947,7 +2954,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "SetGet Devices Req",
-        "func": "msg.devicePage = 1\nmsg.url = global.get(\"baseURL\") + \"/api/tenant/deviceInfos?pageSize=10&page=\" + msg.devicePage+\"&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=\"\nreturn msg;",
+        "func": "msg.url = global.get(\"baseURL\") + \"/api/tenant/deviceInfos?pageSize=10&page=\" + msg.devicePage+\"&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3049,7 +3056,7 @@
         "wires": [
             [
                 "2d245ea19521bd35",
-                "9172b49dc7f78fbc"
+                "f05687fab95fc876"
             ]
         ]
     },
