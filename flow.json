@@ -2811,7 +2811,9 @@
         "x": 590,
         "y": 520,
         "wires": [
-            []
+            [
+                "57daca4d04a5faa6"
+            ]
         ]
     },
     {
@@ -2845,6 +2847,69 @@
         "wires": [
             [
                 "0d1c04df5e2655fe"
+            ]
+        ]
+    },
+    {
+        "id": "c9036e3dcc3ce1a3",
+        "type": "http request",
+        "z": "02206fa51f6a9be8",
+        "name": "Login",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 1070,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "57daca4d04a5faa6",
+        "type": "change",
+        "z": "02206fa51f6a9be8",
+        "name": "Set Login",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "cred",
+                "tot": "global"
+            },
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "global.baseURL + \"/api/auth/login\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 820,
+        "y": 520,
+        "wires": [
+            [
+                "c9036e3dcc3ce1a3"
             ]
         ]
     }
