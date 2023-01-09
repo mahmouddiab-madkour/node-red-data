@@ -1420,7 +1420,8 @@
         "name": "link out 2",
         "mode": "link",
         "links": [
-            "4f5647010896317b"
+            "4f5647010896317b",
+            "a2e9780ff9d3ae58"
         ],
         "x": 625,
         "y": 640,
@@ -1739,7 +1740,8 @@
         "links": [
             "0ed4d359f53813f2",
             "38965ba3b9d58267",
-            "c86738eb328eea89"
+            "c86738eb328eea89",
+            "a54d25a717f6b718"
         ],
         "x": 125,
         "y": 80,
@@ -3489,10 +3491,224 @@
         "name": "link out 5",
         "mode": "link",
         "links": [
-            "4f5647010896317b"
+            "4f5647010896317b",
+            "a2e9780ff9d3ae58"
         ],
         "x": 1305,
         "y": 1200,
         "wires": []
+    },
+    {
+        "id": "360489f1c53f4f2d",
+        "type": "exec",
+        "z": "27eea1c2d9ac95bb",
+        "command": "python3",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 720,
+        "y": 320,
+        "wires": [
+            [
+                "fc66c0325f0f0f68",
+                "1d590e27dbc81cd6"
+            ],
+            [
+                "fc66c0325f0f0f68",
+                "d5d65eed1cc2d595"
+            ],
+            [
+                "fc66c0325f0f0f68"
+            ]
+        ]
+    },
+    {
+        "id": "eaf57b55662269c9",
+        "type": "inject",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 500,
+        "y": 320,
+        "wires": [
+            [
+                "f1fa44d08cbcb7eb"
+            ]
+        ]
+    },
+    {
+        "id": "fc66c0325f0f0f68",
+        "type": "debug",
+        "z": "27eea1c2d9ac95bb",
+        "name": "debug 33",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "f1fa44d08cbcb7eb",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "function 12",
+        "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.read_obis\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -c \" + \"64\" + \" -a \" + \"Low\" + \" -P \" + \"MH_@DSEM\" + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" +obis+ \"'\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 480,
+        "wires": [
+            [
+                "360489f1c53f4f2d"
+            ]
+        ]
+    },
+    {
+        "id": "a2e9780ff9d3ae58",
+        "type": "link in",
+        "z": "27eea1c2d9ac95bb",
+        "name": "Gurux Read",
+        "links": [
+            "ed032813e283ab01",
+            "fe2bba608a4cb55d"
+        ],
+        "x": 295,
+        "y": 360,
+        "wires": [
+            [
+                "f1fa44d08cbcb7eb",
+                "f7c77cf25c5cbc64"
+            ]
+        ]
+    },
+    {
+        "id": "f7c77cf25c5cbc64",
+        "type": "debug",
+        "z": "27eea1c2d9ac95bb",
+        "name": "debug 34",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "1d590e27dbc81cd6",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "Format Data",
+        "func": "let dataString = msg.payload;\nlet dataArray = dataString.split(\"\\n\")\n\n\nlet obisStringArray = dataArray.filter(obisString => obisString.includes('Index'))\n\n\nmsg.regData = {}\n\nlet obiCurrentCode = \"\"\n\nobisStringArray.forEach(function (obisString) {\n    let obisArray = obisString.split(\": \")\n   \n\n    let obisindex = obisArray[1].split(\"V\")[0].trim()\n    \n\n    if (parseInt(obisindex) === 1) { \n        obiCurrentCode = obisArray[2].trim()\n    }\n\n    msg.regData[obiCurrentCode + \":\" + obisindex] = obisArray[2].trim()\n\n});\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 240,
+        "wires": [
+            [
+                "a54d25a717f6b718"
+            ]
+        ]
+    },
+    {
+        "id": "a54d25a717f6b718",
+        "type": "link out",
+        "z": "27eea1c2d9ac95bb",
+        "name": "link out 6",
+        "mode": "link",
+        "links": [
+            "fea414a95f926870"
+        ],
+        "x": 1165,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "9faa69f9484357d6",
+        "type": "catch",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 980,
+        "y": 140,
+        "wires": [
+            [
+                "e3a02b947eda3d69"
+            ]
+        ]
+    },
+    {
+        "id": "e3a02b947eda3d69",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "Build Error",
+        "func": "msg.regData = {}\n\nmsg.regData[\"Error\"] = msg.error.source.id + \":\" + \":\" + msg.error.source.type +msg.error.source.name + \" : \" + msg.error.message\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1150,
+        "y": 140,
+        "wires": [
+            [
+                "a54d25a717f6b718"
+            ]
+        ]
+    },
+    {
+        "id": "d5d65eed1cc2d595",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "Build Error",
+        "func": "msg.regData = {}\n\nmsg.regData[\"Error\"] = msg.payload\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 320,
+        "wires": [
+            [
+                "a54d25a717f6b718"
+            ]
+        ]
     }
 ]
