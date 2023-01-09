@@ -3014,7 +3014,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1580,
-        "y": 620,
+        "y": 480,
         "wires": []
     },
     {
@@ -3034,8 +3034,8 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 1350,
-        "y": 620,
+        "x": 1370,
+        "y": 600,
         "wires": [
             [
                 "8aa3c87309bb31f0"
@@ -3053,11 +3053,10 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 510,
-        "y": 800,
+        "x": 830,
+        "y": 780,
         "wires": [
             [
-                "2d245ea19521bd35",
                 "67833da0c7aa928f"
             ]
         ]
@@ -3086,23 +3085,6 @@
                 "a8e4d6ec73a89759"
             ]
         ]
-    },
-    {
-        "id": "2d245ea19521bd35",
-        "type": "debug",
-        "z": "02206fa51f6a9be8",
-        "name": "debug 32",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 900,
-        "y": 840,
-        "wires": []
     },
     {
         "id": "67833da0c7aa928f",
