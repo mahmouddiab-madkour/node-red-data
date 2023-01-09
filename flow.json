@@ -1517,7 +1517,8 @@
         "name": "Gurux Read",
         "links": [
             "ed032813e283ab01",
-            "7a6cc5a0c86a6d57"
+            "7a6cc5a0c86a6d57",
+            "fe2bba608a4cb55d"
         ],
         "x": 155,
         "y": 280,
@@ -3316,7 +3317,8 @@
         "y": 1140,
         "wires": [
             [
-                "6f1c5bef61b1aa16"
+                "6f1c5bef61b1aa16",
+                "fe2bba608a4cb55d"
             ]
         ]
     },
@@ -3469,5 +3471,18 @@
                 "5b99128207912800"
             ]
         ]
+    },
+    {
+        "id": "fe2bba608a4cb55d",
+        "type": "link out",
+        "z": "02206fa51f6a9be8",
+        "name": "link out 5",
+        "mode": "link",
+        "links": [
+            "4f5647010896317b"
+        ],
+        "x": 1305,
+        "y": 1200,
+        "wires": []
     }
 ]
