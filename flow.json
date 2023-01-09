@@ -713,7 +713,7 @@
         "type": "function",
         "z": "cc8be11b90b5343c",
         "name": "function 9",
-        "func": "let devices = msg.payload.data\n\n\n\nmsg.url = \"http://10.10.168.216:8080/api/plugins/telemetry/\" + devices[0].id.entityType + \"/\" + devices[0].id.id + \"/keys/timeseries\"\nmsg.payload = msg.url\n\nreturn msg;",
+        "func": "let devices = msg.payload.data\n\n\n\nmsg.url = \"http://10.10.168.216:8080/api/plugins/telemetry/\" + devices[0].id.entityType + \"/\" +\"08820da0-7932-11ed-b556-615959ac92a4\" + \"/keys/timeseries\"\nmsg.payload = msg.url\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
