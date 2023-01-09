@@ -3485,7 +3485,6 @@
         "id": "fe2bba608a4cb55d",
         "type": "link out",
         "z": "02206fa51f6a9be8",
-        "d": true,
         "name": "link out 5",
         "mode": "link",
         "links": [
