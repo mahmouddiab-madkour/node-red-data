@@ -762,9 +762,15 @@
         "headers": [
             {
                 "keyType": "other",
-                "keyValue": "Authorization",
+                "keyValue": "X-Authorization",
                 "valueType": "msg",
                 "valueValue": "tokenDetails.token"
+            },
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
             }
         ],
         "x": 1210,
