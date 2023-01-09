@@ -2835,6 +2835,13 @@
                 "pt": "global",
                 "to": "{\"username\":\"tenant@thingsboard.org\",\"password\":\"tenant\"}",
                 "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "profiles",
+                "pt": "msg",
+                "to": "[\"6407c800-6fc7-11ed-acc7-7f84f79e863d\"]",
+                "tot": "json"
             }
         ],
         "action": "",
