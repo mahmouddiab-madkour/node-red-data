@@ -3223,7 +3223,7 @@
             {
                 "keyType": "other",
                 "keyValue": "Authorization",
-                "valueType": "other",
+                "valueType": "msg",
                 "valueValue": "tokenDetails.token"
             },
             {
