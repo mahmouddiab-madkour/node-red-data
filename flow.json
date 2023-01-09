@@ -2932,5 +2932,22 @@
         "wires": [
             []
         ]
+    },
+    {
+        "id": "f05687fab95fc876",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "SetGet Devices Req",
+        "func": "msg.payload = global.get(\"cred\")\nmsg.url = global.get(\"baseURL\") + \"/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=6407c800-6fc7-11ed-acc7-7f84f79e863d\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 600,
+        "wires": [
+            []
+        ]
     }
 ]
