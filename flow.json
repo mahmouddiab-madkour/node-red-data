@@ -1,12 +1,5 @@
 [
     {
-        "id": "f6f2187d.f17ca8",
-        "type": "tab",
-        "label": "Connect to Meter - TCP",
-        "disabled": false,
-        "info": ""
-    },
-    {
         "id": "cc8be11b90b5343c",
         "type": "tab",
         "label": "Flow 1",
@@ -29,13 +22,6 @@
         "disabled": false,
         "info": "",
         "env": []
-    },
-    {
-        "id": "1bd78f3f44340342",
-        "type": "tab",
-        "label": "Connect to Meter - TCP",
-        "disabled": false,
-        "info": ""
     },
     {
         "id": "d43567c1be96ce60",
@@ -62,19 +48,11 @@
         "env": []
     },
     {
-        "id": "db51f51e0afa79eb",
-        "type": "junction",
-        "z": "f6f2187d.f17ca8",
-        "x": 220,
-        "y": 280,
-        "wires": [
-            [
-                "cb998e7079defac3",
-                "28b1eb73f233ce21",
-                "da6be638.259418",
-                "822560ca7ca4f3e9"
-            ]
-        ]
+        "id": "1bd78f3f44340342",
+        "type": "tab",
+        "label": "Connect to Meter - TCP",
+        "disabled": false,
+        "info": ""
     },
     {
         "id": "414801e6057048b1",
@@ -90,371 +68,6 @@
                 "065271fbc7fef021"
             ]
         ]
-    },
-    {
-        "id": "3cc11d24.ff01a2",
-        "type": "comment",
-        "z": "f6f2187d.f17ca8",
-        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
-        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
-        "x": 350,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "23fa21f1.dc05de",
-        "type": "tcp request",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "server": "",
-        "port": "",
-        "out": "sit",
-        "ret": "string",
-        "splitc": " ",
-        "newline": "",
-        "trim": false,
-        "tls": "",
-        "x": 970,
-        "y": 340,
-        "wires": [
-            [
-                "5d79bde5e052453e",
-                "2fd1328642b74be3"
-            ]
-        ]
-    },
-    {
-        "id": "3f8055d.fc07faa",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "props": [
-            {
-                "p": "host",
-                "v": "10.123.245.154",
-                "vt": "str"
-            },
-            {
-                "p": "port",
-                "v": "8000",
-                "vt": "str"
-            },
-            {
-                "p": "serial",
-                "v": "20671901",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": "",
-        "topic": "",
-        "x": 130,
-        "y": 340,
-        "wires": [
-            [
-                "db51f51e0afa79eb"
-            ]
-        ]
-    },
-    {
-        "id": "da6be638.259418",
-        "type": "function",
-        "z": "f6f2187d.f17ca8",
-        "name": "Set Meter Awake (1) string",
-        "func": "msg.payload = \"FFFFFF\"\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 400,
-        "y": 340,
-        "wires": [
-            [
-                "23fa21f1.dc05de"
-            ]
-        ]
-    },
-    {
-        "id": "0840999b57cfc9fb",
-        "type": "join",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "mode": "custom",
-        "build": "string",
-        "property": "payload",
-        "propertyType": "msg",
-        "key": "topic",
-        "joiner": "\\n",
-        "joinerType": "str",
-        "accumulate": false,
-        "timeout": "120",
-        "count": "",
-        "reduceRight": false,
-        "reduceExp": "",
-        "reduceInit": "",
-        "reduceInitType": "num",
-        "reduceFixup": "",
-        "x": 670,
-        "y": 440,
-        "wires": [
-            [
-                "acbaf1707d5f5dab"
-            ]
-        ]
-    },
-    {
-        "id": "5d79bde5e052453e",
-        "type": "function",
-        "z": "f6f2187d.f17ca8",
-        "name": "Update Complete When all data Recived",
-        "func": "if (msg.payload.includes(\"!\"))\n    msg.complete = true\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 380,
-        "y": 440,
-        "wires": [
-            [
-                "0840999b57cfc9fb"
-            ]
-        ]
-    },
-    {
-        "id": "28b1eb73f233ce21",
-        "type": "delay",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "10",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 380,
-        "y": 180,
-        "wires": [
-            [
-                "dc5c159f01604d49"
-            ]
-        ]
-    },
-    {
-        "id": "dc5c159f01604d49",
-        "type": "function",
-        "z": "f6f2187d.f17ca8",
-        "name": "Set GET request string",
-        "func": "//msg.payload = \"/?20671901!\\r\\n\"\nmsg.payload = \"/?\"+msg.serial+\"!\\r\\n\"\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 600,
-        "y": 180,
-        "wires": [
-            [
-                "23fa21f1.dc05de"
-            ]
-        ]
-    },
-    {
-        "id": "cb998e7079defac3",
-        "type": "delay",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "5",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 380,
-        "y": 240,
-        "wires": [
-            [
-                "ac13b7dd5a89b33f"
-            ]
-        ]
-    },
-    {
-        "id": "ac13b7dd5a89b33f",
-        "type": "function",
-        "z": "f6f2187d.f17ca8",
-        "name": "Set Meter Awake (2) string",
-        "func": "msg.payload = \"FFFFFF\"\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 620,
-        "y": 240,
-        "wires": [
-            [
-                "23fa21f1.dc05de"
-            ]
-        ]
-    },
-    {
-        "id": "5b9f3735771c738d",
-        "type": "link in",
-        "z": "f6f2187d.f17ca8",
-        "name": "link - Start Getting Meeter Data",
-        "links": [
-            "a739cd2b99eae162"
-        ],
-        "x": 165,
-        "y": 260,
-        "wires": [
-            [
-                "db51f51e0afa79eb"
-            ]
-        ]
-    },
-    {
-        "id": "822560ca7ca4f3e9",
-        "type": "debug",
-        "z": "f6f2187d.f17ca8",
-        "name": "Meter Input Log",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 200,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "acbaf1707d5f5dab",
-        "type": "function",
-        "z": "f6f2187d.f17ca8",
-        "name": "Format Data",
-        "func": "let dataString = msg.payload;\nlet dataArray = dataString.split(\"\\n\")\n\n//msg.payload = dataArray\n\n\nlet array = dataArray\n\nmsg.regData = {}\n\nmsg.regData[\"rawData\"] = msg.payload\n//msg.regData[\"Model\"] = array\n\narray.forEach(function (reg) {\n\n    let dataPair = reg.split(\"(\")\n    if (dataPair.length > 1) {\n        let key = dataPair[0]\n        let value1 = dataPair[1].replace(\")\", \"\").split(\"*\")[0]\n        let unit1 = dataPair[1].replace(\")\", \"\").split(\"*\")[1]\n        let value2 = dataPair[2] ? dataPair[2].replace(\")\", \"\") : dataPair[2]\n        msg.regData[key + \"_value1\"] = value1\n        msg.regData[key + \"_unit1\"] = unit1\n        msg.regData[key + \"_value2\"] = value2\n    }\n\n});\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 890,
-        "y": 520,
-        "wires": [
-            [
-                "5b26d699abbbcf13",
-                "4733e2435a95cb5c"
-            ]
-        ]
-    },
-    {
-        "id": "5b26d699abbbcf13",
-        "type": "debug",
-        "z": "f6f2187d.f17ca8",
-        "name": "debug 8",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "regData",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1080,
-        "y": 440,
-        "wires": []
-    },
-    {
-        "id": "4733e2435a95cb5c",
-        "type": "link out",
-        "z": "f6f2187d.f17ca8",
-        "name": "Push to thingsboard",
-        "mode": "link",
-        "links": [
-            "8fecc386a03723ba"
-        ],
-        "x": 1085,
-        "y": 520,
-        "wires": []
-    },
-    {
-        "id": "44480bd101592e5e",
-        "type": "catch",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "scope": [
-            "23fa21f1.dc05de"
-        ],
-        "uncaught": false,
-        "x": 870,
-        "y": 80,
-        "wires": [
-            [
-                "5869b7c803c0e56d",
-                "73e504d0ac36328e"
-            ]
-        ]
-    },
-    {
-        "id": "5869b7c803c0e56d",
-        "type": "link out",
-        "z": "f6f2187d.f17ca8",
-        "name": "Report Meeter In-Active",
-        "mode": "link",
-        "links": [
-            "3a1fe03d18a7e55a"
-        ],
-        "x": 1035,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "2fd1328642b74be3",
-        "type": "link out",
-        "z": "f6f2187d.f17ca8",
-        "name": "link out 1",
-        "mode": "link",
-        "links": [
-            "0b7a791912f25722"
-        ],
-        "x": 1135,
-        "y": 340,
-        "wires": []
-    },
-    {
-        "id": "73e504d0ac36328e",
-        "type": "debug",
-        "z": "f6f2187d.f17ca8",
-        "name": "Error: Report Connection Errors",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1110,
-        "y": 120,
-        "wires": []
     },
     {
         "id": "f77d45b36e808676",
@@ -905,6 +518,194 @@
         "x": 290,
         "y": 1400,
         "wires": []
+    },
+    {
+        "id": "49986488809d1065",
+        "type": "change",
+        "z": "cc8be11b90b5343c",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"username\":\"tenant@thingsboard.org\",\"password\":\"tenant\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 180,
+        "y": 1640,
+        "wires": [
+            [
+                "85a6a38c3b79d501"
+            ]
+        ]
+    },
+    {
+        "id": "85a6a38c3b79d501",
+        "type": "http request",
+        "z": "cc8be11b90b5343c",
+        "name": "Login",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://192.168.8.100:8080/api/auth/login",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 330,
+        "y": 1720,
+        "wires": [
+            [
+                "a4b1d30cb701d638"
+            ]
+        ]
+    },
+    {
+        "id": "a4b1d30cb701d638",
+        "type": "change",
+        "z": "cc8be11b90b5343c",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "tokenDetails",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "tokenDetails.token",
+                "pt": "msg",
+                "to": "$join($append(\"Bearer\", msg.tokenDetails.token)\t, \" \")",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 560,
+        "y": 1720,
+        "wires": [
+            [
+                "3983ef0968174c18",
+                "509ffba3679a3762"
+            ]
+        ]
+    },
+    {
+        "id": "3983ef0968174c18",
+        "type": "debug",
+        "z": "cc8be11b90b5343c",
+        "name": "debug 25",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "tokenDetails",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 1720,
+        "wires": []
+    },
+    {
+        "id": "509ffba3679a3762",
+        "type": "http request",
+        "z": "cc8be11b90b5343c",
+        "name": "Get Devices",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://192.168.8.100:8080/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=6407c800-6fc7-11ed-acc7-7f84f79e863d",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "tokenDetails.token"
+            }
+        ],
+        "x": 330,
+        "y": 1840,
+        "wires": [
+            [
+                "d183be5814a211b7"
+            ]
+        ]
+    },
+    {
+        "id": "d183be5814a211b7",
+        "type": "debug",
+        "z": "cc8be11b90b5343c",
+        "name": "debug 26",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 1840,
+        "wires": []
+    },
+    {
+        "id": "bfc74c500959facd",
+        "type": "inject",
+        "z": "cc8be11b90b5343c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 60,
+        "y": 1540,
+        "wires": [
+            [
+                "49986488809d1065"
+            ]
+        ]
     },
     {
         "id": "0b30a54fbfd394ce",
@@ -1592,371 +1393,6 @@
                 "38965ba3b9d58267"
             ]
         ]
-    },
-    {
-        "id": "e0a8dd44f6737d56",
-        "type": "comment",
-        "z": "1bd78f3f44340342",
-        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
-        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
-        "x": 350,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "43cba63066aaaecf",
-        "type": "tcp request",
-        "z": "1bd78f3f44340342",
-        "name": "",
-        "server": "",
-        "port": "",
-        "out": "sit",
-        "ret": "string",
-        "splitc": " ",
-        "newline": "",
-        "trim": false,
-        "tls": "",
-        "x": 970,
-        "y": 340,
-        "wires": [
-            [
-                "f6939871de4556a8",
-                "580a25f0cdf51537"
-            ]
-        ]
-    },
-    {
-        "id": "3cc358b1b0980389",
-        "type": "inject",
-        "z": "1bd78f3f44340342",
-        "name": "",
-        "props": [
-            {
-                "p": "host",
-                "v": "10.123.245.154",
-                "vt": "str"
-            },
-            {
-                "p": "port",
-                "v": "8000",
-                "vt": "str"
-            },
-            {
-                "p": "serial",
-                "v": "20671901",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": "",
-        "topic": "",
-        "x": 130,
-        "y": 340,
-        "wires": [
-            [
-                "414801e6057048b1"
-            ]
-        ]
-    },
-    {
-        "id": "634f3d88e7580ebd",
-        "type": "function",
-        "z": "1bd78f3f44340342",
-        "name": "Set Meter Awake (1) string",
-        "func": "msg.payload = \"FFFFFF\"\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 400,
-        "y": 340,
-        "wires": [
-            [
-                "43cba63066aaaecf"
-            ]
-        ]
-    },
-    {
-        "id": "46e611ef47096ee4",
-        "type": "join",
-        "z": "1bd78f3f44340342",
-        "name": "",
-        "mode": "custom",
-        "build": "string",
-        "property": "payload",
-        "propertyType": "msg",
-        "key": "topic",
-        "joiner": "\\n",
-        "joinerType": "str",
-        "accumulate": false,
-        "timeout": "120",
-        "count": "",
-        "reduceRight": false,
-        "reduceExp": "",
-        "reduceInit": "",
-        "reduceInitType": "num",
-        "reduceFixup": "",
-        "x": 670,
-        "y": 440,
-        "wires": [
-            [
-                "ae70f859a020f00b"
-            ]
-        ]
-    },
-    {
-        "id": "f6939871de4556a8",
-        "type": "function",
-        "z": "1bd78f3f44340342",
-        "name": "Update Complete When all data Recived",
-        "func": "if (msg.payload.includes(\"!\"))\n    msg.complete = true\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 380,
-        "y": 440,
-        "wires": [
-            [
-                "46e611ef47096ee4"
-            ]
-        ]
-    },
-    {
-        "id": "0e3c11111e7635b8",
-        "type": "delay",
-        "z": "1bd78f3f44340342",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "10",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 380,
-        "y": 180,
-        "wires": [
-            [
-                "b7b37474ac2c655d"
-            ]
-        ]
-    },
-    {
-        "id": "b7b37474ac2c655d",
-        "type": "function",
-        "z": "1bd78f3f44340342",
-        "name": "Set GET request string",
-        "func": "//msg.payload = \"/?20671901!\\r\\n\"\nmsg.payload = \"/?\"+msg.serial+\"!\\r\\n\"\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 600,
-        "y": 180,
-        "wires": [
-            [
-                "43cba63066aaaecf"
-            ]
-        ]
-    },
-    {
-        "id": "a3e309e559287df5",
-        "type": "delay",
-        "z": "1bd78f3f44340342",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "5",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 380,
-        "y": 240,
-        "wires": [
-            [
-                "defd4d94b80d11a9"
-            ]
-        ]
-    },
-    {
-        "id": "defd4d94b80d11a9",
-        "type": "function",
-        "z": "1bd78f3f44340342",
-        "name": "Set Meter Awake (2) string",
-        "func": "msg.payload = \"FFFFFF\"\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 620,
-        "y": 240,
-        "wires": [
-            [
-                "43cba63066aaaecf"
-            ]
-        ]
-    },
-    {
-        "id": "409af8102a303fb4",
-        "type": "link in",
-        "z": "1bd78f3f44340342",
-        "name": "link - Start Getting Meeter Data",
-        "links": [
-            "b175121382b06012"
-        ],
-        "x": 165,
-        "y": 260,
-        "wires": [
-            [
-                "414801e6057048b1"
-            ]
-        ]
-    },
-    {
-        "id": "065271fbc7fef021",
-        "type": "debug",
-        "z": "1bd78f3f44340342",
-        "name": "Meter Input Log",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 200,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "ae70f859a020f00b",
-        "type": "function",
-        "z": "1bd78f3f44340342",
-        "name": "Format Data",
-        "func": "let dataString = msg.payload;\nlet dataArray = dataString.split(\"\\n\")\n\n//msg.payload = dataArray\n\n\nlet array = dataArray\n\nmsg.regData = {}\n\nmsg.regData[\"rawData\"] = msg.payload\n//msg.regData[\"Model\"] = array\n\narray.forEach(function (reg) {\n\n    let dataPair = reg.split(\"(\")\n    if (dataPair.length > 1) {\n        let key = dataPair[0]\n        let value1 = dataPair[1].replace(\")\", \"\").split(\"*\")[0]\n        let unit1 = dataPair[1].replace(\")\", \"\").split(\"*\")[1]\n        let value2 = dataPair[2] ? dataPair[2].replace(\")\", \"\") : dataPair[2]\n        msg.regData[key + \"_value1\"] = value1\n        msg.regData[key + \"_unit1\"] = unit1\n        msg.regData[key + \"_value2\"] = value2\n    }\n\n});\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 890,
-        "y": 520,
-        "wires": [
-            [
-                "ef5f364ad2e0a379",
-                "0ed4d359f53813f2"
-            ]
-        ]
-    },
-    {
-        "id": "ef5f364ad2e0a379",
-        "type": "debug",
-        "z": "1bd78f3f44340342",
-        "name": "debug 8",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "regData",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1080,
-        "y": 440,
-        "wires": []
-    },
-    {
-        "id": "0ed4d359f53813f2",
-        "type": "link out",
-        "z": "1bd78f3f44340342",
-        "name": "Push to thingsboard",
-        "mode": "link",
-        "links": [
-            "fea414a95f926870"
-        ],
-        "x": 1085,
-        "y": 520,
-        "wires": []
-    },
-    {
-        "id": "814920d9c5bd3a4e",
-        "type": "catch",
-        "z": "1bd78f3f44340342",
-        "name": "",
-        "scope": [
-            "43cba63066aaaecf"
-        ],
-        "uncaught": false,
-        "x": 870,
-        "y": 80,
-        "wires": [
-            [
-                "352d2b91584fd414",
-                "e0ff7e8a1b14188c"
-            ]
-        ]
-    },
-    {
-        "id": "352d2b91584fd414",
-        "type": "link out",
-        "z": "1bd78f3f44340342",
-        "name": "Report Meeter In-Active",
-        "mode": "link",
-        "links": [
-            "b71e99e32c884bf5"
-        ],
-        "x": 1035,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "580a25f0cdf51537",
-        "type": "link out",
-        "z": "1bd78f3f44340342",
-        "name": "link out 1",
-        "mode": "link",
-        "links": [
-            "b06d8edc77891f7a"
-        ],
-        "x": 1135,
-        "y": 340,
-        "wires": []
-    },
-    {
-        "id": "e0ff7e8a1b14188c",
-        "type": "debug",
-        "z": "1bd78f3f44340342",
-        "name": "Error: Report Connection Errors",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1110,
-        "y": 120,
-        "wires": []
     },
     {
         "id": "69ccf11da49db2f7",
@@ -2726,6 +2162,371 @@
         "statusType": "auto",
         "x": 220,
         "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "e0a8dd44f6737d56",
+        "type": "comment",
+        "z": "1bd78f3f44340342",
+        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
+        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
+        "x": 350,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "43cba63066aaaecf",
+        "type": "tcp request",
+        "z": "1bd78f3f44340342",
+        "name": "",
+        "server": "",
+        "port": "",
+        "out": "sit",
+        "ret": "string",
+        "splitc": " ",
+        "newline": "",
+        "trim": false,
+        "tls": "",
+        "x": 970,
+        "y": 340,
+        "wires": [
+            [
+                "f6939871de4556a8",
+                "580a25f0cdf51537"
+            ]
+        ]
+    },
+    {
+        "id": "3cc358b1b0980389",
+        "type": "inject",
+        "z": "1bd78f3f44340342",
+        "name": "",
+        "props": [
+            {
+                "p": "host",
+                "v": "10.123.245.154",
+                "vt": "str"
+            },
+            {
+                "p": "port",
+                "v": "8000",
+                "vt": "str"
+            },
+            {
+                "p": "serial",
+                "v": "20671901",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "x": 130,
+        "y": 340,
+        "wires": [
+            [
+                "414801e6057048b1"
+            ]
+        ]
+    },
+    {
+        "id": "634f3d88e7580ebd",
+        "type": "function",
+        "z": "1bd78f3f44340342",
+        "name": "Set Meter Awake (1) string",
+        "func": "msg.payload = \"FFFFFF\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 340,
+        "wires": [
+            [
+                "43cba63066aaaecf"
+            ]
+        ]
+    },
+    {
+        "id": "46e611ef47096ee4",
+        "type": "join",
+        "z": "1bd78f3f44340342",
+        "name": "",
+        "mode": "custom",
+        "build": "string",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "120",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "num",
+        "reduceFixup": "",
+        "x": 670,
+        "y": 440,
+        "wires": [
+            [
+                "ae70f859a020f00b"
+            ]
+        ]
+    },
+    {
+        "id": "f6939871de4556a8",
+        "type": "function",
+        "z": "1bd78f3f44340342",
+        "name": "Update Complete When all data Recived",
+        "func": "if (msg.payload.includes(\"!\"))\n    msg.complete = true\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 440,
+        "wires": [
+            [
+                "46e611ef47096ee4"
+            ]
+        ]
+    },
+    {
+        "id": "0e3c11111e7635b8",
+        "type": "delay",
+        "z": "1bd78f3f44340342",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 380,
+        "y": 180,
+        "wires": [
+            [
+                "b7b37474ac2c655d"
+            ]
+        ]
+    },
+    {
+        "id": "b7b37474ac2c655d",
+        "type": "function",
+        "z": "1bd78f3f44340342",
+        "name": "Set GET request string",
+        "func": "//msg.payload = \"/?20671901!\\r\\n\"\nmsg.payload = \"/?\"+msg.serial+\"!\\r\\n\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 180,
+        "wires": [
+            [
+                "43cba63066aaaecf"
+            ]
+        ]
+    },
+    {
+        "id": "a3e309e559287df5",
+        "type": "delay",
+        "z": "1bd78f3f44340342",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 380,
+        "y": 240,
+        "wires": [
+            [
+                "defd4d94b80d11a9"
+            ]
+        ]
+    },
+    {
+        "id": "defd4d94b80d11a9",
+        "type": "function",
+        "z": "1bd78f3f44340342",
+        "name": "Set Meter Awake (2) string",
+        "func": "msg.payload = \"FFFFFF\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 240,
+        "wires": [
+            [
+                "43cba63066aaaecf"
+            ]
+        ]
+    },
+    {
+        "id": "409af8102a303fb4",
+        "type": "link in",
+        "z": "1bd78f3f44340342",
+        "name": "link - Start Getting Meeter Data",
+        "links": [
+            "b175121382b06012"
+        ],
+        "x": 165,
+        "y": 260,
+        "wires": [
+            [
+                "414801e6057048b1"
+            ]
+        ]
+    },
+    {
+        "id": "065271fbc7fef021",
+        "type": "debug",
+        "z": "1bd78f3f44340342",
+        "name": "Meter Input Log",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 200,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "ae70f859a020f00b",
+        "type": "function",
+        "z": "1bd78f3f44340342",
+        "name": "Format Data",
+        "func": "let dataString = msg.payload;\nlet dataArray = dataString.split(\"\\n\")\n\n//msg.payload = dataArray\n\n\nlet array = dataArray\n\nmsg.regData = {}\n\nmsg.regData[\"rawData\"] = msg.payload\n//msg.regData[\"Model\"] = array\n\narray.forEach(function (reg) {\n\n    let dataPair = reg.split(\"(\")\n    if (dataPair.length > 1) {\n        let key = dataPair[0]\n        let value1 = dataPair[1].replace(\")\", \"\").split(\"*\")[0]\n        let unit1 = dataPair[1].replace(\")\", \"\").split(\"*\")[1]\n        let value2 = dataPair[2] ? dataPair[2].replace(\")\", \"\") : dataPair[2]\n        msg.regData[key + \"_value1\"] = value1\n        msg.regData[key + \"_unit1\"] = unit1\n        msg.regData[key + \"_value2\"] = value2\n    }\n\n});\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 520,
+        "wires": [
+            [
+                "ef5f364ad2e0a379",
+                "0ed4d359f53813f2"
+            ]
+        ]
+    },
+    {
+        "id": "ef5f364ad2e0a379",
+        "type": "debug",
+        "z": "1bd78f3f44340342",
+        "name": "debug 8",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "regData",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "0ed4d359f53813f2",
+        "type": "link out",
+        "z": "1bd78f3f44340342",
+        "name": "Push to thingsboard",
+        "mode": "link",
+        "links": [
+            "fea414a95f926870"
+        ],
+        "x": 1085,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "814920d9c5bd3a4e",
+        "type": "catch",
+        "z": "1bd78f3f44340342",
+        "name": "",
+        "scope": [
+            "43cba63066aaaecf"
+        ],
+        "uncaught": false,
+        "x": 870,
+        "y": 80,
+        "wires": [
+            [
+                "352d2b91584fd414",
+                "e0ff7e8a1b14188c"
+            ]
+        ]
+    },
+    {
+        "id": "352d2b91584fd414",
+        "type": "link out",
+        "z": "1bd78f3f44340342",
+        "name": "Report Meeter In-Active",
+        "mode": "link",
+        "links": [
+            "b71e99e32c884bf5"
+        ],
+        "x": 1035,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "580a25f0cdf51537",
+        "type": "link out",
+        "z": "1bd78f3f44340342",
+        "name": "link out 1",
+        "mode": "link",
+        "links": [
+            "b06d8edc77891f7a"
+        ],
+        "x": 1135,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "e0ff7e8a1b14188c",
+        "type": "debug",
+        "z": "1bd78f3f44340342",
+        "name": "Error: Report Connection Errors",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1110,
+        "y": 120,
         "wires": []
     }
 ]
