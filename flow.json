@@ -3336,17 +3336,23 @@
                 "t": "eq",
                 "v": "d8ab79f0-6c0b-11ed-91d6-6342642bb8e9",
                 "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "91c72800-9013-11ed-a729-4d5c2f062be6",
+                "vt": "str"
             }
         ],
-        "checkall": "true",
+        "checkall": "false",
         "repair": false,
-        "outputs": 1,
+        "outputs": 2,
         "x": 1850,
         "y": 460,
         "wires": [
             [
                 "2b2b65cbdf7eab42"
-            ]
+            ],
+            []
         ]
     }
 ]
