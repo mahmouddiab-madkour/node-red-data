@@ -2885,14 +2885,14 @@
         "id": "3faf059f7957f7ba",
         "type": "function",
         "z": "02206fa51f6a9be8",
-        "name": "Set Login",
+        "name": "Set Login Req",
         "func": "msg.payload = global.get(\"cred\")\nmsg.url = global.get(\"baseURL\") + \"/api/auth/login\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 820,
+        "x": 840,
         "y": 520,
         "wires": [
             [
