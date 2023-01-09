@@ -2880,7 +2880,7 @@
                 "valueValue": "application/json"
             }
         ],
-        "x": 1030,
+        "x": 1070,
         "y": 520,
         "wires": [
             [
@@ -2937,7 +2937,9 @@
         "x": 1240,
         "y": 520,
         "wires": [
-            []
+            [
+                "f05687fab95fc876"
+            ]
         ]
     },
     {
@@ -2945,13 +2947,44 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "SetGet Devices Req",
-        "func": "msg.payload = global.get(\"cred\")\nmsg.url = global.get(\"baseURL\") + \"/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=6407c800-6fc7-11ed-acc7-7f84f79e863d\"\nreturn msg;",
+        "func": "msg.url = global.get(\"baseURL\") + \"/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=6407c800-6fc7-11ed-acc7-7f84f79e863d\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 860,
+        "x": 820,
+        "y": 600,
+        "wires": [
+            [
+                "9172b49dc7f78fbc"
+            ]
+        ]
+    },
+    {
+        "id": "9172b49dc7f78fbc",
+        "type": "http request",
+        "z": "02206fa51f6a9be8",
+        "name": "Get Devices",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "tokenDetails.token"
+            }
+        ],
+        "x": 1090,
         "y": 600,
         "wires": [
             []
