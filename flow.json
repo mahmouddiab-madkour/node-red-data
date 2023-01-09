@@ -3430,14 +3430,14 @@
         "id": "5b99128207912800",
         "type": "function",
         "z": "02206fa51f6a9be8",
-        "name": "Build Device",
+        "name": "set Device Key",
         "func": "\nmsg.key = msg.payload.credentialsId\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1550,
+        "x": 1560,
         "y": 1240,
         "wires": [
             [
