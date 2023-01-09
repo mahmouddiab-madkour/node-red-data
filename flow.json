@@ -3423,7 +3423,6 @@
         "y": 1220,
         "wires": [
             [
-                "172e4ec94b2e7a5b",
                 "5b99128207912800"
             ]
         ]
@@ -3437,11 +3436,12 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "key",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1300,
-        "y": 1220,
+        "x": 1460,
+        "y": 1200,
         "wires": []
     },
     {
@@ -3458,7 +3458,9 @@
         "x": 1310,
         "y": 1280,
         "wires": [
-            []
+            [
+                "172e4ec94b2e7a5b"
+            ]
         ]
     }
 ]
