@@ -3423,7 +3423,8 @@
         "y": 1220,
         "wires": [
             [
-                "172e4ec94b2e7a5b"
+                "172e4ec94b2e7a5b",
+                "5b99128207912800"
             ]
         ]
     },
@@ -3442,5 +3443,22 @@
         "x": 1300,
         "y": 1220,
         "wires": []
+    },
+    {
+        "id": "5b99128207912800",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "Build Device",
+        "func": "\nmsg.key = msg.payload.credentialsId\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 1280,
+        "wires": [
+            []
+        ]
     }
 ]
