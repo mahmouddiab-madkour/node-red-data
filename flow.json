@@ -3124,8 +3124,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1600,
-        "y": 600,
+        "x": 480,
+        "y": 840,
         "wires": [
             [
                 "35ba9307f83b14e3"
@@ -3143,8 +3143,8 @@
         "arraySpltType": "len",
         "stream": false,
         "addname": "device",
-        "x": 1770,
-        "y": 600,
+        "x": 650,
+        "y": 840,
         "wires": [
             [
                 "13d92044b418343e"
@@ -3177,8 +3177,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 2000,
-        "y": 520,
+        "x": 1060,
+        "y": 840,
         "wires": [
             [
                 "9e9491c95846755a"
@@ -3189,15 +3189,15 @@
         "id": "9e9491c95846755a",
         "type": "function",
         "z": "02206fa51f6a9be8",
-        "name": "Build Telemetry Requist",
-        "func": "let device = msg.payload\nlet deviceId = msg.payload.id\n\nmsg.url = global.get(\"baseURL\")+\"/api/plugins/telemetry/DEVICE/\" + msg.payload.id.id +\"/values/attributes/SERVER_SCOPE\"\nmsg.headers= {\n    \"Authorization\": msg.tokenDetails.token\n    ,\"Content-Type\":\"application/json\"\n}\nreturn msg;",
+        "name": "Build Telemetry Req",
+        "func": "let device = msg.payload\nlet deviceId = msg.payload.id\n\nmsg.url = global.get(\"baseURL\")+\"/api/plugins/telemetry/DEVICE/\" + msg.payload.id.id +\"/values/attributes/SERVER_SCOPE\"\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 2070,
-        "y": 600,
+        "x": 1320,
+        "y": 840,
         "wires": [
             [
                 "f31c3e508a25fbc2"
@@ -3219,9 +3219,22 @@
         "insecureHTTPParser": false,
         "authType": "",
         "senderr": false,
-        "headers": [],
-        "x": 2340,
-        "y": 600,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "other",
+                "valueValue": "tokenDetails.token"
+            },
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 1060,
+        "y": 960,
         "wires": [
             [
                 "3c4273ac4474d039"
@@ -3239,8 +3252,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1610,
-        "y": 680,
+        "x": 1750,
+        "y": 880,
         "wires": [
             [
                 "92a9738c295c70db"
@@ -3299,8 +3312,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1730,
-        "y": 780,
+        "x": 1890,
+        "y": 800,
         "wires": [
             [
                 "6f1c5bef61b1aa16"
@@ -3320,15 +3333,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2000,
-        "y": 780,
+        "x": 1840,
+        "y": 980,
         "wires": []
     },
     {
         "id": "13d92044b418343e",
         "type": "switch",
         "z": "02206fa51f6a9be8",
-        "name": "",
+        "name": "Filter Profiles",
         "property": "payload.deviceProfileId.id",
         "propertyType": "msg",
         "rules": [
@@ -3346,8 +3359,8 @@
         "checkall": "false",
         "repair": false,
         "outputs": 2,
-        "x": 1770,
-        "y": 360,
+        "x": 830,
+        "y": 840,
         "wires": [
             [
                 "2b2b65cbdf7eab42"
