@@ -657,7 +657,8 @@
         "y": 1880,
         "wires": [
             [
-                "d183be5814a211b7"
+                "d183be5814a211b7",
+                "5b7c98e86f8c16e4"
             ]
         ]
     },
@@ -706,6 +707,41 @@
                 "49986488809d1065"
             ]
         ]
+    },
+    {
+        "id": "5b7c98e86f8c16e4",
+        "type": "function",
+        "z": "cc8be11b90b5343c",
+        "name": "function 9",
+        "func": "let devices = msg.payload.data\n\nmsg.payload = devices[0]\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 1880,
+        "wires": [
+            [
+                "9b091b1644bc2172"
+            ]
+        ]
+    },
+    {
+        "id": "9b091b1644bc2172",
+        "type": "debug",
+        "z": "cc8be11b90b5343c",
+        "name": "debug 27",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 1880,
+        "wires": []
     },
     {
         "id": "0b30a54fbfd394ce",
