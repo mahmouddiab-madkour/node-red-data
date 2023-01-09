@@ -3248,7 +3248,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "Build Device",
-        "func": "\nmsg.payload.forEach(function(telemetry) {\n    if (telemetry.key === \"ip\") msg.host = telemetry.value\n    if (telemetry.key === \"port\") msg.port = telemetry.value\n    if (telemetry.key === \"meterSerial\") msg.serial = telemetry.value \n    if (telemetry.key === \"read_obis\") msg.read_obis = telemetry.value \n\n});\n\nreturn msg;",
+        "func": "\nmsg.payload.forEach(function(telemetry) {\n    if (telemetry.key === \"ip\") msg.host = telemetry.value\n    if (telemetry.key === \"port\") msg.port = telemetry.value\n    if (telemetry.key === \"read_obis\") msg.read_obis = telemetry.value \n    if (telemetry.key === \"password\") msg.meterPass = telemetry.value\n    if (telemetry.key === \"clientAdress\") msg.meterAd = telemetry.value\n\n});\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
