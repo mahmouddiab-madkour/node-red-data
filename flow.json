@@ -638,7 +638,7 @@
         "method": "GET",
         "ret": "obj",
         "paytoqs": "ignore",
-        "url": "http://10.10.168.216:8080/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=6407c800-6fc7-11ed-acc7-7f84f79e863d",
+        "url": "http://10.10.168.216:8080/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=6407c800-6fc7-11ed-acc7-7f84f79e863d,91c72800-9013-11ed-a729-4d5c2f062be6",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -869,6 +869,52 @@
         "x": 1760,
         "y": 1980,
         "wires": []
+    },
+    {
+        "id": "82407909f289b677",
+        "type": "inject",
+        "z": "cc8be11b90b5343c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 260,
+        "y": 2320,
+        "wires": [
+            [
+                "de6b29469e65412b"
+            ]
+        ]
+    },
+    {
+        "id": "de6b29469e65412b",
+        "type": "function",
+        "z": "cc8be11b90b5343c",
+        "name": "function 11",
+        "func": "msg.thingsBoardHost = \"10.10.168.216:8080\"\nmsg.thingsBoardRoutes = {\n    login:\"/api/auth/login\",\n    devices:\"/api/tenant/deviceInfos?pageSize=10&page=0&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=6407c800-6fc7-11ed-acc7-7f84f79e863d\"\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 2340,
+        "wires": [
+            []
+        ]
     },
     {
         "id": "0b30a54fbfd394ce",
