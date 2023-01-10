@@ -873,7 +873,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "function 12",
-        "func": "msg.payload = msg.payload[\"0.0.21.0.11.255:0.0.1.0.0.255:2\"][0].value\n\nmsg.payload = msg.payload.replace('/', '').replace('/', '').replace(':', '').replace(':', '').replace(':', '').slice(0,-4)\nreturn msg;",
+        "func": "let meterDate = msg.payload[\"0.0.21.0.11.255:0.0.1.0.0.255:2\"][0].value\n\nlet meterDateArray = meterDate.split(\"/\")\nmsg.payload = meterDateArray[1] + meterDateArray[0] + meterDateArray[2]\n\nmsg.payload = msg.payload.replace('/', '').replace('/', '').replace(':', '').replace(':', '').replace(':', '').slice(0,-4)\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
