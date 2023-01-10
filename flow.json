@@ -844,7 +844,8 @@
         "y": 1300,
         "wires": [
             [
-                "160f360c3ed15c32"
+                "160f360c3ed15c32",
+                "f692910852f89849"
             ]
         ]
     },
@@ -871,10 +872,22 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 880,
+        "x": 860,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "f692910852f89849",
+        "type": "link out",
+        "z": "02206fa51f6a9be8",
+        "name": "return telemetry query Value",
+        "mode": "return",
+        "links": [],
+        "x": 875,
         "y": 1300,
         "wires": []
     },
@@ -1091,7 +1104,8 @@
         "y": 560,
         "wires": [
             [
-                "5f0b3c4455965640"
+                "5f0b3c4455965640",
+                "e822d9a060282544"
             ]
         ]
     },
@@ -1361,9 +1375,23 @@
         "x": 1530,
         "y": 460,
         "wires": [
-            [
-                "a54d25a717f6b718"
-            ]
+            []
+        ]
+    },
+    {
+        "id": "e822d9a060282544",
+        "type": "link call",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "links": [
+            "7e74672ff785690f"
+        ],
+        "linkType": "static",
+        "timeout": "30",
+        "x": 470,
+        "y": 700,
+        "wires": [
+            []
         ]
     },
     {
