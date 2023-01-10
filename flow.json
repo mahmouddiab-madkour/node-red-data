@@ -3924,7 +3924,7 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "regData",
+        "complete": "obisData",
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
