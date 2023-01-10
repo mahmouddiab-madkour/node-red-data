@@ -839,7 +839,7 @@
         "y": 1300,
         "wires": [
             [
-                "0375a8d1b28ae81f"
+                "f692910852f89849"
             ]
         ]
     },
@@ -864,28 +864,9 @@
         "name": "return telemetry query Value",
         "mode": "return",
         "links": [],
-        "x": 1005,
+        "x": 855,
         "y": 1300,
         "wires": []
-    },
-    {
-        "id": "0375a8d1b28ae81f",
-        "type": "function",
-        "z": "02206fa51f6a9be8",
-        "name": "function 12",
-        "func": "let meterDate = msg.payload[\"0.0.21.0.11.255:0.0.1.0.0.255:2\"][0].value\n\nlet meterDateArray = meterDate.split(\"/\")\nmsg.payload = meterDateArray[1] + meterDateArray[0] + meterDateArray[2]\n\nmsg.payload = msg.payload.replace(':', '').replace(':', '').replace(':', '').replace(' ', '').slice(0, -4)\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 850,
-        "y": 1300,
-        "wires": [
-            [
-                "f692910852f89849"
-            ]
-        ]
     },
     {
         "id": "360489f1c53f4f2d",
@@ -1388,7 +1369,7 @@
         "y": 700,
         "wires": [
             [
-                "58cccd886338ee81"
+                "0375a8d1b28ae81f"
             ]
         ]
     },
@@ -1404,9 +1385,28 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 700,
-        "y": 740,
+        "x": 900,
+        "y": 760,
         "wires": []
+    },
+    {
+        "id": "0375a8d1b28ae81f",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "format From Date",
+        "func": "let meterDate = msg.payload[\"0.0.21.0.11.255:0.0.1.0.0.255:2\"][0].value\n\nlet meterDateArray = meterDate.split(\"/\")\nmsg.payload = meterDateArray[1] + meterDateArray[0] + meterDateArray[2]\n\nmsg.payload = msg.payload.replace(':', '').replace(':', '').replace(':', '').replace(' ', '').slice(0, -4)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 860,
+        "wires": [
+            [
+                "58cccd886338ee81"
+            ]
+        ]
     },
     {
         "id": "69ccf11da49db2f7",
