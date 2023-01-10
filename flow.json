@@ -3911,7 +3911,7 @@
         "y": 540,
         "wires": [
             [
-                "0d8ebfe733beafeb"
+                "1bd210459158ba91"
             ]
         ]
     },
@@ -3924,7 +3924,7 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "obisData",
+        "complete": "payload",
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
@@ -3947,5 +3947,24 @@
         "x": 920,
         "y": 100,
         "wires": []
+    },
+    {
+        "id": "1bd210459158ba91",
+        "type": "split",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 1430,
+        "y": 460,
+        "wires": [
+            [
+                "0d8ebfe733beafeb"
+            ]
+        ]
     }
 ]
