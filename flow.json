@@ -3524,7 +3524,8 @@
         "wires": [
             [
                 "fc66c0325f0f0f68",
-                "1d590e27dbc81cd6"
+                "1d590e27dbc81cd6",
+                "9a08c5c5d4595314"
             ],
             [
                 "fc66c0325f0f0f68",
@@ -3739,7 +3740,7 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 470,
+        "x": 350,
         "y": 560,
         "wires": [
             [
@@ -3751,14 +3752,14 @@
         "id": "5f0b3c4455965640",
         "type": "function",
         "z": "27eea1c2d9ac95bb",
-        "name": "function 13",
+        "name": "Build Billing Profile Command",
         "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.billingProfileObis\nlet clientAdd = msg.meterAd\nlet password = msg.meterPass\nlet cashFile = msg.profile\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" \" + msg.meterAd + \" \" + msg.meterPass + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \":1'\" + \" -o /usr/src/app/\" + cashFile + \".xml\" +\" -M 'queryProfileByDate:01122022000000/01012023000000'\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 670,
+        "x": 590,
         "y": 560,
         "wires": [
             [
@@ -3770,7 +3771,7 @@
         "id": "1c372cbd3c8b4326",
         "type": "exec",
         "z": "27eea1c2d9ac95bb",
-        "command": "python3",
+        "command": "Execute Billing Profile Command",
         "addpay": "payload",
         "append": "",
         "useSpawn": "false",
@@ -3778,7 +3779,7 @@
         "winHide": false,
         "oldrc": false,
         "name": "",
-        "x": 860,
+        "x": 900,
         "y": 560,
         "wires": [
             [
@@ -3860,8 +3861,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 260,
-        "y": 560,
+        "x": 280,
+        "y": 440,
         "wires": [
             [
                 "9a08c5c5d4595314"
