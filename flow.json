@@ -1715,7 +1715,7 @@
         "type": "function",
         "z": "d43567c1be96ce60",
         "name": "Build Req",
-        "func": "msg.url = \"http://192.168.8.100:8080/api/v1/\"+msg.key+\"/telemetry\"\nmsg.payload = msg.regData\nreturn msg;",
+        "func": "msg.url = global.get(\"baseURL\") +\"/api/v1/\"+msg.key+\"/telemetry\"\nmsg.payload = msg.regData\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3512,7 +3512,7 @@
         "id": "360489f1c53f4f2d",
         "type": "exec",
         "z": "27eea1c2d9ac95bb",
-        "command": "python3",
+        "command": "Execute Read Obis command",
         "addpay": "payload",
         "append": "",
         "useSpawn": "false",
@@ -3520,8 +3520,8 @@
         "winHide": false,
         "oldrc": false,
         "name": "",
-        "x": 720,
-        "y": 320,
+        "x": 910,
+        "y": 260,
         "wires": [
             [
                 "fc66c0325f0f0f68",
@@ -3557,8 +3557,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 500,
-        "y": 320,
+        "x": 400,
+        "y": 120,
         "wires": [
             [
                 "f1fa44d08cbcb7eb"
@@ -3578,15 +3578,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1020,
-        "y": 480,
+        "x": 600,
+        "y": 100,
         "wires": []
     },
     {
         "id": "f1fa44d08cbcb7eb",
         "type": "function",
         "z": "27eea1c2d9ac95bb",
-        "name": "function 12",
+        "name": "Build Read Obis Command",
         "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.read_obis\nlet clientAdd = msg.meterAd\nlet password = msg.meterPass\nlet cashFile = msg.profile\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" \" + msg.meterAd + \" \" + msg.meterPass + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o /usr/src/app/\" + cashFile + \".xml\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
@@ -3594,7 +3594,7 @@
         "finalize": "",
         "libs": [],
         "x": 600,
-        "y": 480,
+        "y": 260,
         "wires": [
             [
                 "360489f1c53f4f2d"
@@ -3609,45 +3609,27 @@
         "links": [
             "fe2bba608a4cb55d"
         ],
-        "x": 215,
-        "y": 480,
+        "x": 185,
+        "y": 260,
         "wires": [
             [
-                "f7c77cf25c5cbc64",
                 "411739f032457819"
             ]
         ]
     },
     {
-        "id": "f7c77cf25c5cbc64",
-        "type": "debug",
-        "z": "27eea1c2d9ac95bb",
-        "name": "debug 34",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 380,
-        "y": 580,
-        "wires": []
-    },
-    {
         "id": "1d590e27dbc81cd6",
         "type": "function",
         "z": "27eea1c2d9ac95bb",
-        "name": "Format Data",
+        "name": "Format Read OBIS Data",
         "func": "let dataString = msg.payload;\nlet dataArray = dataString.split(\"\\n\")\n\n\nlet obisStringArray = dataArray.filter(obisString => obisString.includes('Index'))\n\n\nmsg.regData = {}\n\nlet obiCurrentCode = \"\"\n\nobisStringArray.forEach(function (obisString) {\n    let obisArray = obisString.split(\": \")\n   \n\n    let obisindex = obisArray[1].split(\"V\")[0].trim()\n    \n\n    if (parseInt(obisindex) === 1) { \n        obiCurrentCode = obisArray[2].trim()\n    }\n\n    msg.regData[obiCurrentCode + \":\" + obisindex] = obisArray[2].trim()\n\n});\n\n\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 970,
-        "y": 240,
+        "x": 1270,
+        "y": 200,
         "wires": [
             [
                 "a54d25a717f6b718"
@@ -3663,8 +3645,8 @@
         "links": [
             "fea414a95f926870"
         ],
-        "x": 1165,
-        "y": 240,
+        "x": 1515,
+        "y": 200,
         "wires": []
     },
     {
@@ -3674,8 +3656,8 @@
         "name": "",
         "scope": null,
         "uncaught": false,
-        "x": 680,
-        "y": 140,
+        "x": 760,
+        "y": 40,
         "wires": [
             [
                 "e3a02b947eda3d69"
@@ -3693,8 +3675,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 870,
-        "y": 140,
+        "x": 950,
+        "y": 40,
         "wires": [
             [
                 "211e1dc3ef6d50a0"
@@ -3712,8 +3694,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 990,
-        "y": 320,
+        "x": 1230,
+        "y": 260,
         "wires": [
             [
                 "a54d25a717f6b718"
@@ -3737,8 +3719,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 390,
-        "y": 480,
+        "x": 350,
+        "y": 260,
         "wires": [
             [
                 "f1fa44d08cbcb7eb"
@@ -3762,11 +3744,127 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 1050,
-        "y": 140,
+        "x": 1130,
+        "y": 40,
         "wires": [
             [
                 "a54d25a717f6b718"
+            ]
+        ]
+    },
+    {
+        "id": "9a08c5c5d4595314",
+        "type": "switch",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "property": "read_obis",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": ".",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 470,
+        "y": 560,
+        "wires": [
+            [
+                "5f0b3c4455965640"
+            ]
+        ]
+    },
+    {
+        "id": "5f0b3c4455965640",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "function 13",
+        "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.read_obis\nlet clientAdd = msg.meterAd\nlet password = msg.meterPass\nlet cashFile = msg.profile\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" \" + msg.meterAd + \" \" + msg.meterPass + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o /usr/src/app/\" + cashFile + \".xml\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 560,
+        "wires": [
+            [
+                "1c372cbd3c8b4326"
+            ]
+        ]
+    },
+    {
+        "id": "1c372cbd3c8b4326",
+        "type": "exec",
+        "z": "27eea1c2d9ac95bb",
+        "command": "python3",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 860,
+        "y": 560,
+        "wires": [
+            [
+                "5efb4be8823a6f87"
+            ],
+            [
+                "5efb4be8823a6f87"
+            ],
+            [
+                "5efb4be8823a6f87"
+            ]
+        ]
+    },
+    {
+        "id": "5efb4be8823a6f87",
+        "type": "debug",
+        "z": "27eea1c2d9ac95bb",
+        "name": "debug 34",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "3deca35eb302d2b6",
+        "type": "inject",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 520,
+        "y": 420,
+        "wires": [
+            [
+                "5f0b3c4455965640"
             ]
         ]
     }
