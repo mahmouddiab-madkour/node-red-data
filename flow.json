@@ -1,5 +1,29 @@
 [
     {
+        "id": "02206fa51f6a9be8",
+        "type": "tab",
+        "label": "Sync Meters v2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "27eea1c2d9ac95bb",
+        "type": "tab",
+        "label": "Read Meter - Gurux v2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d43567c1be96ce60",
+        "type": "tab",
+        "label": "Push Data",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "cc8be11b90b5343c",
         "type": "tab",
         "label": "Flow 1",
@@ -19,14 +43,6 @@
         "id": "83e12f2fbbc1c363",
         "type": "tab",
         "label": "Read Meter - Gurux v1",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "d43567c1be96ce60",
-        "type": "tab",
-        "label": "Push Data",
         "disabled": false,
         "info": "",
         "env": []
@@ -55,22 +71,6 @@
         "info": ""
     },
     {
-        "id": "02206fa51f6a9be8",
-        "type": "tab",
-        "label": "Sync Meters v2",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "27eea1c2d9ac95bb",
-        "type": "tab",
-        "label": "Read Meter - Gurux v2",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "414801e6057048b1",
         "type": "junction",
         "z": "1bd78f3f44340342",
@@ -82,6 +82,1360 @@
                 "0e3c11111e7635b8",
                 "634f3d88e7580ebd",
                 "065271fbc7fef021"
+            ]
+        ]
+    },
+    {
+        "id": "0839ed686605f773",
+        "type": "inject",
+        "z": "02206fa51f6a9be8",
+        "name": "Start",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"username\":\"tenant@thingsboard.org\",\"password\":\"tenant\"}",
+        "payloadType": "json",
+        "x": 110,
+        "y": 520,
+        "wires": [
+            [
+                "1c2fbbd703571f20"
+            ]
+        ]
+    },
+    {
+        "id": "0d1c04df5e2655fe",
+        "type": "trigger",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "op1": "1",
+        "op2": "0",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "-5",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 590,
+        "y": 520,
+        "wires": [
+            [
+                "3faf059f7957f7ba"
+            ]
+        ]
+    },
+    {
+        "id": "1c2fbbd703571f20",
+        "type": "change",
+        "z": "02206fa51f6a9be8",
+        "name": "Set Init global config",
+        "rules": [
+            {
+                "t": "set",
+                "p": "baseURL",
+                "pt": "global",
+                "to": "http://192.168.8.100:8080",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "cred",
+                "pt": "global",
+                "to": "{\"username\":\"tenant@thingsboard.org\",\"password\":\"tenant\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 520,
+        "wires": [
+            [
+                "0d1c04df5e2655fe"
+            ]
+        ]
+    },
+    {
+        "id": "c9036e3dcc3ce1a3",
+        "type": "http request",
+        "z": "02206fa51f6a9be8",
+        "name": "Login",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 1070,
+        "y": 520,
+        "wires": [
+            [
+                "209a39880c5e7bca"
+            ]
+        ]
+    },
+    {
+        "id": "3faf059f7957f7ba",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "Set Login Req",
+        "func": "msg.payload = global.get(\"cred\")\nmsg.url = global.get(\"baseURL\") + \"/api/auth/login\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 520,
+        "wires": [
+            [
+                "c9036e3dcc3ce1a3"
+            ]
+        ]
+    },
+    {
+        "id": "209a39880c5e7bca",
+        "type": "change",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "tokenDetails",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "tokenDetails.token",
+                "pt": "msg",
+                "to": "$join($append(\"Bearer\", msg.tokenDetails.token)\t, \" \")",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "devicePage",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1240,
+        "y": 520,
+        "wires": [
+            [
+                "f05687fab95fc876"
+            ]
+        ]
+    },
+    {
+        "id": "f05687fab95fc876",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "SetGet Devices Req",
+        "func": "msg.url = global.get(\"baseURL\") + \"/api/tenant/deviceInfos?pageSize=10&page=\" + msg.devicePage+\"&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 600,
+        "wires": [
+            [
+                "9172b49dc7f78fbc"
+            ]
+        ]
+    },
+    {
+        "id": "9172b49dc7f78fbc",
+        "type": "http request",
+        "z": "02206fa51f6a9be8",
+        "name": "Get Devices",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "tokenDetails.token"
+            }
+        ],
+        "x": 1090,
+        "y": 600,
+        "wires": [
+            [
+                "28c7a638e1ab4bb8",
+                "0a0f670ec7afdf66"
+            ]
+        ]
+    },
+    {
+        "id": "8aa3c87309bb31f0",
+        "type": "debug",
+        "z": "02206fa51f6a9be8",
+        "name": "debug 31",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1580,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "0a0f670ec7afdf66",
+        "type": "delay",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "30",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1380,
+        "y": 600,
+        "wires": [
+            [
+                "8aa3c87309bb31f0",
+                "b3a62d262b247ff4"
+            ]
+        ]
+    },
+    {
+        "id": "a8e4d6ec73a89759",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "Query Next Batch",
+        "func": "msg.devicePage = msg.devicePage + 1\nmsg.payload = \"Yes\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 720,
+        "wires": [
+            [
+                "67833da0c7aa928f"
+            ]
+        ]
+    },
+    {
+        "id": "28c7a638e1ab4bb8",
+        "type": "switch",
+        "z": "02206fa51f6a9be8",
+        "name": "If There more pages",
+        "property": "payload.hasNext",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "true",
+                "vt": "jsonata"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 720,
+        "y": 660,
+        "wires": [
+            [
+                "a8e4d6ec73a89759"
+            ]
+        ]
+    },
+    {
+        "id": "67833da0c7aa928f",
+        "type": "delay",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "200",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 510,
+        "y": 600,
+        "wires": [
+            [
+                "f05687fab95fc876"
+            ]
+        ]
+    },
+    {
+        "id": "b3a62d262b247ff4",
+        "type": "change",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.data",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 840,
+        "wires": [
+            [
+                "35ba9307f83b14e3"
+            ]
+        ]
+    },
+    {
+        "id": "35ba9307f83b14e3",
+        "type": "split",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "device",
+        "x": 650,
+        "y": 840,
+        "wires": [
+            [
+                "13d92044b418343e"
+            ]
+        ]
+    },
+    {
+        "id": "2b2b65cbdf7eab42",
+        "type": "change",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "deviceId",
+                "pt": "msg",
+                "to": "payload.id.id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "token",
+                "pt": "msg",
+                "to": "tokenDetails.token",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "profile",
+                "pt": "msg",
+                "to": "payload.deviceProfileName",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1060,
+        "y": 840,
+        "wires": [
+            [
+                "9e9491c95846755a"
+            ]
+        ]
+    },
+    {
+        "id": "9e9491c95846755a",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "Build Telemetry Req",
+        "func": "let deviceId = msg.deviceId\n\nmsg.url = global.get(\"baseURL\") + \"/api/plugins/telemetry/DEVICE/\" + deviceId +\"/values/attributes/SERVER_SCOPE\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 940,
+        "wires": [
+            [
+                "f31c3e508a25fbc2"
+            ]
+        ]
+    },
+    {
+        "id": "f31c3e508a25fbc2",
+        "type": "http request",
+        "z": "02206fa51f6a9be8",
+        "name": "Get DeviceTelemetry",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "tokenDetails.token"
+            },
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 1080,
+        "y": 940,
+        "wires": [
+            [
+                "3c4273ac4474d039"
+            ]
+        ]
+    },
+    {
+        "id": "3c4273ac4474d039",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "Build Device",
+        "func": "\nmsg.payload.forEach(function(telemetry) {\n    if (telemetry.key === \"ip\") msg.host = telemetry.value\n    if (telemetry.key === \"port\") msg.port = telemetry.value\n    if (telemetry.key === \"read_obis\") msg.read_obis = telemetry.value \n    if (telemetry.key === \"password\") msg.meterPass = telemetry.value\n    if (telemetry.key === \"clientAdress\") msg.meterAd = telemetry.value\n    if (telemetry.key === \"billingProfileObis\") msg.billObis = telemetry.value\n});\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 940,
+        "wires": [
+            [
+                "c8d7ada22428476b"
+            ]
+        ]
+    },
+    {
+        "id": "92a9738c295c70db",
+        "type": "change",
+        "z": "02206fa51f6a9be8",
+        "name": "Clear unusedData",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "statusCode",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "responseUrl",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "redirectList",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "retry",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "tokenDetails",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "headers",
+                "pt": "msg"
+            },
+            {
+                "t": "delete",
+                "p": "parts",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1070,
+        "y": 1140,
+        "wires": [
+            [
+                "fe2bba608a4cb55d"
+            ]
+        ]
+    },
+    {
+        "id": "13d92044b418343e",
+        "type": "switch",
+        "z": "02206fa51f6a9be8",
+        "name": "Filter Profiles",
+        "property": "payload.deviceProfileId.id",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "6407c800-6fc7-11ed-acc7-7f84f79e863d",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "91c72800-9013-11ed-a729-4d5c2f062be6",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 830,
+        "y": 840,
+        "wires": [
+            [
+                "2b2b65cbdf7eab42"
+            ],
+            [
+                "2b2b65cbdf7eab42"
+            ]
+        ]
+    },
+    {
+        "id": "c8d7ada22428476b",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "Build meter Key Req",
+        "func": "let deviceId = msg.deviceId\n\nmsg.url = global.get(\"baseURL\") + \"/api/device/\" + deviceId +\"/credentials\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 1040,
+        "wires": [
+            [
+                "a0a9dea7bd3e70df"
+            ]
+        ]
+    },
+    {
+        "id": "a0a9dea7bd3e70df",
+        "type": "http request",
+        "z": "02206fa51f6a9be8",
+        "name": "Get Device Key",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "tokenDetails.token"
+            },
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 1060,
+        "y": 1040,
+        "wires": [
+            [
+                "002883f8a4535aba"
+            ]
+        ]
+    },
+    {
+        "id": "5b99128207912800",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "set Device Key",
+        "func": "\nmsg.key = msg.payload.credentialsId\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 1140,
+        "wires": [
+            [
+                "92a9738c295c70db"
+            ]
+        ]
+    },
+    {
+        "id": "002883f8a4535aba",
+        "type": "delay",
+        "z": "02206fa51f6a9be8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "200",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 490,
+        "y": 1140,
+        "wires": [
+            [
+                "5b99128207912800"
+            ]
+        ]
+    },
+    {
+        "id": "fe2bba608a4cb55d",
+        "type": "link out",
+        "z": "02206fa51f6a9be8",
+        "name": "link out 5",
+        "mode": "link",
+        "links": [
+            "a2e9780ff9d3ae58"
+        ],
+        "x": 1325,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "360489f1c53f4f2d",
+        "type": "exec",
+        "z": "27eea1c2d9ac95bb",
+        "command": "python3",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Execute Read Obis command",
+        "x": 910,
+        "y": 260,
+        "wires": [
+            [
+                "fc66c0325f0f0f68",
+                "1d590e27dbc81cd6",
+                "cab50461e58ef119"
+            ],
+            [
+                "fc66c0325f0f0f68",
+                "d5d65eed1cc2d595"
+            ],
+            [
+                "fc66c0325f0f0f68"
+            ]
+        ]
+    },
+    {
+        "id": "fc66c0325f0f0f68",
+        "type": "debug",
+        "z": "27eea1c2d9ac95bb",
+        "name": "debug 33",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "f1fa44d08cbcb7eb",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "Build Read Obis Command",
+        "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.read_obis\nlet clientAdd = msg.meterAd\nlet password = msg.meterPass\nlet cashFile = msg.profile\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" \" + msg.meterAd + \" \" + msg.meterPass + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o /usr/src/app/\" + cashFile + \".xml\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 260,
+        "wires": [
+            [
+                "360489f1c53f4f2d"
+            ]
+        ]
+    },
+    {
+        "id": "a2e9780ff9d3ae58",
+        "type": "link in",
+        "z": "27eea1c2d9ac95bb",
+        "name": "Gurux Read V2",
+        "links": [
+            "fe2bba608a4cb55d"
+        ],
+        "x": 185,
+        "y": 260,
+        "wires": [
+            [
+                "411739f032457819"
+            ]
+        ]
+    },
+    {
+        "id": "1d590e27dbc81cd6",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "Format Read OBIS Data",
+        "func": "let dataString = msg.payload;\nlet dataArray = dataString.split(\"\\n\")\n\n\nlet obisStringArray = dataArray.filter(obisString => obisString.includes('Index'))\n\n\nmsg.regData = {}\n\nlet obiCurrentCode = \"\"\n\nobisStringArray.forEach(function (obisString) {\n    let obisArray = obisString.split(\": \")\n   \n\n    let obisindex = obisArray[1].split(\"V\")[0].trim()\n    \n\n    if (parseInt(obisindex) === 1) { \n        obiCurrentCode = obisArray[2].trim()\n    }\n\n    msg.regData[obiCurrentCode + \":\" + obisindex] = obisArray[2].trim()\n\n});\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1270,
+        "y": 200,
+        "wires": [
+            [
+                "a54d25a717f6b718"
+            ]
+        ]
+    },
+    {
+        "id": "a54d25a717f6b718",
+        "type": "link out",
+        "z": "27eea1c2d9ac95bb",
+        "name": "link out 6",
+        "mode": "link",
+        "links": [
+            "fea414a95f926870"
+        ],
+        "x": 1625,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "9faa69f9484357d6",
+        "type": "catch",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 760,
+        "y": 40,
+        "wires": [
+            [
+                "e3a02b947eda3d69",
+                "22846360a11da18c"
+            ]
+        ]
+    },
+    {
+        "id": "e3a02b947eda3d69",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "Build Error",
+        "func": "msg.regData = {}\n\nmsg.regData[\"Error\"] = msg.error.source.id + \":\" + \":\" + msg.error.source.type +msg.error.source.name + \" : \" + msg.error.message\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 40,
+        "wires": [
+            [
+                "211e1dc3ef6d50a0"
+            ]
+        ]
+    },
+    {
+        "id": "d5d65eed1cc2d595",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "Build Error",
+        "func": "msg.regData = {}\n\nmsg.regData[\"Error\"] = msg.payload\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1230,
+        "y": 260,
+        "wires": [
+            [
+                "a54d25a717f6b718"
+            ]
+        ]
+    },
+    {
+        "id": "411739f032457819",
+        "type": "switch",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "property": "read_obis",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": ".",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 350,
+        "y": 260,
+        "wires": [
+            [
+                "f1fa44d08cbcb7eb"
+            ]
+        ]
+    },
+    {
+        "id": "211e1dc3ef6d50a0",
+        "type": "delay",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "200",
+        "timeoutUnits": "milliseconds",
+        "rate": "4",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1130,
+        "y": 40,
+        "wires": [
+            [
+                "a54d25a717f6b718"
+            ]
+        ]
+    },
+    {
+        "id": "9a08c5c5d4595314",
+        "type": "switch",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "property": "billObis",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": ".",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 350,
+        "y": 560,
+        "wires": [
+            [
+                "5f0b3c4455965640"
+            ]
+        ]
+    },
+    {
+        "id": "5f0b3c4455965640",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "Build Billing Profile Command",
+        "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.billObis\nlet clientAdd = msg.meterAd\nlet password = msg.meterPass\nlet cashFile = msg.profile\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" \" + msg.meterAd + \" \" + msg.meterPass + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \":1'\" + \" -o /usr/src/app/\" + cashFile + \".xml\" +\" -M 'queryProfileByDate:01122000000000/01012024000000'\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 560,
+        "wires": [
+            [
+                "1c372cbd3c8b4326"
+            ]
+        ]
+    },
+    {
+        "id": "1c372cbd3c8b4326",
+        "type": "exec",
+        "z": "27eea1c2d9ac95bb",
+        "command": "python3",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Execute Billing Profile Command",
+        "x": 900,
+        "y": 560,
+        "wires": [
+            [
+                "5efb4be8823a6f87",
+                "ae53e1864c64b427"
+            ],
+            [
+                "5efb4be8823a6f87"
+            ],
+            [
+                "5efb4be8823a6f87"
+            ]
+        ]
+    },
+    {
+        "id": "5efb4be8823a6f87",
+        "type": "debug",
+        "z": "27eea1c2d9ac95bb",
+        "name": "debug 34",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1140,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "bc7e8d063ed5112d",
+        "type": "inject",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "host",
+                "v": "10.185.0.3",
+                "vt": "str"
+            },
+            {
+                "p": "port",
+                "v": "4059",
+                "vt": "str"
+            },
+            {
+                "p": "billObis",
+                "v": "0.0.21.0.11.255",
+                "vt": "str"
+            },
+            {
+                "p": "meterAd",
+                "v": "-c 100 -s 17",
+                "vt": "str"
+            },
+            {
+                "p": "meterPass",
+                "v": "-a Low -P \"MH_@DSEM\"",
+                "vt": "str"
+            },
+            {
+                "p": "profile",
+                "v": "ElectricalMeter-Electrometer",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 280,
+        "y": 440,
+        "wires": [
+            [
+                "9a08c5c5d4595314"
+            ]
+        ]
+    },
+    {
+        "id": "cab50461e58ef119",
+        "type": "delay",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "200",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 630,
+        "y": 400,
+        "wires": [
+            [
+                "9a08c5c5d4595314"
+            ]
+        ]
+    },
+    {
+        "id": "ae53e1864c64b427",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "Format Read OBIS Data",
+        "func": "let dataString = msg.payload;\nlet dataArray = dataString.split(\"\\n\")\nlet profileObis = dataArray[7].split(\"On \")[1].split(\" : \")[0]\n\n//dataArray = dataArray.slice(7, dataArray.length)\n\nlet obisStringArray = dataArray.filter(obisString => obisString.includes('::'))\nconsole.log(obisStringArray)\n\nmsg.obisData = {}\nlet regData = {}\nlet currentIndex = \"0\"\n\nobisStringArray.forEach(function (obisString ,id) {\n    let obisArray = obisString.split(\" :: \")\n    let index = obisArray[0]\n\n    let key = profileObis + \":\" + obisArray[1]\n    let value = obisArray[3]\n\n    if ((index != currentIndex && index != \"0\") || (obisStringArray.length -1 == id)){\n        if (obisStringArray.length - 1 == id) regData[key] = value\n        msg.obisData[parseInt(currentIndex)] = regData\n        regData = {}\n        regData[key] = value\n        currentIndex = index\n    } else regData[key] = value\n\n    \n})\nmsg.payload = msg.obisData\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1250,
+        "y": 540,
+        "wires": [
+            [
+                "1bd210459158ba91"
+            ]
+        ]
+    },
+    {
+        "id": "0d8ebfe733beafeb",
+        "type": "debug",
+        "z": "27eea1c2d9ac95bb",
+        "name": "debug 35",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "regData",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1660,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "22846360a11da18c",
+        "type": "debug",
+        "z": "27eea1c2d9ac95bb",
+        "name": "debug 36",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "1bd210459158ba91",
+        "type": "split",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 1430,
+        "y": 460,
+        "wires": [
+            [
+                "cdd186fd5ad77af2"
+            ]
+        ]
+    },
+    {
+        "id": "cdd186fd5ad77af2",
+        "type": "delay",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "200",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1590,
+        "y": 420,
+        "wires": [
+            [
+                "ec257cb463a7a41e",
+                "a54d25a717f6b718"
+            ]
+        ]
+    },
+    {
+        "id": "ec257cb463a7a41e",
+        "type": "change",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "regData",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1660,
+        "y": 500,
+        "wires": [
+            [
+                "0d8ebfe733beafeb"
+            ]
+        ]
+    },
+    {
+        "id": "69ccf11da49db2f7",
+        "type": "inject",
+        "z": "d43567c1be96ce60",
+        "name": "",
+        "props": [
+            {
+                "p": "regData",
+                "v": "{\"rawData\":\"/ISk5MT174-0004\\r\\n\\n/ISk5MT174-0004\\r\\n\\n\\u00021-0:0.9.1*255(193124)\\r\\n1-0:0.9.2*255(1221010)\\r\\n1-0:0.0.0*255(20671901)\\r\\n1-0:0.1.0*255(4)\\r\\n1-0:0.2.0*255(1.03)\\r\\n1-0:0.2.2*255(G11)\\r\\n0-0:C.1.0*255(20671901)\\r\\n0-0:C.1.6*255(FDF5)\\r\\n0-0:C.51.1*255(4)\\r\\n0-0:C.51.2*255(1210915001240)\\r\\n0-0:C.51.2*01(1210915001240)\\r\\n0-0:C.51.2*02(0210317102223)\\r\\n0-0:C.51.2*03(0210317102215)\\r\\n0-0:C.51.3*255(0)\\r\\n0-0:C.51.4*255()\\r\\n0-0:C.51.4*01()\\r\\n0-0:C.51.4*02()\\r\\n0-0:C.51.4*03()\\r\\n0-0:C.51.5*255(0)\\r\\n0-0:C.51.6*255()\\r\\n0-0:C.51.6*01()\\r\\n0-0:C.51.6*02()\\r\\n0-0:C.51.6*03()\\r\\n0-0:C.6.1*255(95.3654)\\r\\n0-0:C.7.0*255(30)\\r\\n1-0:1.6.0*255(00.00*kW)(2210101930)\\r\\n1-0:1.8.0*255(0000000.061*kWh)\\r\\n1-0:1.6.1*255(00.00*kW)(2210101930)\\r\\n1-0:1.8.1*255(0000000.061*kWh)\\r\\n1-0:1.6.2*255(00.00*kW)(0001011300)\\r\\n1-0:1.8.2*255(0000000.000*kWh)\\r\\n1-0:1.6.3*255(00.00*kW)(0001011300)\\r\\n1-0:1.8.3*255(0000000.000*kWh)\\r\\n1-0:1.6.4*255(00.00*kW)(0001011300)\\r\\n1-0:1.8.4*255(0000000.000*kWh)\\r\\n1-0:2.6.0*255(00.00*kW)(2210101930)\\r\\n1-0:2.8.0*255(0000000.000*kWh)\\r\\n1-0:2.6.1*255...\",\"\\u00021-0:0.9.1*255_value1\":\"193124\\r\",\"1-0:0.9.2*255_value1\":\"1221010\\r\",\"1-0:0.0.0*255_value1\":\"20671901\\r\",\"1-0:0.1.0*255_value1\":\"4\\r\",\"1-0:0.2.0*255_value1\":\"1.03\\r\",\"1-0:0.2.2*255_value1\":\"G11\\r\",\"0-0:C.1.0*255_value1\":\"20671901\\r\",\"0-0:C.1.6*255_value1\":\"FDF5\\r\",\"0-0:C.51.1*255_value1\":\"4\\r\",\"0-0:C.51.2*255_value1\":\"1210915001240\\r\",\"0-0:C.51.2*01_value1\":\"1210915001240\\r\",\"0-0:C.51.2*02_value1\":\"0210317102223\\r\",\"0-0:C.51.2*03_value1\":\"0210317102215\\r\",\"0-0:C.51.3*255_value1\":\"0\\r\",\"0-0:C.51.4*255_value1\":\"\\r\",\"0-0:C.51.4*01_value1\":\"\\r\",\"0-0:C.51.4*02_value1\":\"\\r\",\"0-0:C.51.4*03_value1\":\"\\r\",\"0-0:C.51.5*255_value1\":\"0\\r\",\"0-0:C.51.6*255_value1\":\"\\r\",\"0-0:C.51.6*01_value1\":\"\\r\",\"0-0:C.51.6*02_value1\":\"\\r\",\"0-0:C.51.6*03_value1\":\"\\r\",\"0-0:C.6.1*255_value1\":\"95.3654\\r\",\"0-0:C.7.0*255_value1\":\"30\\r\",\"1-0:1.6.0*255_value1\":\"00.00\",\"1-0:1.6.0*255_unit1\":\"kW\",\"1-0:1.6.0*255_value2\":\"2210101930\\r\",\"1-0:1.8.0*255_value1\":\"0000000.061\",\"1-0:1.8.0*255_unit1\":\"kWh\\r\",\"1-0:1.6.1*255_value1\":\"00.00\",\"1-0:1.6.1*255_unit1\":\"kW\",\"1-0:1.6.1*255_value2\":\"2210101930\\r\",\"1-0:1.8.1*255_value1\":\"0000000.061\",\"1-0:1.8.1*255_unit1\":\"kWh\\r\",\"1-0:1.6.2*255_value1\":\"00.00\",\"1-0:1.6.2*255_unit1\":\"kW\",\"1-0:1.6.2*255_value2\":\"0001011300\\r\",\"1-0:1.8.2*255_value1\":\"0000000.000\",\"1-0:1.8.2*255_unit1\":\"kWh\\r\",\"1-0:1.6.3*255_value1\":\"00.00\",\"1-0:1.6.3*255_unit1\":\"kW\",\"1-0:1.6.3*255_value2\":\"0001011300\\r\",\"1-0:1.8.3*255_value1\":\"0000000.000\",\"1-0:1.8.3*255_unit1\":\"kWh\\r\",\"1-0:1.6.4*255_value1\":\"00.00\",\"1-0:1.6.4*255_unit1\":\"kW\",\"1-0:1.6.4*255_value2\":\"0001011300\\r\",\"1-0:1.8.4*255_value1\":\"0000000.000\",\"1-0:1.8.4*255_unit1\":\"kWh\\r\",\"1-0:2.6.0*255_value1\":\"00.00\",\"1-0:2.6.0*255_unit1\":\"kW\",\"1-0:2.6.0*255_value2\":\"2210101930\\r\",\"1-0:2.8.0*255_value1\":\"0000000.000\",\"1-0:2.8.0*255_unit1\":\"kWh\\r\",\"1-0:2.6.1*255_value1\":\"00.00\",\"1-0:2.6.1*255_unit1\":\"kW\",\"1-0:2.6.1*255_value2\":\"2210101930\\r\",\"1-0:2.8.1*255_value1\":\"0000000.000\",\"1-0:2.8.1*255_unit1\":\"kWh\\r\",\"2.6.2*255_value1\":\"00.00\",\"2.6.2*255_unit1\":\"kW\",\"2.6.2*255_value2\":\"0001011300\\r\",\"1-0:2.8.2*255_value1\":\"0000000.000\",\"1-0:2.8.2*255_unit1\":\"kWh\\r\",\"1-0:2.6.3*255_value1\":\"00.00\",\"1-0:2.6.3*255_unit1\":\"kW\",\"1-0:2.6.3*255_value2\":\"0001011300\\r\",\"1-0:2.8.3*255_value1\":\"0000000.000\",\"1-0:2.8.3*255_unit1\":\"kWh\\r\",\"1-0:2.6.4*255_value1\":\"00.00\",\"1-0:2.6.4*255_unit1\":\"kW\",\"1-0:2.6.4*255_value2\":\"0001011300\\r\",\"1-0:2.8.4*255_value1\":\"0000000.000\",\"1-0:2.8.4*255_unit1\":\"kWh\\r\",\"1-0:15.6.0*255_value1\":\"00.00\",\"1-0:15.6.0*255_unit1\":\"kW\",\"1-0:15.6.0*255_value2\":\"2210101930\\r\",\"1-0:15.8.0*255_value1\":\"0000000.061\",\"1-0:15.8.0*255_unit1\":\"kWh\\r\",\"1-0:15.6.1*255_value1\":\"00.00\",\"1-0:15.6.1*255_unit1\":\"kW\",\"1-0:15.6.1*255_value2\":\"2210101930\\r\",\"1-0:15.8.1*255_value1\":\"0000000.061\",\"1-0:15.8.1*255_unit1\":\"kWh\\r\",\"1-0:15.6.2*255_value1\":\"00.00\",\"1-0:15.6.2*255_unit1\":\"kW\",\"1-0:15.6.2*255_value2\":\"0001011300\\r\",\"1-0:15.8.2*255_value1\":\"0000000.000\",\"1-0:15.8.2*255_unit1\":\"kWh\\r\",\"1-0:15.6.3*255_value1\":\"00.00\",\"1-0:15.6.3*255_unit1\":\"kW\",\"1-0:15.6.3*255_value2\":\"0001011300\\r\",\"1-0:15.8.3*255_value1\":\"0000000.000\",\"1-0:15.8.3*255_unit1\":\"kWh\\r\",\"1-0:15.6.4*255_value1\":\"00.00\",\"1-0:15.6.4*255_unit1\":\"kW\",\"1-0:15.6.4*255_value2\":\"0001\",\"1-0:15.8.4*255_value1\":\"0000000.000\",\"1-0:15.8.4*255_unit1\":\"kWh\\r\",\"1-0:3.8.0*255_value1\":\"0000000.001\",\"1-0:3.8.0*255_unit1\":\"kVArh\\r\",\"1-0:3.8.1*255_value1\":\"0000000.001\",\"1-0:3.8.1*255_unit1\":\"kVArh\\r\",\"1-0:3.8.2*255_value1\":\"0000000.000\",\"1-0:3.8.2*255_unit1\":\"kVArh\\r\",\"1-0:3.8.3*255_value1\":\"0000000.000\",\"1-0:3.8.3*255_unit1\":\"kVArh\\r\",\"1-0:3.8.4*255_value1\":\"0000000.000\",\"1-0:3.8.4*255_unit1\":\"kVArh\\r\",\"1-0:4.8.0*255_value1\":\"0000000.000\",\"1-0:4.8.0*255_unit1\":\"kVArh\\r\",\"1-0:4.8.1*255_value1\":\"0000000.000\",\"1-0:4.8.1*255_unit1\":\"kVArh\\r\",\"1-0:4.8.2*255_value1\":\"0000000.000\",\"1-0:4.8.2*255_unit1\":\"kVArh\\r\",\"1-0:4.8.3*255_value1\":\"0000000.000\",\"1-0:4.8.3*255_unit1\":\"kVArh\\r\",\"1-0:4.8.4*255_value1\":\"0000000.000\",\"1-0:4.8.4*255_unit1\":\"kVArh\\r\",\"1-0:5.8.0*255_value1\":\"0000000.001\",\"1-0:5.8.0*255_unit1\":\"kVArh\\r\",\"1-0:5.8.1*255_value1\":\"0000000.001\",\"1-0:5.8.1*255_unit1\":\"kVArh\\r\",\"1-0:5.8.2*255_value1\":\"0000000.000\",\"1-0:5.8.2*255_unit1\":\"kVArh\\r\",\"1-0:5.8.3*255_value1\":\"0000000.000\",\"1-0:5.8.3*255_unit1\":\"kVArh\\r\",\"1-0:5.8.4*255_value1\":\"0000000.000\",\"1-0:5.8.4*255_unit1\":\"kVArh\\r\",\"1-0:6.8.0*255_value1\":\"0000000.000\",\"1-0:6.8.0*255_unit1\":\"kVArh\\r\",\"1-0:6.8.1*255_value1\":\"0000000.000\",\"1-0:6.8.1*255_unit1\":\"kVArh\\r\",\"1-0:6.8.2*255_value1\":\"0000000.000\",\"1-0:6.8.2*255_unit1\":\"kVArh\\r\",\"1-0:6.8.3*255_value1\":\"0000000.000\",\"1-0:6.8.3*255_unit1\":\"kVArh\\r\",\"1-0:6.8.4*255_value1\":\"0000000.000\",\"1-0:6.8.4*255_unit1\":\"kVArh\\r\",\"1-0:7.8.0*255_value1\":\"0000000.000\",\"1-0:7.8.0*255_unit1\":\"kVArh\\r\",\"1-0:7.8.1*255_value1\":\"0000000.000\",\"1-0:7.8.1*255_unit1\":\"kVArh\\r\",\"1-0:7.8.2*255_value1\":\"0000000.000\",\"1-0:7.8.2*255_unit1\":\"kVArh\\r\",\"1-0:7.8.3*255_value1\":\"0000000.000\",\"1-0:7.8.3*255_unit1\":\"kVArh\\r\",\"1-0:7.8.4*255_value1\":\"0000000.000\",\"1-0:7.8.4*255_unit1\":\"kVArh\\r\",\"1-0:8.8.0*255_value1\":\"0000000.000\",\"1-0:8.8.0*255_unit1\":\"kVArh\\r\",\"1-0:8.8.1*255_value1\":\"0000000.000\",\"1-0:8.8.1*255_unit1\":\"kVArh\\r\",\"1-0:8.8.2*255_value1\":\"0000000.000\",\"1-0:8.8.2*255_unit1\":\"kVArh\\r\",\"1-0:8.8.3*255_value1\":\"0000000.000\",\"1-0:8.8.3*255_unit1\":\"kVAr\",\"1-0:8.8.4*255_value1\":\"0000000.000\",\"1-0:8.8.4*255_unit1\":\"kVArh\\r\",\"0-0:F.F.0*255_value1\":\"0000000\\r\",\"1-0:0.1.2*01_value1\":\"2210010000\\r\",\"1-0:0.1.2*02_value1\":\"2209010000\\r\",\"1-0:0.1.2*03_value1\":\"2208191851\\r\",\"1-0:0.1.2*04_value1\":\"2109132202\\r\",\"1-0:0.1.2*05_value1\":\"0001011300\\r\",\"1-0:0.1.2*06_value1\":\"0001011300\\r\",\"1-0:0.1.2*07_value1\":\"0001011300\\r\",\"1-0:0.1.2*08_value1\":\"0001011300\\r\",\"1-0:0.1.2*09_value1\":\"0001011300\\r\",\"1-0:0.1.2*10_value1\":\"0001011300\\r\",\"1-0:0.1.2*11_value1\":\"0001011300\\r\",\"1-0:0.1.2*12_value1\":\"0001011300\\r\",\"1-0:0.1.2*13_value1\":\"0001011300\\r\",\"1-0:0.1.2*14_value1\":\"0001011300\\r\",\"1-0:0.1.2*15_value1\":\"0001011300\\r\",\"1-0:1.6.0*01_value1\":\"00.00\",\"1-0:1.6.0*01_unit1\":\"kW\",\"1-0:1.6.0*01_value2\":\"2210010000\\r\",\"1-0:1.6.0*02_value1\":\"00.00\",\"1-0:1.6.0*02_unit1\":\"kW\",\"1-0:1.6.0*02_value2\":\"22090\",\"1-0:1.6.0*03_value1\":\"00.24\",\"1-0:1.6.0*03_unit1\":\"kW\",\"1-0:1.6.0*03_value2\":\"2109151515\\r\",\"1-0:1.6.0*04_value1\":\"00.00\",\"1-0:1.6.0*04_unit1\":\"kW\",\"1-0:1.6.0*04_value2\":\"2109132215\\r\",\"1-0:1.6.0*05_value1\":\"00.00\",\"1-0:1.6.0*05_unit1\":\"kW\",\"1-0:1.6.0*05_value2\":\"0001011300\\r\",\"1-0:1.6.0*06_value1\":\"00.00\",\"1-0:1.6.0*06_unit1\":\"kW\",\"1-0:1.6.0*06_value2\":\"0001011300\\r\",\"1-0:1.6.0*07_value1\":\"00.00\",\"1-0:1.6.0*07_unit1\":\"kW\",\"1-0:1.6.0*07_value2\":\"0001011300\\r\",\"1-0:1.6.0*08_value1\":\"00.00\",\"1-0:1.6.0*08_unit1\":\"kW\",\"1-0:1.6.0*08_value2\":\"0001011300\\r\",\"1-0:1.6.0*09_value1\":\"00.00\",\"1-0:1.6.0*09_unit1\":\"kW\",\"1-0:1.6.0*09_value2\":\"0001011300\\r\",\"1-0:1.6.0*10_value1\":\"00.00\",\"1-0:1.6.0*10_unit1\":\"kW\",\"1-0:1.6.0*10_value2\":\"0001011300\\r\",\"1-0:1.6.0*11_value1\":\"00.00\",\"1-0:1.6.0*11_unit1\":\"kW\",\"1-0:1.6.0*11_value2\":\"0001011300\\r\",\"1-0:1.6.0*12_value1\":\"00.00\",\"1-0:1.6.0*12_unit1\":\"kW\",\"1-0:1.6.0*12_value2\":\"0001011300\\r\",\"1-0:1.6.0*13_value1\":\"00.00\",\"1-0:1.6.0*13_unit1\":\"kW\",\"1-0:1.6.0*13_value2\":\"0001011300\\r\",\"1-0:1.6.0*14_value1\":\"00.00\",\"1-0:1.6.0*14_unit1\":\"kW\",\"1-0:1.6.0*14_value2\":\"0001011300\\r\",\"1-0:1.6.0*15_value1\":\"00.00\",\"1-0:1.6.0*15_unit1\":\"kW\",\"1-0:1.6.0*15_value2\":\"0001011300\\r\",\"1-0:1.8.0*01_value1\":\"0000000.061\",\"1-0:1.8.0*01_unit1\":\"kWh\\r\",\"1-0:1.8.0*02_value1\":\"0000000.061\",\"1-0:1.8.0*02_unit1\":\"kWh\\r\",\"1-0:1.8.0*03_value1\":\"0000000.061\",\"1-0:1.8.0*03_unit1\":\"kWh\\r\",\"1-0:1.8.0*04_value1\":\"0000000.000\",\"1-0:1.8.0*04_unit1\":\"kWh\\r\",\"1-0:1.8.0*05_value1\":\"0000000.000\",\"1-0:1.8.0*05_unit1\":\"kWh\\r\",\"1-0:1.8.0*06_value1\":\"0000000.000\",\"1-0:1.8.0*06_unit1\":\"kWh\\r\",\"1-0:1.8.0*07_value1\":\"0000000.000\",\"1-0:1.8.0*07_unit1\":\"kWh\\r\",\"1-0:1.8.0*08_value1\":\"0000000.000\",\"1-0:1.8.0*08_unit1\":\"kWh\\r\",\"1-0:1.8.0*09_value1\":\"0000000.000\",\"1-0:1.8.0*09_unit1\":\"kWh\\r\",\"1-0:1.8.0*10_value1\":\"0000000.000\",\"1-0:1.8.0*10_unit1\":\"kWh\\r\",\"1-0:1.8.0*11_value1\":\"0000000.000\",\"1-0:1.8.0*11_unit1\":\"kWh\\r\",\"1-0:1.8.0*12_value1\":\"0000000.000\",\"1-0:1.8.0*12_unit1\":\"kWh\\r\",\"1-0:1.8.0*13_value1\":\"0000000.000\",\"1-0:1.8.0*13_unit1\":\"kWh\\r\",\"1-0:1.8.0*14_value1\":\"0000000.000\",\"1-0:1.8.0*14_unit1\":\"kWh\\r\",\"1-0:1.8.0*15_value1\":\"0000000.000\",\"1-0:1.8.0*15_unit1\":\"kWh\\r\",\"1-0:1.6.1*01_value1\":\"00.00\",\"1-0:1.6.1*01_unit1\":\"kW\",\"1-0:1.6.1*01_value2\":\"2210010000\\r\",\"1-0:1.6.1*02_value1\":\"00.00\",\"1-0:1.6.1*02_unit1\":\"kW\",\"1-0:1.6.1*02_value2\":\"2209010000\\r\",\"3_value1\":\"0000000.000\",\"3_unit1\":\"kWh\\r\",\"1-0:1.6.1*04_value1\":\"00.00\",\"1-0:1.6.1*04_unit1\":\"kW\",\"1-0:1.6.1*04_value2\":\"2109132215\\r\",\"1-0:1.6.1*05_value1\":\"00.00\",\"1-0:1.6.1*05_unit1\":\"kW\",\"1-0:1.6.1*05_value2\":\"0001011300\\r\",\"1-0:1.6.1*06_value1\":\"00.00\",\"1-0:1.6.1*06_unit1\":\"kW\",\"1-0:1.6.1*06_value2\":\"0001011300\\r\",\"1-0:1.6.1*07_value1\":\"00.00\",\"1-0:1.6.1*07_unit1\":\"kW\",\"1-0:1.6.1*07_value2\":\"0001011300\\r\",\"1-0:1.6.1*08_value1\":\"00.00\",\"1-0:1.6.1*08_unit1\":\"kW\",\"1-0:1.6.1*08_value2\":\"0001011300\\r\",\"1-0:1.6.1*09_value1\":\"00.00\",\"1-0:1.6.1*09_unit1\":\"kW\",\"1-0:1.6.1*09_value2\":\"0001011300\\r\",\"1-0:1.6.1*10_value1\":\"00.00\",\"1-0:1.6.1*10_unit1\":\"kW\",\"1-0:1.6.1*10_value2\":\"0001011300\\r\",\"1-0:1.6.1*11_value1\":\"00.00\",\"1-0:1.6.1*11_unit1\":\"kW\",\"1-0:1.6.1*11_value2\":\"0001011300\\r\",\"1-0:1.6.1*12_value1\":\"00.00\",\"1-0:1.6.1*12_unit1\":\"kW\",\"1-0:1.6.1*12_value2\":\"0001011300\\r\",\"1-0:1.6.1*13_value1\":\"00.00\",\"1-0:1.6.1*13_unit1\":\"kW\",\"1-0:1.6.1*13_value2\":\"0001011300\\r\",\"1-0:1.6.1*14_value1\":\"00.00\",\"1-0:1.6.1*14_unit1\":\"kW\",\"1-0:1.6.1*14_value2\":\"0001011300\\r\",\"1-0:1.6.1*15_value1\":\"00.00\",\"1-0:1.6.1*15_unit1\":\"kW\",\"1-0:1.6.1*15_value2\":\"0001011300\\r\",\"1-0:1.6.2*01_value1\":\"00.00\",\"1-0:1.6.2*01_unit1\":\"kW\",\"1-0:1.6.2*01_value2\":\"0001011300\\r\",\"1-0:1.6.2*02_value1\":\"00.00\",\"1-0:1.6.2*02_unit1\":\"kW\",\"1-0:1.6.2*02_value2\":\"\",\"1-0:1.6.2*03_value1\":\"00.00\",\"1-0:1.6.2*03_unit1\":\"kW\",\"1-0:1.6.2*03_value2\":\"0001011300\\r\",\"1-0:1.6.2*04_value1\":\"00.00\",\"1-0:1.6.2*04_unit1\":\"kW\",\"1-0:1.6.2*04_value2\":\"0001011300\\r\",\"1-0:1.6.2*05_value1\":\"00.00\",\"1-0:1.6.2*05_unit1\":\"kW\",\"1-0:1.6.2*05_value2\":\"0001011300\\r\",\"1-0:1.6.2*06_value1\":\"00.00\",\"1-0:1.6.2*06_unit1\":\"kW\",\"1-0:1.6.2*06_value2\":\"0001011300\\r\",\"1-0:1.6.2*07_value1\":\"00.00\",\"1-0:1.6.2*07_unit1\":\"kW\",\"1-0:1.6.2*07_value2\":\"0001011300\\r\",\"1-0:1.6.2*08_value1\":\"00.00\",\"1-0:1.6.2*08_unit1\":\"kW\",\"1-0:1.6.2*08_value2\":\"0001011300\\r\",\"1-0:1.6.2*09_value1\":\"00.00\",\"1-0:1.6.2*09_unit1\":\"kW\",\"1-0:1.6.2*09_value2\":\"0001011300\\r\",\"1-0:1.6.2*10_value1\":\"00.00\",\"1-0:1.6.2*10_unit1\":\"kW\",\"1-0:1.6.2*10_value2\":\"0001011300\\r\",\"1-0:1.6.2*11_value1\":\"00.00\",\"1-0:1.6.2*11_unit1\":\"kW\",\"1-0:1.6.2*11_value2\":\"0001011300\\r\",\"1-0:1.6.2*12_value1\":\"00.00\",\"1-0:1.6.2*12_unit1\":\"kW\",\"1-0:1.6.2*12_value2\":\"0001011300\\r\",\"1-0:1.6.2*13_value1\":\"00.00\",\"1-0:1.6.2*13_unit1\":\"kW\",\"1-0:1.6.2*13_value2\":\"0001011300\\r\",\"1-0:1.6.2*14_value1\":\"00.00\",\"1-0:1.6.2*14_unit1\":\"kW\",\"1-0:1.6.2*14_value2\":\"0001011300\\r\",\"1-0:1.6.2*15_value1\":\"00.00\",\"1-0:1.6.2*15_unit1\":\"kW\",\"1-0:1.6.2*15_value2\":\"0001011300\\r\",\"1-0:1.6.3*01_value1\":\"00.00\",\"1-0:1.6.3*01_unit1\":\"kW\",\"1-0:1.6.3*01_value2\":\"0001011300\\r\",\"1-0:1.6.3*02_value1\":\"00.00\",\"1-0:1.6.3*02_unit1\":\"kW\",\"1-0:1.6.3*02_value2\":\"0001011300\\r\",\"1-0:1.6.3*03_value1\":\"00.00\",\"1-0:1.6.3*03_unit1\":\"kW\",\"1-0:1.6.3*03_value2\":\"0001011300\\r\",\"1-0:1.6.3*04_value1\":\"00.00\",\"1-0:1.6.3*04_unit1\":\"kW\",\"1-0:1.6.3*04_value2\":\"0001011300\\r\",\"1-0:1.6.3*05_value1\":\"00.00\",\"1-0:1.6.3*05_unit1\":\"kW\",\"1-0:1.6.3*05_value2\":\"0001011300\\r\",\"1-0:1.6.3*06_value1\":\"00.00\",\"1-0:1.6.3*06_unit1\":\"kW\",\"1-0:1.6.3*06_value2\":\"0001011300\\r\",\"1-0:1.6.3*07_value1\":\"00.00\",\"1-0:1.6.3*07_unit1\":\"kW\",\"1-0:1.6.3*07_value2\":\"0001011300\\r\",\"1-0:1.6.3*08_value1\":\"00.00\",\"1-0:1.6.3*08_unit1\":\"kW\",\"1-0:1.6.3*08_value2\":\"0001011300\\r\",\"1-0:1.6.3*09_value1\":\"00.00\",\"1-0:1.6.3*09_unit1\":\"kW\",\"1-0:1.6.3*09_value2\":\"0001011300\\r\",\"1-0:1.6.3*10_value1\":\"00.00\",\"1-0:1.6.3*10_unit1\":\"kW\",\"1-0:1.6.3*10_value2\":\"0001011300\\r\",\"1-0:1.6.3*11_value1\":\"00.00\",\"1-0:1.6.3*11_unit1\":\"kW\",\"1-0:1.6.3*11_value2\":\"0001011300\\r\",\"1-0:1.6.3*12_value1\":\"00.00\",\"1-0:1.6.3*12_unit1\":\"kW\",\"1-0:1.6.3*12_value2\":\"0001011300\\r\",\"1-0:1.6.3*13_value1\":\"00.00\",\"1-0:1.6.3*13_unit1\":\"kW\",\"1-0:1.6.3*13_value2\":\"0001011300\\r\",\"1-0:1.6.3*14_value1\":\"00.00\",\"1-0:1.6.3*14_unit1\":\"kW\",\"1-0:1.6.3*14_value2\":\"0001011300\\r\",\"1-0:1.6.3*15_value1\":\"00.00\",\"1-0:1.6.3*15_unit1\":\"kW\",\"1-0:1.6.3*15_value2\":\"0001011300\\r\",\":1.6.4*01_value1\":\"00.00\",\":1.6.4*01_unit1\":\"kW\",\":1.6.4*01_value2\":\"0001011300\\r\",\"1-0:1.6.4*02_value1\":\"00.00\",\"1-0:1.6.4*02_unit1\":\"kW\",\"1-0:1.6.4*02_value2\":\"0001011300\\r\",\"1-0:1.6.4*03_value1\":\"00.00\",\"1-0:1.6.4*03_unit1\":\"kW\",\"1-0:1.6.4*03_value2\":\"0001011300\\r\",\"1-0:1.6.4*04_value1\":\"00.00\",\"1-0:1.6.4*04_unit1\":\"kW\",\"1-0:1.6.4*04_value2\":\"0001011300\\r\",\"1-0:1.6.4*05_value1\":\"00.00\",\"1-0:1.6.4*05_unit1\":\"kW\",\"1-0:1.6.4*05_value2\":\"0001011300\\r\",\"1-0:1.6.4*06_value1\":\"00.00\",\"1-0:1.6.4*06_unit1\":\"kW\",\"1-0:1.6.4*06_value2\":\"0001011300\\r\",\"1-0:1.6.4*07_value1\":\"00.00\",\"1-0:1.6.4*07_unit1\":\"kW\",\"1-0:1.6.4*07_value2\":\"0001011300\\r\",\"1-0:1.6.4*08_value1\":\"00.00\",\"1-0:1.6.4*08_unit1\":\"kW\",\"1-0:1.6.4*08_value2\":\"0001011300\\r\",\"1-0:1.6.4*09_value1\":\"00.00\",\"1-0:1.6.4*09_unit1\":\"kW\",\"1-0:1.6.4*09_value2\":\"0001011300\\r\",\"1-0:1.6.4*10_value1\":\"00.00\",\"1-0:1.6.4*10_unit1\":\"kW\",\"1-0:1.6.4*10_value2\":\"0001011300\\r\",\"1-0:1.6.4*11_value1\":\"00.00\",\"1-0:1.6.4*11_unit1\":\"kW\",\"1-0:1.6.4*11_value2\":\"0001011300\\r\",\"1-0:1.6.4*12_value1\":\"00.00\",\"1-0:1.6.4*12_unit1\":\"kW\",\"1-0:1.6.4*12_value2\":\"0001011300\\r\",\"1-0:1.6.4*13_value1\":\"00.00\",\"1-0:1.6.4*13_unit1\":\"kW\",\"1-0:1.6.4*13_value2\":\"0001011300\\r\",\"1-0:1.6.4*14_value1\":\"00.00\",\"1-0:1.6.4*14_unit1\":\"kW\",\"1-0:1.6.4*14_value2\":\"0001011300\\r\",\"1-0:1.6.4*15_value1\":\"00\",\".00*kW)_value1\":\"0001011300\\r\",\"1-0:1.8.1*01_value1\":\"0000000.061\",\"1-0:1.8.1*01_unit1\":\"kWh\\r\",\"1-0:1.8.1*02_value1\":\"0000000.061\",\"1-0:1.8.1*02_unit1\":\"kWh\\r\",\"1-0:1.8.1*03_value1\":\"0000000.061\",\"1-0:1.8.1*03_unit1\":\"kWh\\r\",\"1-0:1.8.1*04_value1\":\"0000000.000\",\"1-0:1.8.1*04_unit1\":\"kWh\\r\",\"1-0:1.8.1*05_value1\":\"0000000.000\",\"1-0:1.8.1*05_unit1\":\"kWh\\r\",\"1-0:1.8.1*06_value1\":\"0000000.000\",\"1-0:1.8.1*06_unit1\":\"kWh\\r\",\"1-0:1.8.1*07_value1\":\"0000000.000\",\"1-0:1.8.1*07_unit1\":\"kWh\\r\",\"1-0:1.8.1*08_value1\":\"0000000.000\",\"1-0:1.8.1*08_unit1\":\"kWh\\r\",\"1-0:1.8.1*09_value1\":\"0000000.000\",\"1-0:1.8.1*09_unit1\":\"kWh\\r\",\"1-0:1.8.1*10_value1\":\"0000000.000\",\"1-0:1.8.1*10_unit1\":\"kWh\\r\",\"1-0:1.8.1*11_value1\":\"0000000.000\",\"1-0:1.8.1*11_unit1\":\"kWh\\r\",\"1-0:1.8.1*12_value1\":\"0000000.000\",\"1-0:1.8.1*12_unit1\":\"kWh\\r\",\"1-0:1.8.1*13_value1\":\"0000000.000\",\"1-0:1.8.1*13_unit1\":\"kWh\\r\",\"1-0:1.8.1*14_value1\":\"0000000.000\",\"1-0:1.8.1*14_unit1\":\"kWh\\r\",\"1-0:1.8.1*15_value1\":\"0000000.000\",\"1-0:1.8.1*15_unit1\":\"kWh\\r\",\"1-0:1.8.2*01_value1\":\"0000000.000\",\"1-0:1.8.2*01_unit1\":\"kWh\\r\",\"1-0:1.8.2*02_value1\":\"0000000.000\",\"1-0:1.8.2*02_unit1\":\"kWh\\r\",\"1-0:1.8.2*03_value1\":\"0000000.000\",\"1-0:1.8.2*03_unit1\":\"kWh\\r\",\"1-0:1.8.2*04_value1\":\"0000000.000\",\"1-0:1.8.2*04_unit1\":\"kWh\\r\",\"1-0:1.8.2*05_value1\":\"0000000.000\",\"1-0:1.8.2*05_unit1\":\"kWh\\r\",\"1-0:1.8.2*06_value1\":\"0000000.000\",\"1-0:1.8.2*06_unit1\":\"kWh\\r\",\"1-0:1.8.2*07_value1\":\"0000000.000\",\"1-0:1.8.2*07_unit1\":\"kWh\\r\",\"1-0:1.8.2*08_value1\":\"0000000.000\",\"1-0:1.8.2*08_unit1\":\"kWh\\r\",\"1-0:1.8.2*09_value1\":\"0000000.000\",\"1-0:1.8.2*09_unit1\":\"kWh\\r\",\"1-0:1.8.2*10_value1\":\"0000000.000\",\"1-0:1.8.2*10_unit1\":\"kWh\\r\",\"1-0:1.8.2*11_value1\":\"0000000.000\",\"1-0:1.8.2*11_unit1\":\"kWh\\r\",\"1-0:1.8.2*12_value1\":\"0000000.000\",\"1-0:1.8.2*12_unit1\":\"kWh\\r\",\"1-0:1.8.2*13_value1\":\"0000000.000\",\"1-0:1.8.2*13_unit1\":\"kWh\\r\",\"1-0:1.8.2*14_value1\":\"0000000.000\",\"1-0:1.8.2*14_unit1\":\"kWh\\r\",\"1-0:1.8.2*15_value1\":\"0000000.000\",\"1-0:1.8.2*15_unit1\":\"kWh\\r\",\"1-0:1.8.3*01_value1\":\"0000000.000\",\"1-0:1.8.3*01_unit1\":\"kWh\\r\",\"1-0:1.8.3*02_value1\":\"0000000.000\",\"1-0:1.8.3*02_unit1\":\"kWh\\r\",\"1-0:1.8.3*04_value1\":\"0000000.000\",\"1-0:1.8.3*04_unit1\":\"kWh\\r\",\"1-0:1.8.3*05_value1\":\"0000000.000\",\"1-0:1.8.3*05_unit1\":\"kWh\\r\",\"1-0:1.8.3*06_value1\":\"0000000.000\",\"1-0:1.8.3*06_unit1\":\"kWh\\r\",\"1-0:1.8.3*07_value1\":\"0000000.000\",\"1-0:1.8.3*07_unit1\":\"kWh\\r\",\"1-0:1.8.3*08_value1\":\"0000000.000\",\"1-0:1.8.3*08_unit1\":\"kWh\\r\",\"1-0:1.8.3*09_value1\":\"0000000.000\",\"1-0:1.8.3*09_unit1\":\"kWh\\r\",\"1-0:1.8.3*10_value1\":\"0000000.000\",\"1-0:1.8.3*10_unit1\":\"kWh\\r\",\"1-0:1.8.3*11_value1\":\"0000000.000\",\"1-0:1.8.3*11_unit1\":\"kWh\\r\",\"1-0:1.8.3*12_value1\":\"0000000.000\",\"1-0:1.8.3*12_unit1\":\"kWh\\r\",\"1-0:1.8.3*13_value1\":\"0000000.000\",\"1-0:1.8.3*13_unit1\":\"kWh\\r\",\"1-0:1.8.3*14_value1\":\"0000000.000\",\"1-0:1.8.3*14_unit1\":\"kWh\\r\",\"1-0:1.8.3*15_value1\":\"0000000.000\",\"1-0:1.8.3*15_unit1\":\"kWh\\r\",\"1-0:1.8.4*01_value1\":\"0000000.000\",\"1-0:1.8.4*01_unit1\":\"kWh\\r\",\"1-0:1.8.4*02_value1\":\"0000000.000\",\"1-0:1.8.4*02_unit1\":\"kWh\\r\",\"1-0:1.8.4*03_value1\":\"0000000.000\",\"1-0:1.8.4*03_unit1\":\"kWh\\r\",\"1-0:1.8.4*04_value1\":\"0000000.000\",\"1-0:1.8.4*04_unit1\":\"kWh\\r\",\"1-0:1.8.4*05_value1\":\"0000000.000\",\"1-0:1.8.4*05_unit1\":\"kWh\\r\",\"1-0:1.8.4*06_value1\":\"0000000.000\",\"1-0:1.8.4*06_unit1\":\"kWh\\r\",\"1-0:1.8.4*07_value1\":\"0000000.000\",\"1-0:1.8.4*07_unit1\":\"kWh\\r\",\"1-0:1.8.4*08_value1\":\"0000000.000\",\"1-0:1.8.4*08_unit1\":\"kWh\\r\",\"1-0:1.8.4*09_value1\":\"0000000.000\",\"1-0:1.8.4*09_unit1\":\"kWh\\r\",\"1-0:1.8.4*10_value1\":\"0000000.000\",\"1-0:1.8.4*10_unit1\":\"kWh\\r\",\"1-0:1.8.4*11_value1\":\"0000000.000\",\"1-0:1.8.4*11_unit1\":\"kWh\\r\",\"1-0:1.8.4*12_value1\":\"0000000.000\",\"1-0:1.8.4*12_unit1\":\"kWh\\r\",\"1-0:1.8.4*13_value1\":\"0000000.000\",\"1-0:1.8.4*13_unit1\":\"kWh\\r\",\"1-0:1.8.4*14_value1\":\"0000000.000\",\"1-0:1.8.4*14_unit1\":\"kWh\\r\",\"1-0:1.8.4*15_value1\":\"0000000.000\",\"1-0:1.8.4*15_unit1\":\"kWh\\r\",\"1-0:2.8.0*01_value1\":\"0000000.000\",\"1-0:2.8.0*01_unit1\":\"kWh\\r\",\"1-0:2.8.0*02_value1\":\"0000000.000\",\"1-0:2.8.0*02_unit1\":\"kWh\\r\",\"1-0:2.8.0*03_value1\":\"0000000.000\",\"1-0:2.8.0*03_unit1\":\"kWh\\r\",\"1-0:2.8.0*04_value1\":\"0000000.000\",\"1-0:2.8.0*04_unit1\":\"kWh\\r\",\"1-0:2.8.0*05_value1\":\"0000000.000\",\"1-0:2.8.0*05_unit1\":\"kWh\\r\",\"1-0:2.8.0*06_value1\":\"0000000.000\",\"1-0:2.8.0*06_unit1\":\"kWh\\r\",\"1-0:2.8.0*07_value1\":\"0000000.000\",\"1-0:2.8.0*07_unit1\":\"kWh\\r\",\"1-0:2.8.0*08_value1\":\"0000000.000\",\"1-0:2.8.0*08_unit1\":\"kWh\\r\",\"1-0:2.8.0*09_value1\":\"0000000.000\",\"1-0:2.8.0*09_unit1\":\"kWh\\r\",\"1-0:2.8.0*10_value1\":\"0000000.000\",\"1-0:2.8.0*10_unit1\":\"kWh\\r\",\"1-0:2.8.0*11_value1\":\"0000000.000\",\"1-0:2.8.0*11_unit1\":\"kWh\\r\",\"1-0:2.8.0*12_value1\":\"0000000.000\",\"1-0:2.8.0*12_unit1\":\"kWh\\r\",\"1-0:2.8.0*13_value1\":\"0000000.000\",\"1-0:2.8.0*13_unit1\":\"kWh\\r\",\"1-0:2.8.0*14_value1\":\"0000000.000\",\"1-0:2.8.0*14_unit1\":\"kWh\\r\",\"1-0:2.8.0*15_value1\":\"0000000.000\",\"1-0:2.8.0*15_unit1\":\"kWh\\r\",\"1-0:2.6.1*01_value1\":\"00.00\",\"1-0:2.6.1*01_unit1\":\"kW\",\"1-0:2.6.1*01_value2\":\"2210010000\\r\",\"1-0:2.6.1*02_value1\":\"00.00\",\"1-0:2.6.1*02_unit1\":\"kW\",\"1-0:2.6.1*02_value2\":\"2209010000\\r\",\"1-0:2.6.1*03_value1\":\"00.00\",\"1-0:2.6.1*03_unit1\":\"kW\",\"1-0:2.6.1*03_value2\":\"2208191900\\r\",\"1-0:2.6.1*04_value1\":\"00.00\",\"1-0:2.6.1*04_unit1\":\"kW\",\"1-0:2.6.1*04_value2\":\"2109132215\\r\",\"1-0:2.6.1*05_value1\":\"00.00\",\"1-0:2.6.1*05_unit1\":\"kW\",\"1-0:2.6.1*05_value2\":\"0001011300\\r\",\"1-0:2.6.1*06_value1\":\"00.00\",\"1-0:2.6.1*06_unit1\":\"kW\",\"1-0:2.6.1*06_value2\":\"0001011300\\r\",\"0:2.6.1*07_value1\":\"00.00\",\"0:2.6.1*07_unit1\":\"kW\",\"0:2.6.1*07_value2\":\"0001011300\\r\",\"1-0:2.6.1*08_value1\":\"00.00\",\"1-0:2.6.1*08_unit1\":\"kW\",\"1-0:2.6.1*08_value2\":\"0001011300\\r\",\"1-0:2.6.1*09_value1\":\"00.00\",\"1-0:2.6.1*09_unit1\":\"kW\",\"1-0:2.6.1*09_value2\":\"0001011300\\r\",\"1-0:2.6.1*10_value1\":\"00.00\",\"1-0:2.6.1*10_unit1\":\"kW\",\"1-0:2.6.1*10_value2\":\"0001011300\\r\",\"1-0:2.6.1*11_value1\":\"00.00\",\"1-0:2.6.1*11_unit1\":\"kW\",\"1-0:2.6.1*11_value2\":\"0001011300\\r\",\"1-0:2.6.1*12_value1\":\"00.00\",\"1-0:2.6.1*12_unit1\":\"kW\",\"1-0:2.6.1*12_value2\":\"0001011300\\r\",\"1-0:2.6.1*13_value1\":\"00.00\",\"1-0:2.6.1*13_unit1\":\"kW\",\"1-0:2.6.1*13_value2\":\"0001011300\\r\",\"1-0:2.6.1*14_value1\":\"00.00\",\"1-0:2.6.1*14_unit1\":\"kW\",\"1-0:2.6.1*14_value2\":\"0001011300\\r\",\"1-0:2.6.1*15_value1\":\"00.00\",\"1-0:2.6.1*15_unit1\":\"kW\",\"1-0:2.6.1*15_value2\":\"0001011300\\r\",\"1-0:2.6.2*01_value1\":\"00.00\",\"1-0:2.6.2*01_unit1\":\"kW\",\"1-0:2.6.2*01_value2\":\"0001011300\\r\",\"1-0:2.6.2*02_value1\":\"00.00\",\"1-0:2.6.2*02_unit1\":\"kW\",\"1-0:2.6.2*02_value2\":\"0001011300\\r\",\"1-0:2.6.2*03_value1\":\"00.00\",\"1-0:2.6.2*03_unit1\":\"kW\",\"1-0:2.6.2*03_value2\":\"0001011300\\r\",\"1-0:2.6.2*04_value1\":\"00.00\",\"1-0:2.6.2*04_unit1\":\"kW\",\"1-0:2.6.2*04_value2\":\"0001011300\\r\",\"1-0:2.6.2*05_value1\":\"00.00\",\"1-0:2.6.2*05_unit1\":\"kW\",\"1-0:2.6.2*05_value2\":\"0001011300\\r\",\"1-0:2.6.2*06_value1\":\"0\",\"0.00*kW)_value1\":\"0001011300\\r\",\"1-0:2.6.2*07_value1\":\"00.00\",\"1-0:2.6.2*07_unit1\":\"kW\",\"1-0:2.6.2*07_value2\":\"0001011300\\r\",\"1-0:2.6.2*08_value1\":\"00.00\",\"1-0:2.6.2*08_unit1\":\"kW\",\"1-0:2.6.2*08_value2\":\"0001011300\\r\",\"1-0:2.6.2*09_value1\":\"00.00\",\"1-0:2.6.2*09_unit1\":\"kW\",\"1-0:2.6.2*09_value2\":\"0001011300\\r\",\"1-0:2.6.2*10_value1\":\"00.00\",\"1-0:2.6.2*10_unit1\":\"kW\",\"1-0:2.6.2*10_value2\":\"0001011300\\r\",\"1-0:2.6.2*11_value1\":\"00.00\",\"1-0:2.6.2*11_unit1\":\"kW\",\"1-0:2.6.2*11_value2\":\"0001011300\\r\",\"1-0:2.6.2*12_value1\":\"00.00\",\"1-0:2.6.2*12_unit1\":\"kW\",\"1-0:2.6.2*12_value2\":\"0001011300\\r\",\"1-0:2.6.2*13_value1\":\"00.00\",\"1-0:2.6.2*13_unit1\":\"kW\",\"1-0:2.6.2*13_value2\":\"0001011300\\r\",\"1-0:2.6.2*14_value1\":\"00.00\",\"1-0:2.6.2*14_unit1\":\"kW\",\"1-0:2.6.2*14_value2\":\"0001011300\\r\",\"1-0:2.6.2*15_value1\":\"00.00\",\"1-0:2.6.2*15_unit1\":\"kW\",\"1-0:2.6.2*15_value2\":\"0001011300\\r\",\"1-0:2.6.3*01_value1\":\"00.00\",\"1-0:2.6.3*01_unit1\":\"kW\",\"1-0:2.6.3*01_value2\":\"0001011300\\r\",\"1-0:2.6.3*02_value1\":\"00.00\",\"1-0:2.6.3*02_unit1\":\"kW\",\"1-0:2.6.3*02_value2\":\"0001011300\\r\",\"1-0:2.6.3*03_value1\":\"00.00\",\"1-0:2.6.3*03_unit1\":\"kW\",\"1-0:2.6.3*03_value2\":\"0001011300\\r\",\"1-0:2.6.3*04_value1\":\"00.00\",\"1-0:2.6.3*04_unit1\":\"kW\",\"1-0:2.6.3*04_value2\":\"0001011300\\r\",\"1-0:2.6.3*05_value1\":\"00.00\",\"1-0:2.6.3*05_unit1\":\"kW\",\"1-0:2.6.3*05_value2\":\"0001011300\\r\",\"1-0:2.6.3*06_value1\":\"00.00\",\"1-0:2.6.3*06_unit1\":\"kW\",\"1-0:2.6.3*06_value2\":\"0001011300\\r\",\"1-0:2.6.3*07_value1\":\"00.00\",\"1-0:2.6.3*07_unit1\":\"kW\",\"1-0:2.6.3*07_value2\":\"0001011300\\r\",\"1-0:2.6.3*08_value1\":\"00.00\",\"1-0:2.6.3*08_unit1\":\"kW\",\"1-0:2.6.3*08_value2\":\"0001011300\\r\",\"1-0:2.6.3*09_value1\":\"00.00\",\"1-0:2.6.3*09_unit1\":\"kW\",\"1-0:2.6.3*09_value2\":\"0001011300\\r\",\"1-0:2.6.3*10_value1\":\"00.00\",\"1-0:2.6.3*10_unit1\":\"kW\",\"1-0:2.6.3*10_value2\":\"0001011300\\r\",\"1-0:2.6.3*11_value1\":\"00.00\",\"1-0:2.6.3*11_unit1\":\"kW\",\"1-0:2.6.3*11_value2\":\"0001011300\\r\",\"1-0:2.6.3*12_value1\":\"00.00\",\"1-0:2.6.3*12_unit1\":\"kW\",\"1-0:2.6.3*12_value2\":\"0001011300\\r\",\"1-0:2.6.3*13_value1\":\"00.00\",\"1-0:2.6.3*13_unit1\":\"kW\",\"1-0:2.6.3*13_value2\":\"0001011300\\r\",\"1-0:2.6.3*14_value1\":\"00.00\",\"1-0:2.6.3*14_unit1\":\"kW\",\"1-0:2.6.3*14_value2\":\"0001011300\\r\",\"1-0:2.6.3*15_value1\":\"00.00\",\"1-0:2.6.3*15_unit1\":\"kW\",\"1-0:2.6.3*15_value2\":\"0001011300\\r\",\"1-0:2.6.4*01_value1\":\"00.00\",\"1-0:2.6.4*01_unit1\":\"kW\",\"1-0:2.6.4*01_value2\":\"0001011300\\r\",\"1-0:2.6.4*02_value1\":\"00.00\",\"1-0:2.6.4*02_unit1\":\"kW\",\"1-0:2.6.4*02_value2\":\"0001011300\\r\",\"1-0:2.6.4*03_value1\":\"00.00\",\"1-0:2.6.4*03_unit1\":\"kW\",\"1-0:2.6.4*03_value2\":\"0001011300\\r\",\"1-0:2.6.4*04_value1\":\"00.00\",\"1-0:2.6.4*04_unit1\":\"kW\",\"1-0:2.6.4*04_value2\":\"0001011\",\"1-0:2.6.4*05_value1\":\"00.00\",\"1-0:2.6.4*05_unit1\":\"kW\",\"1-0:2.6.4*05_value2\":\"0001011300\\r\",\"1-0:2.6.4*06_value1\":\"00.00\",\"1-0:2.6.4*06_unit1\":\"kW\",\"1-0:2.6.4*06_value2\":\"0001011300\\r\",\"1-0:2.6.4*07_value1\":\"00.00\",\"1-0:2.6.4*07_unit1\":\"kW\",\"1-0:2.6.4*07_value2\":\"0001011300\\r\",\"1-0:2.6.4*08_value1\":\"00.00\",\"1-0:2.6.4*08_unit1\":\"kW\",\"1-0:2.6.4*08_value2\":\"0001011300\\r\",\"1-0:2.6.4*09_value1\":\"00.00\",\"1-0:2.6.4*09_unit1\":\"kW\",\"1-0:2.6.4*09_value2\":\"0001011300\\r\",\"1-0:2.6.4*10_value1\":\"00.00\",\"1-0:2.6.4*10_unit1\":\"kW\",\"1-0:2.6.4*10_value2\":\"0001011300\\r\",\"1-0:2.6.4*11_value1\":\"00.00\",\"1-0:2.6.4*11_unit1\":\"kW\",\"1-0:2.6.4*11_value2\":\"0001011300\\r\",\"1-0:2.6.4*12_value1\":\"00.00\",\"1-0:2.6.4*12_unit1\":\"kW\",\"1-0:2.6.4*12_value2\":\"0001011300\\r\",\"1-0:2.6.4*13_value1\":\"00.00\",\"1-0:2.6.4*13_unit1\":\"kW\",\"1-0:2.6.4*13_value2\":\"0001011300\\r\",\"1-0:2.6.4*14_value1\":\"00.00\",\"1-0:2.6.4*14_unit1\":\"kW\",\"1-0:2.6.4*14_value2\":\"0001011300\\r\",\"1-0:2.6.4*15_value1\":\"00.00\",\"1-0:2.6.4*15_unit1\":\"kW\",\"1-0:2.6.4*15_value2\":\"0001011300\\r\",\"1-0:2.8.1*01_value1\":\"0000000.000\",\"1-0:2.8.1*01_unit1\":\"kWh\\r\",\"1-0:2.8.1*02_value1\":\"0000000.000\",\"1-0:2.8.1*02_unit1\":\"kWh\\r\",\"1-0:2.8.1*03_value1\":\"0000000.000\",\"1-0:2.8.1*03_unit1\":\"kWh\\r\",\"1-0:2.8.1*04_value1\":\"0000000.000\",\"1-0:2.8.1*04_unit1\":\"kWh\\r\",\"1-0:2.8.1*05_value1\":\"0000000.000\",\"1-0:2.8.1*05_unit1\":\"kWh\\r\",\"1-0:2.8.1*06_value1\":\"0000000.000\",\"1-0:2.8.1*06_unit1\":\"kWh\\r\",\"1-0:2.8.1*07_value1\":\"0000000.000\",\"1-0:2.8.1*07_unit1\":\"kWh\\r\",\"1-0:2.8.1*08_value1\":\"0000000.000\",\"1-0:2.8.1*08_unit1\":\"kWh\\r\",\"1-0:2.8.1*09_value1\":\"0000000.000\",\"1-0:2.8.1*09_unit1\":\"kWh\\r\",\"1-0:2.8.1*10_value1\":\"0000000.000\",\"1-0:2.8.1*10_unit1\":\"kWh\\r\",\"1-0:2.8.1*11_value1\":\"0000000.000\",\"1-0:2.8.1*11_unit1\":\"kWh\\r\",\"1-0:2.8.1*12_value1\":\"0000000.000\",\"1-0:2.8.1*12_unit1\":\"kWh\\r\",\"1-0:2.8.1*13_value1\":\"0000000.000\",\"1-0:2.8.1*13_unit1\":\"kWh\\r\",\"1-0:2.8.1*14_value1\":\"0000000.000\",\"1-0:2.8.1*14_unit1\":\"kWh\\r\",\"1-0:2.8.1*15_value1\":\"0000000.000\",\"1-0:2.8.1*15_unit1\":\"kWh\\r\",\"1-0:2.8.2*01_value1\":\"0000000.000\",\"1-0:2.8.2*01_unit1\":\"kWh\\r\",\"1-0:2.8.2*02_value1\":\"0000000.000\",\"1-0:2.8.2*02_unit1\":\"kWh\\r\",\"1-0:2.8.2*03_value1\":\"0000000.000\",\"1-0:2.8.2*03_unit1\":\"kWh\\r\",\"1-0:2.8.2*04_value1\":\"0000000.000\",\"1-0:2.8.2*04_unit1\":\"kWh\\r\",\"1-0:2.8.2*05_value1\":\"0000000.000\",\"1-0:2.8.2*05_unit1\":\"kWh\\r\",\"0:2.8.2*06_value1\":\"0000000.000\",\"0:2.8.2*06_unit1\":\"kWh\\r\",\"1-0:2.8.2*07_value1\":\"0000000.000\",\"1-0:2.8.2*07_unit1\":\"kWh\\r\",\"1-0:2.8.2*08_value1\":\"0000000.000\",\"1-0:2.8.2*08_unit1\":\"kWh\\r\",\"1-0:2.8.2*09_value1\":\"0000000.000\",\"1-0:2.8.2*09_unit1\":\"kWh\\r\",\"1-0:2.8.2*10_value1\":\"0000000.000\",\"1-0:2.8.2*10_unit1\":\"kWh\\r\",\"1-0:2.8.2*11_value1\":\"0000000.000\",\"1-0:2.8.2*11_unit1\":\"kWh\\r\",\"1-0:2.8.2*12_value1\":\"0000000.000\",\"1-0:2.8.2*12_unit1\":\"kWh\\r\",\"1-0:2.8.2*13_value1\":\"0000000.000\",\"1-0:2.8.2*13_unit1\":\"kWh\\r\",\"1-0:2.8.2*14_value1\":\"0000000.000\",\"1-0:2.8.2*14_unit1\":\"kWh\\r\",\"1-0:2.8.2*15_value1\":\"0000000.000\",\"1-0:2.8.2*15_unit1\":\"kWh\\r\",\"1-0:2.8.3*01_value1\":\"0000000.000\",\"1-0:2.8.3*01_unit1\":\"kWh\\r\",\"1-0:2.8.3*02_value1\":\"0000000.000\",\"1-0:2.8.3*02_unit1\":\"kWh\\r\",\"1-0:2.8.3*03_value1\":\"0000000.000\",\"1-0:2.8.3*03_unit1\":\"kWh\\r\",\"1-0:2.8.3*04_value1\":\"0000000.000\",\"1-0:2.8.3*04_unit1\":\"kWh\\r\",\"1-0:2.8.3*05_value1\":\"0000000.000\",\"1-0:2.8.3*05_unit1\":\"kWh\\r\",\"1-0:2.8.3*06_value1\":\"0000000.000\",\"1-0:2.8.3*06_unit1\":\"kWh\\r\",\"1-0:2.8.3*07_value1\":\"0000000.000\",\"1-0:2.8.3*07_unit1\":\"kWh\\r\",\"1-0:2.8.3*08_value1\":\"0000000.000\",\"1-0:2.8.3*08_unit1\":\"kWh\\r\",\"1-0:2.8.3*09_value1\":\"0000000.000\",\"1-0:2.8.3*09_unit1\":\"kWh\\r\",\"1-0:2.8.3*10_value1\":\"0000000.000\",\"1-0:2.8.3*10_unit1\":\"kWh\\r\",\"1-0:2.8.3*11_value1\":\"0000000.000\",\"1-0:2.8.3*11_unit1\":\"kWh\\r\",\"1-0:2.8.3*12_value1\":\"0000000.000\",\"1-0:2.8.3*12_unit1\":\"kWh\\r\",\"1-0:2.8.3*13_value1\":\"0000000.000\",\"1-0:2.8.3*13_unit1\":\"kWh\\r\",\"1-0:2.8.3*14_value1\":\"0000000.000\",\"1-0:2.8.3*14_unit1\":\"kWh\\r\",\"1-0:2.8.3*15_value1\":\"0000000.000\",\"1-0:2.8.3*15_unit1\":\"kWh\\r\",\"1-0:2.8.4*01_value1\":\"0000000.000\",\"1-0:2.8.4*01_unit1\":\"kWh\\r\",\"1-0:2.8.4*02_value1\":\"0000000.000\",\"1-0:2.8.4*02_unit1\":\"kWh\\r\",\"1-0:2.8.4*03_value1\":\"0000000.000\",\"1-0:2.8.4*03_unit1\":\"kWh\\r\",\"1-0:2.8.4*04_value1\":\"0000000.000\",\"1-0:2.8.4*04_unit1\":\"kWh\\r\",\"1-0:2.8.4*05_value1\":\"0000000.000\",\"1-0:2.8.4*05_unit1\":\"kWh\\r\",\"1-0:2.8.4*06_value1\":\"0000000.000\",\"1-0:2.8.4*06_unit1\":\"kWh\\r\",\"1-0:2.8.4*07_value1\":\"0000000.000\",\"1-0:2.8.4*07_unit1\":\"kWh\\r\",\"1-0:2.8.4*08_value1\":\"0000000.000\",\"1-0:2.8.4*08_unit1\":\"kWh\\r\",\":2.8.4*09_value1\":\"0000000.000\",\":2.8.4*09_unit1\":\"kWh\\r\",\"1-0:2.8.4*10_value1\":\"0000000.000\",\"1-0:2.8.4*10_unit1\":\"kWh\\r\",\"1-0:2.8.4*11_value1\":\"0000000.000\",\"1-0:2.8.4*11_unit1\":\"kWh\\r\",\"1-0:2.8.4*12_value1\":\"0000000.000\",\"1-0:2.8.4*12_unit1\":\"kWh\\r\",\"1-0:2.8.4*13_value1\":\"0000000.000\",\"1-0:2.8.4*13_unit1\":\"kWh\\r\",\"1-0:2.8.4*14_value1\":\"0000000.000\",\"1-0:2.8.4*14_unit1\":\"kWh\\r\",\"1-0:2.8.4*15_value1\":\"0000000.000\",\"1-0:2.8.4*15_unit1\":\"kWh\\r\",\"1-0:3.8.0*01_value1\":\"0000000.001\",\"1-0:3.8.0*01_unit1\":\"kVArh\\r\",\"1-0:3.8.0*02_value1\":\"0000000.001\",\"1-0:3.8.0*02_unit1\":\"kVArh\\r\",\"1-0:3.8.0*03_value1\":\"0000000.001\",\"1-0:3.8.0*03_unit1\":\"kVArh\\r\",\"1-0:3.8.0*04_value1\":\"0000000.000\",\"1-0:3.8.0*04_unit1\":\"kVArh\\r\",\"1-0:3.8.0*05_value1\":\"0000000.000\",\"1-0:3.8.0*05_unit1\":\"kVArh\\r\",\"1-0:3.8.0*06_value1\":\"0000000.000\",\"1-0:3.8.0*06_unit1\":\"kVArh\\r\",\"1-0:3.8.0*07_value1\":\"0000000.000\",\"1-0:3.8.0*07_unit1\":\"kVArh\\r\",\"1-0:3.8.0*08_value1\":\"0000000.000\",\"1-0:3.8.0*08_unit1\":\"kVArh\\r\",\"1-0:3.8.0*09_value1\":\"0000000.000\",\"1-0:3.8.0*09_unit1\":\"kVArh\\r\",\"1-0:3.8.0*10_value1\":\"0000000.000\",\"1-0:3.8.0*10_unit1\":\"kVArh\\r\",\"1-0:3.8.0*11_value1\":\"0000000.000\",\"1-0:3.8.0*11_unit1\":\"kVArh\\r\",\"1-0:3.8.0*12_value1\":\"0000000.000\",\"1-0:3.8.0*12_unit1\":\"kVArh\\r\",\"1-0:3.8.0*13_value1\":\"0000000.000\",\"1-0:3.8.0*13_unit1\":\"kVArh\\r\",\"1-0:3.8.0*14_value1\":\"0000000.000\",\"1-0:3.8.0*14_unit1\":\"kVArh\\r\",\"1-0:3.8.0*15_value1\":\"0000000.000\",\"1-0:3.8.0*15_unit1\":\"kVArh\\r\",\"1-0:4.8.0*01_value1\":\"0000000.000\",\"1-0:4.8.0*01_unit1\":\"kVArh\\r\",\"1-0:4.8.0*02_value1\":\"0000000.000\",\"1-0:4.8.0*02_unit1\":\"kVArh\\r\",\"1-0:4.8.0*03_value1\":\"0000000.000\",\"1-0:4.8.0*03_unit1\":\"kVArh\\r\",\"1-0:4.8.0*04_value1\":\"0000000.000\",\"1-0:4.8.0*04_unit1\":\"kVArh\\r\",\"1-0:4.8.0*05_value1\":\"0000000.000\",\"1-0:4.8.0*05_unit1\":\"kVArh\\r\",\"1-0:4.8.0*06_value1\":\"0000000.000\",\"1-0:4.8.0*06_unit1\":\"kVArh\\r\",\"1-0:4.8.0*07_value1\":\"0000000.000\",\"1-0:4.8.0*07_unit1\":\"kVArh\\r\",\"1-0:4.8.0*08_value1\":\"0000000.000\",\"1-0:4.8.0*08_unit1\":\"kVArh\\r\",\"1-0:4.8.0*09_value1\":\"0000000.000\",\"1-0:4.8.0*09_unit1\":\"kVArh\\r\",\"1-0:4.8.0*10_value1\":\"00000\",\"1-0:4.8.0*11_value1\":\"0000000.000\",\"1-0:4.8.0*11_unit1\":\"kVArh\\r\",\"1-0:4.8.0*12_value1\":\"0000000.000\",\"1-0:4.8.0*12_unit1\":\"kVArh\\r\",\"1-0:4.8.0*13_value1\":\"0000000.000\",\"1-0:4.8.0*13_unit1\":\"kVArh\\r\",\"1-0:4.8.0*14_value1\":\"0000000.000\",\"1-0:4.8.0*14_unit1\":\"kVArh\\r\",\"1-0:4.8.0*15_value1\":\"0000000.000\",\"1-0:4.8.0*15_unit1\":\"kVArh\\r\",\"1-0:5.8.0*01_value1\":\"0000000.001\",\"1-0:5.8.0*01_unit1\":\"kVArh\\r\",\"1-0:5.8.0*02_value1\":\"0000000.001\",\"1-0:5.8.0*02_unit1\":\"kVArh\\r\",\"1-0:5.8.0*03_value1\":\"0000000.001\",\"1-0:5.8.0*03_unit1\":\"kVArh\\r\",\"1-0:5.8.0*04_value1\":\"0000000.000\",\"1-0:5.8.0*04_unit1\":\"kVArh\\r\",\"1-0:5.8.0*05_value1\":\"0000000.000\",\"1-0:5.8.0*05_unit1\":\"kVArh\\r\",\"1-0:5.8.0*06_value1\":\"0000000.000\",\"1-0:5.8.0*06_unit1\":\"kVArh\\r\",\"1-0:5.8.0*07_value1\":\"0000000.000\",\"1-0:5.8.0*07_unit1\":\"kVArh\\r\",\"1-0:5.8.0*08_value1\":\"0000000.000\",\"1-0:5.8.0*08_unit1\":\"kVArh\\r\",\"1-0:5.8.0*09_value1\":\"0000000.000\",\"1-0:5.8.0*09_unit1\":\"kVArh\\r\",\"1-0:5.8.0*10_value1\":\"0000000.000\",\"1-0:5.8.0*10_unit1\":\"kVArh\\r\",\"1-0:5.8.0*11_value1\":\"0000000.000\",\"1-0:5.8.0*11_unit1\":\"kVArh\\r\",\"1-0:5.8.0*12_value1\":\"0000000.000\",\"1-0:5.8.0*12_unit1\":\"kVArh\\r\",\"1-0:5.8.0*13_value1\":\"0000000.000\",\"1-0:5.8.0*13_unit1\":\"kVArh\\r\",\"1-0:5.8.0*14_value1\":\"0000000.000\",\"1-0:5.8.0*14_unit1\":\"kVArh\\r\",\"1-0:5.8.0*15_value1\":\"0000000.000\",\"1-0:5.8.0*15_unit1\":\"kVArh\\r\",\"1-0:6.8.0*01_value1\":\"0000000.000\",\"1-0:6.8.0*01_unit1\":\"kVArh\\r\",\"1-0:6.8.0*02_value1\":\"0000000.000\",\"1-0:6.8.0*02_unit1\":\"kVArh\\r\",\"1-0:6.8.0*03_value1\":\"0000000.000\",\"1-0:6.8.0*03_unit1\":\"kVArh\\r\",\"1-0:6.8.0*04_value1\":\"0000000.000\",\"1-0:6.8.0*04_unit1\":\"kVArh\\r\",\"1-0:6.8.0*05_value1\":\"0000000.000\",\"1-0:6.8.0*05_unit1\":\"kVArh\\r\",\"1-0:6.8.0*06_value1\":\"0000000.000\",\"1-0:6.8.0*06_unit1\":\"kVArh\\r\",\"1-0:6.8.0*07_value1\":\"0000000.000\",\"1-0:6.8.0*07_unit1\":\"kVArh\\r\",\"1-0:6.8.0*08_value1\":\"0000000.000\",\"1-0:6.8.0*08_unit1\":\"kVArh\\r\",\"1-0:6.8.0*09_value1\":\"0000000.000\",\"1-0:6.8.0*09_unit1\":\"kVArh\\r\",\"1-0:6.8.0*10_value1\":\"0000000.000\",\"1-0:6.8.0*10_unit1\":\"kVArh\\r\",\"1-0:6.8.0*11_value1\":\"000000\",\"1-0:6.8.0*12_value1\":\"0000000.000\",\"1-0:6.8.0*12_unit1\":\"kVArh\\r\",\"1-0:6.8.0*13_value1\":\"0000000.000\",\"1-0:6.8.0*13_unit1\":\"kVArh\\r\",\"1-0:6.8.0*14_value1\":\"0000000.000\",\"1-0:6.8.0*14_unit1\":\"kVArh\\r\",\"1-0:6.8.0*15_value1\":\"0000000.000\",\"1-0:6.8.0*15_unit1\":\"kVArh\\r\",\"1-0:7.8.0*01_value1\":\"0000000.000\",\"1-0:7.8.0*01_unit1\":\"kVArh\\r\",\"1-0:7.8.0*02_value1\":\"0000000.000\",\"1-0:7.8.0*02_unit1\":\"kVArh\\r\",\"1-0:7.8.0*03_value1\":\"0000000.000\",\"1-0:7.8.0*03_unit1\":\"kVArh\\r\",\"1-0:7.8.0*04_value1\":\"0000000.000\",\"1-0:7.8.0*04_unit1\":\"kVArh\\r\",\"1-0:7.8.0*05_value1\":\"0000000.000\",\"1-0:7.8.0*05_unit1\":\"kVArh\\r\",\"1-0:7.8.0*06_value1\":\"0000000.000\",\"1-0:7.8.0*06_unit1\":\"kVArh\\r\",\"1-0:7.8.0*07_value1\":\"0000000.000\",\"1-0:7.8.0*07_unit1\":\"kVArh\\r\",\"1-0:7.8.0*08_value1\":\"0000000.000\",\"1-0:7.8.0*08_unit1\":\"kVArh\\r\",\"1-0:7.8.0*09_value1\":\"0000000.000\",\"1-0:7.8.0*09_unit1\":\"kVArh\\r\",\"1-0:7.8.0*10_value1\":\"0000000.000\",\"1-0:7.8.0*10_unit1\":\"kVArh\\r\",\"1-0:7.8.0*11_value1\":\"0000000.000\",\"1-0:7.8.0*11_unit1\":\"kVArh\\r\",\"1-0:7.8.0*12_value1\":\"0000000.000\",\"1-0:7.8.0*12_unit1\":\"kVArh\\r\",\"1-0:7.8.0*13_value1\":\"0000000.000\",\"1-0:7.8.0*13_unit1\":\"kVArh\\r\",\"1-0:7.8.0*14_value1\":\"0000000.000\",\"1-0:7.8.0*14_unit1\":\"kVArh\\r\",\"1-0:7.8.0*15_value1\":\"0000000.000\",\"1-0:7.8.0*15_unit1\":\"kVArh\\r\",\"1-0:8.8.0*01_value1\":\"0000000.000\",\"1-0:8.8.0*01_unit1\":\"kVArh\\r\",\"1-0:8.8.0*02_value1\":\"0000000.000\",\"1-0:8.8.0*02_unit1\":\"kVArh\\r\",\"1-0:8.8.0*03_value1\":\"0000000.000\",\"1-0:8.8.0*03_unit1\":\"kVArh\\r\",\"1-0:8.8.0*04_value1\":\"0000000.000\",\"1-0:8.8.0*04_unit1\":\"kVArh\\r\",\"1-0:8.8.0*05_value1\":\"0000000.000\",\"1-0:8.8.0*05_unit1\":\"kVArh\\r\",\"1-0:8.8.0*06_value1\":\"0000000.000\",\"1-0:8.8.0*06_unit1\":\"kVArh\\r\",\"1-0:8.8.0*07_value1\":\"0000000.000\",\"1-0:8.8.0*07_unit1\":\"kVArh\\r\",\"1-0:8.8.0*08_value1\":\"0000000.000\",\"1-0:8.8.0*08_unit1\":\"kVArh\\r\",\"1-0:8.8.0*09_value1\":\"0000000.000\",\"1-0:8.8.0*09_unit1\":\"kVArh\\r\",\"1-0:8.8.0*10_value1\":\"0000000.000\",\"1-0:8.8.0*10_unit1\":\"kVArh\\r\",\"1-0:8.8.0*11_value1\":\"0000000.000\",\"1-0:8.8.0*11_unit1\":\"kVArh\\r\",\"1-0:8.8.0*12_value1\":\"0000000\",\"1-0:8.8.0*13_value1\":\"0000000.000\",\"1-0:8.8.0*13_unit1\":\"kVArh\\r\",\"1-0:8.8.0*14_value1\":\"0000000.000\",\"1-0:8.8.0*14_unit1\":\"kVArh\\r\",\"1-0:8.8.0*15_value1\":\"0000000.000\",\"1-0:8.8.0*15_unit1\":\"kVArh\\r\"}",
+                "vt": "json"
+            },
+            {
+                "p": "key",
+                "v": "T2_TEST_TOKEN",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 160,
+        "wires": [
+            [
+                "52ce2382bae1c60a"
+            ]
+        ]
+    },
+    {
+        "id": "d2a20af101789c32",
+        "type": "http request",
+        "z": "d43567c1be96ce60",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 870,
+        "y": 160,
+        "wires": [
+            [
+                "ded242fe434a4ecd"
+            ]
+        ]
+    },
+    {
+        "id": "ded242fe434a4ecd",
+        "type": "debug",
+        "z": "d43567c1be96ce60",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "52ce2382bae1c60a",
+        "type": "function",
+        "z": "d43567c1be96ce60",
+        "name": "Build Req",
+        "func": "msg.url = global.get(\"baseURL\") +\"/api/v1/\"+msg.key+\"/telemetry\"\nmsg.payload = msg.regData\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 160,
+        "wires": [
+            [
+                "dfe02ee9cf8da6af"
+            ]
+        ]
+    },
+    {
+        "id": "fea414a95f926870",
+        "type": "link in",
+        "z": "d43567c1be96ce60",
+        "name": "link - Start Pushing to ThingsBoard",
+        "links": [
+            "0ed4d359f53813f2",
+            "38965ba3b9d58267",
+            "a54d25a717f6b718",
+            "c86738eb328eea89"
+        ],
+        "x": 215,
+        "y": 80,
+        "wires": [
+            [
+                "52ce2382bae1c60a"
+            ]
+        ]
+    },
+    {
+        "id": "dfe02ee9cf8da6af",
+        "type": "delay",
+        "z": "d43567c1be96ce60",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "200",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 650,
+        "y": 160,
+        "wires": [
+            [
+                "d2a20af101789c32"
             ]
         ]
     },
@@ -1640,140 +2994,6 @@
         ]
     },
     {
-        "id": "69ccf11da49db2f7",
-        "type": "inject",
-        "z": "d43567c1be96ce60",
-        "name": "",
-        "props": [
-            {
-                "p": "regData",
-                "v": "{\"rawData\":\"/ISk5MT174-0004\\r\\n\\n/ISk5MT174-0004\\r\\n\\n\\u00021-0:0.9.1*255(193124)\\r\\n1-0:0.9.2*255(1221010)\\r\\n1-0:0.0.0*255(20671901)\\r\\n1-0:0.1.0*255(4)\\r\\n1-0:0.2.0*255(1.03)\\r\\n1-0:0.2.2*255(G11)\\r\\n0-0:C.1.0*255(20671901)\\r\\n0-0:C.1.6*255(FDF5)\\r\\n0-0:C.51.1*255(4)\\r\\n0-0:C.51.2*255(1210915001240)\\r\\n0-0:C.51.2*01(1210915001240)\\r\\n0-0:C.51.2*02(0210317102223)\\r\\n0-0:C.51.2*03(0210317102215)\\r\\n0-0:C.51.3*255(0)\\r\\n0-0:C.51.4*255()\\r\\n0-0:C.51.4*01()\\r\\n0-0:C.51.4*02()\\r\\n0-0:C.51.4*03()\\r\\n0-0:C.51.5*255(0)\\r\\n0-0:C.51.6*255()\\r\\n0-0:C.51.6*01()\\r\\n0-0:C.51.6*02()\\r\\n0-0:C.51.6*03()\\r\\n0-0:C.6.1*255(95.3654)\\r\\n0-0:C.7.0*255(30)\\r\\n1-0:1.6.0*255(00.00*kW)(2210101930)\\r\\n1-0:1.8.0*255(0000000.061*kWh)\\r\\n1-0:1.6.1*255(00.00*kW)(2210101930)\\r\\n1-0:1.8.1*255(0000000.061*kWh)\\r\\n1-0:1.6.2*255(00.00*kW)(0001011300)\\r\\n1-0:1.8.2*255(0000000.000*kWh)\\r\\n1-0:1.6.3*255(00.00*kW)(0001011300)\\r\\n1-0:1.8.3*255(0000000.000*kWh)\\r\\n1-0:1.6.4*255(00.00*kW)(0001011300)\\r\\n1-0:1.8.4*255(0000000.000*kWh)\\r\\n1-0:2.6.0*255(00.00*kW)(2210101930)\\r\\n1-0:2.8.0*255(0000000.000*kWh)\\r\\n1-0:2.6.1*255...\",\"\\u00021-0:0.9.1*255_value1\":\"193124\\r\",\"1-0:0.9.2*255_value1\":\"1221010\\r\",\"1-0:0.0.0*255_value1\":\"20671901\\r\",\"1-0:0.1.0*255_value1\":\"4\\r\",\"1-0:0.2.0*255_value1\":\"1.03\\r\",\"1-0:0.2.2*255_value1\":\"G11\\r\",\"0-0:C.1.0*255_value1\":\"20671901\\r\",\"0-0:C.1.6*255_value1\":\"FDF5\\r\",\"0-0:C.51.1*255_value1\":\"4\\r\",\"0-0:C.51.2*255_value1\":\"1210915001240\\r\",\"0-0:C.51.2*01_value1\":\"1210915001240\\r\",\"0-0:C.51.2*02_value1\":\"0210317102223\\r\",\"0-0:C.51.2*03_value1\":\"0210317102215\\r\",\"0-0:C.51.3*255_value1\":\"0\\r\",\"0-0:C.51.4*255_value1\":\"\\r\",\"0-0:C.51.4*01_value1\":\"\\r\",\"0-0:C.51.4*02_value1\":\"\\r\",\"0-0:C.51.4*03_value1\":\"\\r\",\"0-0:C.51.5*255_value1\":\"0\\r\",\"0-0:C.51.6*255_value1\":\"\\r\",\"0-0:C.51.6*01_value1\":\"\\r\",\"0-0:C.51.6*02_value1\":\"\\r\",\"0-0:C.51.6*03_value1\":\"\\r\",\"0-0:C.6.1*255_value1\":\"95.3654\\r\",\"0-0:C.7.0*255_value1\":\"30\\r\",\"1-0:1.6.0*255_value1\":\"00.00\",\"1-0:1.6.0*255_unit1\":\"kW\",\"1-0:1.6.0*255_value2\":\"2210101930\\r\",\"1-0:1.8.0*255_value1\":\"0000000.061\",\"1-0:1.8.0*255_unit1\":\"kWh\\r\",\"1-0:1.6.1*255_value1\":\"00.00\",\"1-0:1.6.1*255_unit1\":\"kW\",\"1-0:1.6.1*255_value2\":\"2210101930\\r\",\"1-0:1.8.1*255_value1\":\"0000000.061\",\"1-0:1.8.1*255_unit1\":\"kWh\\r\",\"1-0:1.6.2*255_value1\":\"00.00\",\"1-0:1.6.2*255_unit1\":\"kW\",\"1-0:1.6.2*255_value2\":\"0001011300\\r\",\"1-0:1.8.2*255_value1\":\"0000000.000\",\"1-0:1.8.2*255_unit1\":\"kWh\\r\",\"1-0:1.6.3*255_value1\":\"00.00\",\"1-0:1.6.3*255_unit1\":\"kW\",\"1-0:1.6.3*255_value2\":\"0001011300\\r\",\"1-0:1.8.3*255_value1\":\"0000000.000\",\"1-0:1.8.3*255_unit1\":\"kWh\\r\",\"1-0:1.6.4*255_value1\":\"00.00\",\"1-0:1.6.4*255_unit1\":\"kW\",\"1-0:1.6.4*255_value2\":\"0001011300\\r\",\"1-0:1.8.4*255_value1\":\"0000000.000\",\"1-0:1.8.4*255_unit1\":\"kWh\\r\",\"1-0:2.6.0*255_value1\":\"00.00\",\"1-0:2.6.0*255_unit1\":\"kW\",\"1-0:2.6.0*255_value2\":\"2210101930\\r\",\"1-0:2.8.0*255_value1\":\"0000000.000\",\"1-0:2.8.0*255_unit1\":\"kWh\\r\",\"1-0:2.6.1*255_value1\":\"00.00\",\"1-0:2.6.1*255_unit1\":\"kW\",\"1-0:2.6.1*255_value2\":\"2210101930\\r\",\"1-0:2.8.1*255_value1\":\"0000000.000\",\"1-0:2.8.1*255_unit1\":\"kWh\\r\",\"2.6.2*255_value1\":\"00.00\",\"2.6.2*255_unit1\":\"kW\",\"2.6.2*255_value2\":\"0001011300\\r\",\"1-0:2.8.2*255_value1\":\"0000000.000\",\"1-0:2.8.2*255_unit1\":\"kWh\\r\",\"1-0:2.6.3*255_value1\":\"00.00\",\"1-0:2.6.3*255_unit1\":\"kW\",\"1-0:2.6.3*255_value2\":\"0001011300\\r\",\"1-0:2.8.3*255_value1\":\"0000000.000\",\"1-0:2.8.3*255_unit1\":\"kWh\\r\",\"1-0:2.6.4*255_value1\":\"00.00\",\"1-0:2.6.4*255_unit1\":\"kW\",\"1-0:2.6.4*255_value2\":\"0001011300\\r\",\"1-0:2.8.4*255_value1\":\"0000000.000\",\"1-0:2.8.4*255_unit1\":\"kWh\\r\",\"1-0:15.6.0*255_value1\":\"00.00\",\"1-0:15.6.0*255_unit1\":\"kW\",\"1-0:15.6.0*255_value2\":\"2210101930\\r\",\"1-0:15.8.0*255_value1\":\"0000000.061\",\"1-0:15.8.0*255_unit1\":\"kWh\\r\",\"1-0:15.6.1*255_value1\":\"00.00\",\"1-0:15.6.1*255_unit1\":\"kW\",\"1-0:15.6.1*255_value2\":\"2210101930\\r\",\"1-0:15.8.1*255_value1\":\"0000000.061\",\"1-0:15.8.1*255_unit1\":\"kWh\\r\",\"1-0:15.6.2*255_value1\":\"00.00\",\"1-0:15.6.2*255_unit1\":\"kW\",\"1-0:15.6.2*255_value2\":\"0001011300\\r\",\"1-0:15.8.2*255_value1\":\"0000000.000\",\"1-0:15.8.2*255_unit1\":\"kWh\\r\",\"1-0:15.6.3*255_value1\":\"00.00\",\"1-0:15.6.3*255_unit1\":\"kW\",\"1-0:15.6.3*255_value2\":\"0001011300\\r\",\"1-0:15.8.3*255_value1\":\"0000000.000\",\"1-0:15.8.3*255_unit1\":\"kWh\\r\",\"1-0:15.6.4*255_value1\":\"00.00\",\"1-0:15.6.4*255_unit1\":\"kW\",\"1-0:15.6.4*255_value2\":\"0001\",\"1-0:15.8.4*255_value1\":\"0000000.000\",\"1-0:15.8.4*255_unit1\":\"kWh\\r\",\"1-0:3.8.0*255_value1\":\"0000000.001\",\"1-0:3.8.0*255_unit1\":\"kVArh\\r\",\"1-0:3.8.1*255_value1\":\"0000000.001\",\"1-0:3.8.1*255_unit1\":\"kVArh\\r\",\"1-0:3.8.2*255_value1\":\"0000000.000\",\"1-0:3.8.2*255_unit1\":\"kVArh\\r\",\"1-0:3.8.3*255_value1\":\"0000000.000\",\"1-0:3.8.3*255_unit1\":\"kVArh\\r\",\"1-0:3.8.4*255_value1\":\"0000000.000\",\"1-0:3.8.4*255_unit1\":\"kVArh\\r\",\"1-0:4.8.0*255_value1\":\"0000000.000\",\"1-0:4.8.0*255_unit1\":\"kVArh\\r\",\"1-0:4.8.1*255_value1\":\"0000000.000\",\"1-0:4.8.1*255_unit1\":\"kVArh\\r\",\"1-0:4.8.2*255_value1\":\"0000000.000\",\"1-0:4.8.2*255_unit1\":\"kVArh\\r\",\"1-0:4.8.3*255_value1\":\"0000000.000\",\"1-0:4.8.3*255_unit1\":\"kVArh\\r\",\"1-0:4.8.4*255_value1\":\"0000000.000\",\"1-0:4.8.4*255_unit1\":\"kVArh\\r\",\"1-0:5.8.0*255_value1\":\"0000000.001\",\"1-0:5.8.0*255_unit1\":\"kVArh\\r\",\"1-0:5.8.1*255_value1\":\"0000000.001\",\"1-0:5.8.1*255_unit1\":\"kVArh\\r\",\"1-0:5.8.2*255_value1\":\"0000000.000\",\"1-0:5.8.2*255_unit1\":\"kVArh\\r\",\"1-0:5.8.3*255_value1\":\"0000000.000\",\"1-0:5.8.3*255_unit1\":\"kVArh\\r\",\"1-0:5.8.4*255_value1\":\"0000000.000\",\"1-0:5.8.4*255_unit1\":\"kVArh\\r\",\"1-0:6.8.0*255_value1\":\"0000000.000\",\"1-0:6.8.0*255_unit1\":\"kVArh\\r\",\"1-0:6.8.1*255_value1\":\"0000000.000\",\"1-0:6.8.1*255_unit1\":\"kVArh\\r\",\"1-0:6.8.2*255_value1\":\"0000000.000\",\"1-0:6.8.2*255_unit1\":\"kVArh\\r\",\"1-0:6.8.3*255_value1\":\"0000000.000\",\"1-0:6.8.3*255_unit1\":\"kVArh\\r\",\"1-0:6.8.4*255_value1\":\"0000000.000\",\"1-0:6.8.4*255_unit1\":\"kVArh\\r\",\"1-0:7.8.0*255_value1\":\"0000000.000\",\"1-0:7.8.0*255_unit1\":\"kVArh\\r\",\"1-0:7.8.1*255_value1\":\"0000000.000\",\"1-0:7.8.1*255_unit1\":\"kVArh\\r\",\"1-0:7.8.2*255_value1\":\"0000000.000\",\"1-0:7.8.2*255_unit1\":\"kVArh\\r\",\"1-0:7.8.3*255_value1\":\"0000000.000\",\"1-0:7.8.3*255_unit1\":\"kVArh\\r\",\"1-0:7.8.4*255_value1\":\"0000000.000\",\"1-0:7.8.4*255_unit1\":\"kVArh\\r\",\"1-0:8.8.0*255_value1\":\"0000000.000\",\"1-0:8.8.0*255_unit1\":\"kVArh\\r\",\"1-0:8.8.1*255_value1\":\"0000000.000\",\"1-0:8.8.1*255_unit1\":\"kVArh\\r\",\"1-0:8.8.2*255_value1\":\"0000000.000\",\"1-0:8.8.2*255_unit1\":\"kVArh\\r\",\"1-0:8.8.3*255_value1\":\"0000000.000\",\"1-0:8.8.3*255_unit1\":\"kVAr\",\"1-0:8.8.4*255_value1\":\"0000000.000\",\"1-0:8.8.4*255_unit1\":\"kVArh\\r\",\"0-0:F.F.0*255_value1\":\"0000000\\r\",\"1-0:0.1.2*01_value1\":\"2210010000\\r\",\"1-0:0.1.2*02_value1\":\"2209010000\\r\",\"1-0:0.1.2*03_value1\":\"2208191851\\r\",\"1-0:0.1.2*04_value1\":\"2109132202\\r\",\"1-0:0.1.2*05_value1\":\"0001011300\\r\",\"1-0:0.1.2*06_value1\":\"0001011300\\r\",\"1-0:0.1.2*07_value1\":\"0001011300\\r\",\"1-0:0.1.2*08_value1\":\"0001011300\\r\",\"1-0:0.1.2*09_value1\":\"0001011300\\r\",\"1-0:0.1.2*10_value1\":\"0001011300\\r\",\"1-0:0.1.2*11_value1\":\"0001011300\\r\",\"1-0:0.1.2*12_value1\":\"0001011300\\r\",\"1-0:0.1.2*13_value1\":\"0001011300\\r\",\"1-0:0.1.2*14_value1\":\"0001011300\\r\",\"1-0:0.1.2*15_value1\":\"0001011300\\r\",\"1-0:1.6.0*01_value1\":\"00.00\",\"1-0:1.6.0*01_unit1\":\"kW\",\"1-0:1.6.0*01_value2\":\"2210010000\\r\",\"1-0:1.6.0*02_value1\":\"00.00\",\"1-0:1.6.0*02_unit1\":\"kW\",\"1-0:1.6.0*02_value2\":\"22090\",\"1-0:1.6.0*03_value1\":\"00.24\",\"1-0:1.6.0*03_unit1\":\"kW\",\"1-0:1.6.0*03_value2\":\"2109151515\\r\",\"1-0:1.6.0*04_value1\":\"00.00\",\"1-0:1.6.0*04_unit1\":\"kW\",\"1-0:1.6.0*04_value2\":\"2109132215\\r\",\"1-0:1.6.0*05_value1\":\"00.00\",\"1-0:1.6.0*05_unit1\":\"kW\",\"1-0:1.6.0*05_value2\":\"0001011300\\r\",\"1-0:1.6.0*06_value1\":\"00.00\",\"1-0:1.6.0*06_unit1\":\"kW\",\"1-0:1.6.0*06_value2\":\"0001011300\\r\",\"1-0:1.6.0*07_value1\":\"00.00\",\"1-0:1.6.0*07_unit1\":\"kW\",\"1-0:1.6.0*07_value2\":\"0001011300\\r\",\"1-0:1.6.0*08_value1\":\"00.00\",\"1-0:1.6.0*08_unit1\":\"kW\",\"1-0:1.6.0*08_value2\":\"0001011300\\r\",\"1-0:1.6.0*09_value1\":\"00.00\",\"1-0:1.6.0*09_unit1\":\"kW\",\"1-0:1.6.0*09_value2\":\"0001011300\\r\",\"1-0:1.6.0*10_value1\":\"00.00\",\"1-0:1.6.0*10_unit1\":\"kW\",\"1-0:1.6.0*10_value2\":\"0001011300\\r\",\"1-0:1.6.0*11_value1\":\"00.00\",\"1-0:1.6.0*11_unit1\":\"kW\",\"1-0:1.6.0*11_value2\":\"0001011300\\r\",\"1-0:1.6.0*12_value1\":\"00.00\",\"1-0:1.6.0*12_unit1\":\"kW\",\"1-0:1.6.0*12_value2\":\"0001011300\\r\",\"1-0:1.6.0*13_value1\":\"00.00\",\"1-0:1.6.0*13_unit1\":\"kW\",\"1-0:1.6.0*13_value2\":\"0001011300\\r\",\"1-0:1.6.0*14_value1\":\"00.00\",\"1-0:1.6.0*14_unit1\":\"kW\",\"1-0:1.6.0*14_value2\":\"0001011300\\r\",\"1-0:1.6.0*15_value1\":\"00.00\",\"1-0:1.6.0*15_unit1\":\"kW\",\"1-0:1.6.0*15_value2\":\"0001011300\\r\",\"1-0:1.8.0*01_value1\":\"0000000.061\",\"1-0:1.8.0*01_unit1\":\"kWh\\r\",\"1-0:1.8.0*02_value1\":\"0000000.061\",\"1-0:1.8.0*02_unit1\":\"kWh\\r\",\"1-0:1.8.0*03_value1\":\"0000000.061\",\"1-0:1.8.0*03_unit1\":\"kWh\\r\",\"1-0:1.8.0*04_value1\":\"0000000.000\",\"1-0:1.8.0*04_unit1\":\"kWh\\r\",\"1-0:1.8.0*05_value1\":\"0000000.000\",\"1-0:1.8.0*05_unit1\":\"kWh\\r\",\"1-0:1.8.0*06_value1\":\"0000000.000\",\"1-0:1.8.0*06_unit1\":\"kWh\\r\",\"1-0:1.8.0*07_value1\":\"0000000.000\",\"1-0:1.8.0*07_unit1\":\"kWh\\r\",\"1-0:1.8.0*08_value1\":\"0000000.000\",\"1-0:1.8.0*08_unit1\":\"kWh\\r\",\"1-0:1.8.0*09_value1\":\"0000000.000\",\"1-0:1.8.0*09_unit1\":\"kWh\\r\",\"1-0:1.8.0*10_value1\":\"0000000.000\",\"1-0:1.8.0*10_unit1\":\"kWh\\r\",\"1-0:1.8.0*11_value1\":\"0000000.000\",\"1-0:1.8.0*11_unit1\":\"kWh\\r\",\"1-0:1.8.0*12_value1\":\"0000000.000\",\"1-0:1.8.0*12_unit1\":\"kWh\\r\",\"1-0:1.8.0*13_value1\":\"0000000.000\",\"1-0:1.8.0*13_unit1\":\"kWh\\r\",\"1-0:1.8.0*14_value1\":\"0000000.000\",\"1-0:1.8.0*14_unit1\":\"kWh\\r\",\"1-0:1.8.0*15_value1\":\"0000000.000\",\"1-0:1.8.0*15_unit1\":\"kWh\\r\",\"1-0:1.6.1*01_value1\":\"00.00\",\"1-0:1.6.1*01_unit1\":\"kW\",\"1-0:1.6.1*01_value2\":\"2210010000\\r\",\"1-0:1.6.1*02_value1\":\"00.00\",\"1-0:1.6.1*02_unit1\":\"kW\",\"1-0:1.6.1*02_value2\":\"2209010000\\r\",\"3_value1\":\"0000000.000\",\"3_unit1\":\"kWh\\r\",\"1-0:1.6.1*04_value1\":\"00.00\",\"1-0:1.6.1*04_unit1\":\"kW\",\"1-0:1.6.1*04_value2\":\"2109132215\\r\",\"1-0:1.6.1*05_value1\":\"00.00\",\"1-0:1.6.1*05_unit1\":\"kW\",\"1-0:1.6.1*05_value2\":\"0001011300\\r\",\"1-0:1.6.1*06_value1\":\"00.00\",\"1-0:1.6.1*06_unit1\":\"kW\",\"1-0:1.6.1*06_value2\":\"0001011300\\r\",\"1-0:1.6.1*07_value1\":\"00.00\",\"1-0:1.6.1*07_unit1\":\"kW\",\"1-0:1.6.1*07_value2\":\"0001011300\\r\",\"1-0:1.6.1*08_value1\":\"00.00\",\"1-0:1.6.1*08_unit1\":\"kW\",\"1-0:1.6.1*08_value2\":\"0001011300\\r\",\"1-0:1.6.1*09_value1\":\"00.00\",\"1-0:1.6.1*09_unit1\":\"kW\",\"1-0:1.6.1*09_value2\":\"0001011300\\r\",\"1-0:1.6.1*10_value1\":\"00.00\",\"1-0:1.6.1*10_unit1\":\"kW\",\"1-0:1.6.1*10_value2\":\"0001011300\\r\",\"1-0:1.6.1*11_value1\":\"00.00\",\"1-0:1.6.1*11_unit1\":\"kW\",\"1-0:1.6.1*11_value2\":\"0001011300\\r\",\"1-0:1.6.1*12_value1\":\"00.00\",\"1-0:1.6.1*12_unit1\":\"kW\",\"1-0:1.6.1*12_value2\":\"0001011300\\r\",\"1-0:1.6.1*13_value1\":\"00.00\",\"1-0:1.6.1*13_unit1\":\"kW\",\"1-0:1.6.1*13_value2\":\"0001011300\\r\",\"1-0:1.6.1*14_value1\":\"00.00\",\"1-0:1.6.1*14_unit1\":\"kW\",\"1-0:1.6.1*14_value2\":\"0001011300\\r\",\"1-0:1.6.1*15_value1\":\"00.00\",\"1-0:1.6.1*15_unit1\":\"kW\",\"1-0:1.6.1*15_value2\":\"0001011300\\r\",\"1-0:1.6.2*01_value1\":\"00.00\",\"1-0:1.6.2*01_unit1\":\"kW\",\"1-0:1.6.2*01_value2\":\"0001011300\\r\",\"1-0:1.6.2*02_value1\":\"00.00\",\"1-0:1.6.2*02_unit1\":\"kW\",\"1-0:1.6.2*02_value2\":\"\",\"1-0:1.6.2*03_value1\":\"00.00\",\"1-0:1.6.2*03_unit1\":\"kW\",\"1-0:1.6.2*03_value2\":\"0001011300\\r\",\"1-0:1.6.2*04_value1\":\"00.00\",\"1-0:1.6.2*04_unit1\":\"kW\",\"1-0:1.6.2*04_value2\":\"0001011300\\r\",\"1-0:1.6.2*05_value1\":\"00.00\",\"1-0:1.6.2*05_unit1\":\"kW\",\"1-0:1.6.2*05_value2\":\"0001011300\\r\",\"1-0:1.6.2*06_value1\":\"00.00\",\"1-0:1.6.2*06_unit1\":\"kW\",\"1-0:1.6.2*06_value2\":\"0001011300\\r\",\"1-0:1.6.2*07_value1\":\"00.00\",\"1-0:1.6.2*07_unit1\":\"kW\",\"1-0:1.6.2*07_value2\":\"0001011300\\r\",\"1-0:1.6.2*08_value1\":\"00.00\",\"1-0:1.6.2*08_unit1\":\"kW\",\"1-0:1.6.2*08_value2\":\"0001011300\\r\",\"1-0:1.6.2*09_value1\":\"00.00\",\"1-0:1.6.2*09_unit1\":\"kW\",\"1-0:1.6.2*09_value2\":\"0001011300\\r\",\"1-0:1.6.2*10_value1\":\"00.00\",\"1-0:1.6.2*10_unit1\":\"kW\",\"1-0:1.6.2*10_value2\":\"0001011300\\r\",\"1-0:1.6.2*11_value1\":\"00.00\",\"1-0:1.6.2*11_unit1\":\"kW\",\"1-0:1.6.2*11_value2\":\"0001011300\\r\",\"1-0:1.6.2*12_value1\":\"00.00\",\"1-0:1.6.2*12_unit1\":\"kW\",\"1-0:1.6.2*12_value2\":\"0001011300\\r\",\"1-0:1.6.2*13_value1\":\"00.00\",\"1-0:1.6.2*13_unit1\":\"kW\",\"1-0:1.6.2*13_value2\":\"0001011300\\r\",\"1-0:1.6.2*14_value1\":\"00.00\",\"1-0:1.6.2*14_unit1\":\"kW\",\"1-0:1.6.2*14_value2\":\"0001011300\\r\",\"1-0:1.6.2*15_value1\":\"00.00\",\"1-0:1.6.2*15_unit1\":\"kW\",\"1-0:1.6.2*15_value2\":\"0001011300\\r\",\"1-0:1.6.3*01_value1\":\"00.00\",\"1-0:1.6.3*01_unit1\":\"kW\",\"1-0:1.6.3*01_value2\":\"0001011300\\r\",\"1-0:1.6.3*02_value1\":\"00.00\",\"1-0:1.6.3*02_unit1\":\"kW\",\"1-0:1.6.3*02_value2\":\"0001011300\\r\",\"1-0:1.6.3*03_value1\":\"00.00\",\"1-0:1.6.3*03_unit1\":\"kW\",\"1-0:1.6.3*03_value2\":\"0001011300\\r\",\"1-0:1.6.3*04_value1\":\"00.00\",\"1-0:1.6.3*04_unit1\":\"kW\",\"1-0:1.6.3*04_value2\":\"0001011300\\r\",\"1-0:1.6.3*05_value1\":\"00.00\",\"1-0:1.6.3*05_unit1\":\"kW\",\"1-0:1.6.3*05_value2\":\"0001011300\\r\",\"1-0:1.6.3*06_value1\":\"00.00\",\"1-0:1.6.3*06_unit1\":\"kW\",\"1-0:1.6.3*06_value2\":\"0001011300\\r\",\"1-0:1.6.3*07_value1\":\"00.00\",\"1-0:1.6.3*07_unit1\":\"kW\",\"1-0:1.6.3*07_value2\":\"0001011300\\r\",\"1-0:1.6.3*08_value1\":\"00.00\",\"1-0:1.6.3*08_unit1\":\"kW\",\"1-0:1.6.3*08_value2\":\"0001011300\\r\",\"1-0:1.6.3*09_value1\":\"00.00\",\"1-0:1.6.3*09_unit1\":\"kW\",\"1-0:1.6.3*09_value2\":\"0001011300\\r\",\"1-0:1.6.3*10_value1\":\"00.00\",\"1-0:1.6.3*10_unit1\":\"kW\",\"1-0:1.6.3*10_value2\":\"0001011300\\r\",\"1-0:1.6.3*11_value1\":\"00.00\",\"1-0:1.6.3*11_unit1\":\"kW\",\"1-0:1.6.3*11_value2\":\"0001011300\\r\",\"1-0:1.6.3*12_value1\":\"00.00\",\"1-0:1.6.3*12_unit1\":\"kW\",\"1-0:1.6.3*12_value2\":\"0001011300\\r\",\"1-0:1.6.3*13_value1\":\"00.00\",\"1-0:1.6.3*13_unit1\":\"kW\",\"1-0:1.6.3*13_value2\":\"0001011300\\r\",\"1-0:1.6.3*14_value1\":\"00.00\",\"1-0:1.6.3*14_unit1\":\"kW\",\"1-0:1.6.3*14_value2\":\"0001011300\\r\",\"1-0:1.6.3*15_value1\":\"00.00\",\"1-0:1.6.3*15_unit1\":\"kW\",\"1-0:1.6.3*15_value2\":\"0001011300\\r\",\":1.6.4*01_value1\":\"00.00\",\":1.6.4*01_unit1\":\"kW\",\":1.6.4*01_value2\":\"0001011300\\r\",\"1-0:1.6.4*02_value1\":\"00.00\",\"1-0:1.6.4*02_unit1\":\"kW\",\"1-0:1.6.4*02_value2\":\"0001011300\\r\",\"1-0:1.6.4*03_value1\":\"00.00\",\"1-0:1.6.4*03_unit1\":\"kW\",\"1-0:1.6.4*03_value2\":\"0001011300\\r\",\"1-0:1.6.4*04_value1\":\"00.00\",\"1-0:1.6.4*04_unit1\":\"kW\",\"1-0:1.6.4*04_value2\":\"0001011300\\r\",\"1-0:1.6.4*05_value1\":\"00.00\",\"1-0:1.6.4*05_unit1\":\"kW\",\"1-0:1.6.4*05_value2\":\"0001011300\\r\",\"1-0:1.6.4*06_value1\":\"00.00\",\"1-0:1.6.4*06_unit1\":\"kW\",\"1-0:1.6.4*06_value2\":\"0001011300\\r\",\"1-0:1.6.4*07_value1\":\"00.00\",\"1-0:1.6.4*07_unit1\":\"kW\",\"1-0:1.6.4*07_value2\":\"0001011300\\r\",\"1-0:1.6.4*08_value1\":\"00.00\",\"1-0:1.6.4*08_unit1\":\"kW\",\"1-0:1.6.4*08_value2\":\"0001011300\\r\",\"1-0:1.6.4*09_value1\":\"00.00\",\"1-0:1.6.4*09_unit1\":\"kW\",\"1-0:1.6.4*09_value2\":\"0001011300\\r\",\"1-0:1.6.4*10_value1\":\"00.00\",\"1-0:1.6.4*10_unit1\":\"kW\",\"1-0:1.6.4*10_value2\":\"0001011300\\r\",\"1-0:1.6.4*11_value1\":\"00.00\",\"1-0:1.6.4*11_unit1\":\"kW\",\"1-0:1.6.4*11_value2\":\"0001011300\\r\",\"1-0:1.6.4*12_value1\":\"00.00\",\"1-0:1.6.4*12_unit1\":\"kW\",\"1-0:1.6.4*12_value2\":\"0001011300\\r\",\"1-0:1.6.4*13_value1\":\"00.00\",\"1-0:1.6.4*13_unit1\":\"kW\",\"1-0:1.6.4*13_value2\":\"0001011300\\r\",\"1-0:1.6.4*14_value1\":\"00.00\",\"1-0:1.6.4*14_unit1\":\"kW\",\"1-0:1.6.4*14_value2\":\"0001011300\\r\",\"1-0:1.6.4*15_value1\":\"00\",\".00*kW)_value1\":\"0001011300\\r\",\"1-0:1.8.1*01_value1\":\"0000000.061\",\"1-0:1.8.1*01_unit1\":\"kWh\\r\",\"1-0:1.8.1*02_value1\":\"0000000.061\",\"1-0:1.8.1*02_unit1\":\"kWh\\r\",\"1-0:1.8.1*03_value1\":\"0000000.061\",\"1-0:1.8.1*03_unit1\":\"kWh\\r\",\"1-0:1.8.1*04_value1\":\"0000000.000\",\"1-0:1.8.1*04_unit1\":\"kWh\\r\",\"1-0:1.8.1*05_value1\":\"0000000.000\",\"1-0:1.8.1*05_unit1\":\"kWh\\r\",\"1-0:1.8.1*06_value1\":\"0000000.000\",\"1-0:1.8.1*06_unit1\":\"kWh\\r\",\"1-0:1.8.1*07_value1\":\"0000000.000\",\"1-0:1.8.1*07_unit1\":\"kWh\\r\",\"1-0:1.8.1*08_value1\":\"0000000.000\",\"1-0:1.8.1*08_unit1\":\"kWh\\r\",\"1-0:1.8.1*09_value1\":\"0000000.000\",\"1-0:1.8.1*09_unit1\":\"kWh\\r\",\"1-0:1.8.1*10_value1\":\"0000000.000\",\"1-0:1.8.1*10_unit1\":\"kWh\\r\",\"1-0:1.8.1*11_value1\":\"0000000.000\",\"1-0:1.8.1*11_unit1\":\"kWh\\r\",\"1-0:1.8.1*12_value1\":\"0000000.000\",\"1-0:1.8.1*12_unit1\":\"kWh\\r\",\"1-0:1.8.1*13_value1\":\"0000000.000\",\"1-0:1.8.1*13_unit1\":\"kWh\\r\",\"1-0:1.8.1*14_value1\":\"0000000.000\",\"1-0:1.8.1*14_unit1\":\"kWh\\r\",\"1-0:1.8.1*15_value1\":\"0000000.000\",\"1-0:1.8.1*15_unit1\":\"kWh\\r\",\"1-0:1.8.2*01_value1\":\"0000000.000\",\"1-0:1.8.2*01_unit1\":\"kWh\\r\",\"1-0:1.8.2*02_value1\":\"0000000.000\",\"1-0:1.8.2*02_unit1\":\"kWh\\r\",\"1-0:1.8.2*03_value1\":\"0000000.000\",\"1-0:1.8.2*03_unit1\":\"kWh\\r\",\"1-0:1.8.2*04_value1\":\"0000000.000\",\"1-0:1.8.2*04_unit1\":\"kWh\\r\",\"1-0:1.8.2*05_value1\":\"0000000.000\",\"1-0:1.8.2*05_unit1\":\"kWh\\r\",\"1-0:1.8.2*06_value1\":\"0000000.000\",\"1-0:1.8.2*06_unit1\":\"kWh\\r\",\"1-0:1.8.2*07_value1\":\"0000000.000\",\"1-0:1.8.2*07_unit1\":\"kWh\\r\",\"1-0:1.8.2*08_value1\":\"0000000.000\",\"1-0:1.8.2*08_unit1\":\"kWh\\r\",\"1-0:1.8.2*09_value1\":\"0000000.000\",\"1-0:1.8.2*09_unit1\":\"kWh\\r\",\"1-0:1.8.2*10_value1\":\"0000000.000\",\"1-0:1.8.2*10_unit1\":\"kWh\\r\",\"1-0:1.8.2*11_value1\":\"0000000.000\",\"1-0:1.8.2*11_unit1\":\"kWh\\r\",\"1-0:1.8.2*12_value1\":\"0000000.000\",\"1-0:1.8.2*12_unit1\":\"kWh\\r\",\"1-0:1.8.2*13_value1\":\"0000000.000\",\"1-0:1.8.2*13_unit1\":\"kWh\\r\",\"1-0:1.8.2*14_value1\":\"0000000.000\",\"1-0:1.8.2*14_unit1\":\"kWh\\r\",\"1-0:1.8.2*15_value1\":\"0000000.000\",\"1-0:1.8.2*15_unit1\":\"kWh\\r\",\"1-0:1.8.3*01_value1\":\"0000000.000\",\"1-0:1.8.3*01_unit1\":\"kWh\\r\",\"1-0:1.8.3*02_value1\":\"0000000.000\",\"1-0:1.8.3*02_unit1\":\"kWh\\r\",\"1-0:1.8.3*04_value1\":\"0000000.000\",\"1-0:1.8.3*04_unit1\":\"kWh\\r\",\"1-0:1.8.3*05_value1\":\"0000000.000\",\"1-0:1.8.3*05_unit1\":\"kWh\\r\",\"1-0:1.8.3*06_value1\":\"0000000.000\",\"1-0:1.8.3*06_unit1\":\"kWh\\r\",\"1-0:1.8.3*07_value1\":\"0000000.000\",\"1-0:1.8.3*07_unit1\":\"kWh\\r\",\"1-0:1.8.3*08_value1\":\"0000000.000\",\"1-0:1.8.3*08_unit1\":\"kWh\\r\",\"1-0:1.8.3*09_value1\":\"0000000.000\",\"1-0:1.8.3*09_unit1\":\"kWh\\r\",\"1-0:1.8.3*10_value1\":\"0000000.000\",\"1-0:1.8.3*10_unit1\":\"kWh\\r\",\"1-0:1.8.3*11_value1\":\"0000000.000\",\"1-0:1.8.3*11_unit1\":\"kWh\\r\",\"1-0:1.8.3*12_value1\":\"0000000.000\",\"1-0:1.8.3*12_unit1\":\"kWh\\r\",\"1-0:1.8.3*13_value1\":\"0000000.000\",\"1-0:1.8.3*13_unit1\":\"kWh\\r\",\"1-0:1.8.3*14_value1\":\"0000000.000\",\"1-0:1.8.3*14_unit1\":\"kWh\\r\",\"1-0:1.8.3*15_value1\":\"0000000.000\",\"1-0:1.8.3*15_unit1\":\"kWh\\r\",\"1-0:1.8.4*01_value1\":\"0000000.000\",\"1-0:1.8.4*01_unit1\":\"kWh\\r\",\"1-0:1.8.4*02_value1\":\"0000000.000\",\"1-0:1.8.4*02_unit1\":\"kWh\\r\",\"1-0:1.8.4*03_value1\":\"0000000.000\",\"1-0:1.8.4*03_unit1\":\"kWh\\r\",\"1-0:1.8.4*04_value1\":\"0000000.000\",\"1-0:1.8.4*04_unit1\":\"kWh\\r\",\"1-0:1.8.4*05_value1\":\"0000000.000\",\"1-0:1.8.4*05_unit1\":\"kWh\\r\",\"1-0:1.8.4*06_value1\":\"0000000.000\",\"1-0:1.8.4*06_unit1\":\"kWh\\r\",\"1-0:1.8.4*07_value1\":\"0000000.000\",\"1-0:1.8.4*07_unit1\":\"kWh\\r\",\"1-0:1.8.4*08_value1\":\"0000000.000\",\"1-0:1.8.4*08_unit1\":\"kWh\\r\",\"1-0:1.8.4*09_value1\":\"0000000.000\",\"1-0:1.8.4*09_unit1\":\"kWh\\r\",\"1-0:1.8.4*10_value1\":\"0000000.000\",\"1-0:1.8.4*10_unit1\":\"kWh\\r\",\"1-0:1.8.4*11_value1\":\"0000000.000\",\"1-0:1.8.4*11_unit1\":\"kWh\\r\",\"1-0:1.8.4*12_value1\":\"0000000.000\",\"1-0:1.8.4*12_unit1\":\"kWh\\r\",\"1-0:1.8.4*13_value1\":\"0000000.000\",\"1-0:1.8.4*13_unit1\":\"kWh\\r\",\"1-0:1.8.4*14_value1\":\"0000000.000\",\"1-0:1.8.4*14_unit1\":\"kWh\\r\",\"1-0:1.8.4*15_value1\":\"0000000.000\",\"1-0:1.8.4*15_unit1\":\"kWh\\r\",\"1-0:2.8.0*01_value1\":\"0000000.000\",\"1-0:2.8.0*01_unit1\":\"kWh\\r\",\"1-0:2.8.0*02_value1\":\"0000000.000\",\"1-0:2.8.0*02_unit1\":\"kWh\\r\",\"1-0:2.8.0*03_value1\":\"0000000.000\",\"1-0:2.8.0*03_unit1\":\"kWh\\r\",\"1-0:2.8.0*04_value1\":\"0000000.000\",\"1-0:2.8.0*04_unit1\":\"kWh\\r\",\"1-0:2.8.0*05_value1\":\"0000000.000\",\"1-0:2.8.0*05_unit1\":\"kWh\\r\",\"1-0:2.8.0*06_value1\":\"0000000.000\",\"1-0:2.8.0*06_unit1\":\"kWh\\r\",\"1-0:2.8.0*07_value1\":\"0000000.000\",\"1-0:2.8.0*07_unit1\":\"kWh\\r\",\"1-0:2.8.0*08_value1\":\"0000000.000\",\"1-0:2.8.0*08_unit1\":\"kWh\\r\",\"1-0:2.8.0*09_value1\":\"0000000.000\",\"1-0:2.8.0*09_unit1\":\"kWh\\r\",\"1-0:2.8.0*10_value1\":\"0000000.000\",\"1-0:2.8.0*10_unit1\":\"kWh\\r\",\"1-0:2.8.0*11_value1\":\"0000000.000\",\"1-0:2.8.0*11_unit1\":\"kWh\\r\",\"1-0:2.8.0*12_value1\":\"0000000.000\",\"1-0:2.8.0*12_unit1\":\"kWh\\r\",\"1-0:2.8.0*13_value1\":\"0000000.000\",\"1-0:2.8.0*13_unit1\":\"kWh\\r\",\"1-0:2.8.0*14_value1\":\"0000000.000\",\"1-0:2.8.0*14_unit1\":\"kWh\\r\",\"1-0:2.8.0*15_value1\":\"0000000.000\",\"1-0:2.8.0*15_unit1\":\"kWh\\r\",\"1-0:2.6.1*01_value1\":\"00.00\",\"1-0:2.6.1*01_unit1\":\"kW\",\"1-0:2.6.1*01_value2\":\"2210010000\\r\",\"1-0:2.6.1*02_value1\":\"00.00\",\"1-0:2.6.1*02_unit1\":\"kW\",\"1-0:2.6.1*02_value2\":\"2209010000\\r\",\"1-0:2.6.1*03_value1\":\"00.00\",\"1-0:2.6.1*03_unit1\":\"kW\",\"1-0:2.6.1*03_value2\":\"2208191900\\r\",\"1-0:2.6.1*04_value1\":\"00.00\",\"1-0:2.6.1*04_unit1\":\"kW\",\"1-0:2.6.1*04_value2\":\"2109132215\\r\",\"1-0:2.6.1*05_value1\":\"00.00\",\"1-0:2.6.1*05_unit1\":\"kW\",\"1-0:2.6.1*05_value2\":\"0001011300\\r\",\"1-0:2.6.1*06_value1\":\"00.00\",\"1-0:2.6.1*06_unit1\":\"kW\",\"1-0:2.6.1*06_value2\":\"0001011300\\r\",\"0:2.6.1*07_value1\":\"00.00\",\"0:2.6.1*07_unit1\":\"kW\",\"0:2.6.1*07_value2\":\"0001011300\\r\",\"1-0:2.6.1*08_value1\":\"00.00\",\"1-0:2.6.1*08_unit1\":\"kW\",\"1-0:2.6.1*08_value2\":\"0001011300\\r\",\"1-0:2.6.1*09_value1\":\"00.00\",\"1-0:2.6.1*09_unit1\":\"kW\",\"1-0:2.6.1*09_value2\":\"0001011300\\r\",\"1-0:2.6.1*10_value1\":\"00.00\",\"1-0:2.6.1*10_unit1\":\"kW\",\"1-0:2.6.1*10_value2\":\"0001011300\\r\",\"1-0:2.6.1*11_value1\":\"00.00\",\"1-0:2.6.1*11_unit1\":\"kW\",\"1-0:2.6.1*11_value2\":\"0001011300\\r\",\"1-0:2.6.1*12_value1\":\"00.00\",\"1-0:2.6.1*12_unit1\":\"kW\",\"1-0:2.6.1*12_value2\":\"0001011300\\r\",\"1-0:2.6.1*13_value1\":\"00.00\",\"1-0:2.6.1*13_unit1\":\"kW\",\"1-0:2.6.1*13_value2\":\"0001011300\\r\",\"1-0:2.6.1*14_value1\":\"00.00\",\"1-0:2.6.1*14_unit1\":\"kW\",\"1-0:2.6.1*14_value2\":\"0001011300\\r\",\"1-0:2.6.1*15_value1\":\"00.00\",\"1-0:2.6.1*15_unit1\":\"kW\",\"1-0:2.6.1*15_value2\":\"0001011300\\r\",\"1-0:2.6.2*01_value1\":\"00.00\",\"1-0:2.6.2*01_unit1\":\"kW\",\"1-0:2.6.2*01_value2\":\"0001011300\\r\",\"1-0:2.6.2*02_value1\":\"00.00\",\"1-0:2.6.2*02_unit1\":\"kW\",\"1-0:2.6.2*02_value2\":\"0001011300\\r\",\"1-0:2.6.2*03_value1\":\"00.00\",\"1-0:2.6.2*03_unit1\":\"kW\",\"1-0:2.6.2*03_value2\":\"0001011300\\r\",\"1-0:2.6.2*04_value1\":\"00.00\",\"1-0:2.6.2*04_unit1\":\"kW\",\"1-0:2.6.2*04_value2\":\"0001011300\\r\",\"1-0:2.6.2*05_value1\":\"00.00\",\"1-0:2.6.2*05_unit1\":\"kW\",\"1-0:2.6.2*05_value2\":\"0001011300\\r\",\"1-0:2.6.2*06_value1\":\"0\",\"0.00*kW)_value1\":\"0001011300\\r\",\"1-0:2.6.2*07_value1\":\"00.00\",\"1-0:2.6.2*07_unit1\":\"kW\",\"1-0:2.6.2*07_value2\":\"0001011300\\r\",\"1-0:2.6.2*08_value1\":\"00.00\",\"1-0:2.6.2*08_unit1\":\"kW\",\"1-0:2.6.2*08_value2\":\"0001011300\\r\",\"1-0:2.6.2*09_value1\":\"00.00\",\"1-0:2.6.2*09_unit1\":\"kW\",\"1-0:2.6.2*09_value2\":\"0001011300\\r\",\"1-0:2.6.2*10_value1\":\"00.00\",\"1-0:2.6.2*10_unit1\":\"kW\",\"1-0:2.6.2*10_value2\":\"0001011300\\r\",\"1-0:2.6.2*11_value1\":\"00.00\",\"1-0:2.6.2*11_unit1\":\"kW\",\"1-0:2.6.2*11_value2\":\"0001011300\\r\",\"1-0:2.6.2*12_value1\":\"00.00\",\"1-0:2.6.2*12_unit1\":\"kW\",\"1-0:2.6.2*12_value2\":\"0001011300\\r\",\"1-0:2.6.2*13_value1\":\"00.00\",\"1-0:2.6.2*13_unit1\":\"kW\",\"1-0:2.6.2*13_value2\":\"0001011300\\r\",\"1-0:2.6.2*14_value1\":\"00.00\",\"1-0:2.6.2*14_unit1\":\"kW\",\"1-0:2.6.2*14_value2\":\"0001011300\\r\",\"1-0:2.6.2*15_value1\":\"00.00\",\"1-0:2.6.2*15_unit1\":\"kW\",\"1-0:2.6.2*15_value2\":\"0001011300\\r\",\"1-0:2.6.3*01_value1\":\"00.00\",\"1-0:2.6.3*01_unit1\":\"kW\",\"1-0:2.6.3*01_value2\":\"0001011300\\r\",\"1-0:2.6.3*02_value1\":\"00.00\",\"1-0:2.6.3*02_unit1\":\"kW\",\"1-0:2.6.3*02_value2\":\"0001011300\\r\",\"1-0:2.6.3*03_value1\":\"00.00\",\"1-0:2.6.3*03_unit1\":\"kW\",\"1-0:2.6.3*03_value2\":\"0001011300\\r\",\"1-0:2.6.3*04_value1\":\"00.00\",\"1-0:2.6.3*04_unit1\":\"kW\",\"1-0:2.6.3*04_value2\":\"0001011300\\r\",\"1-0:2.6.3*05_value1\":\"00.00\",\"1-0:2.6.3*05_unit1\":\"kW\",\"1-0:2.6.3*05_value2\":\"0001011300\\r\",\"1-0:2.6.3*06_value1\":\"00.00\",\"1-0:2.6.3*06_unit1\":\"kW\",\"1-0:2.6.3*06_value2\":\"0001011300\\r\",\"1-0:2.6.3*07_value1\":\"00.00\",\"1-0:2.6.3*07_unit1\":\"kW\",\"1-0:2.6.3*07_value2\":\"0001011300\\r\",\"1-0:2.6.3*08_value1\":\"00.00\",\"1-0:2.6.3*08_unit1\":\"kW\",\"1-0:2.6.3*08_value2\":\"0001011300\\r\",\"1-0:2.6.3*09_value1\":\"00.00\",\"1-0:2.6.3*09_unit1\":\"kW\",\"1-0:2.6.3*09_value2\":\"0001011300\\r\",\"1-0:2.6.3*10_value1\":\"00.00\",\"1-0:2.6.3*10_unit1\":\"kW\",\"1-0:2.6.3*10_value2\":\"0001011300\\r\",\"1-0:2.6.3*11_value1\":\"00.00\",\"1-0:2.6.3*11_unit1\":\"kW\",\"1-0:2.6.3*11_value2\":\"0001011300\\r\",\"1-0:2.6.3*12_value1\":\"00.00\",\"1-0:2.6.3*12_unit1\":\"kW\",\"1-0:2.6.3*12_value2\":\"0001011300\\r\",\"1-0:2.6.3*13_value1\":\"00.00\",\"1-0:2.6.3*13_unit1\":\"kW\",\"1-0:2.6.3*13_value2\":\"0001011300\\r\",\"1-0:2.6.3*14_value1\":\"00.00\",\"1-0:2.6.3*14_unit1\":\"kW\",\"1-0:2.6.3*14_value2\":\"0001011300\\r\",\"1-0:2.6.3*15_value1\":\"00.00\",\"1-0:2.6.3*15_unit1\":\"kW\",\"1-0:2.6.3*15_value2\":\"0001011300\\r\",\"1-0:2.6.4*01_value1\":\"00.00\",\"1-0:2.6.4*01_unit1\":\"kW\",\"1-0:2.6.4*01_value2\":\"0001011300\\r\",\"1-0:2.6.4*02_value1\":\"00.00\",\"1-0:2.6.4*02_unit1\":\"kW\",\"1-0:2.6.4*02_value2\":\"0001011300\\r\",\"1-0:2.6.4*03_value1\":\"00.00\",\"1-0:2.6.4*03_unit1\":\"kW\",\"1-0:2.6.4*03_value2\":\"0001011300\\r\",\"1-0:2.6.4*04_value1\":\"00.00\",\"1-0:2.6.4*04_unit1\":\"kW\",\"1-0:2.6.4*04_value2\":\"0001011\",\"1-0:2.6.4*05_value1\":\"00.00\",\"1-0:2.6.4*05_unit1\":\"kW\",\"1-0:2.6.4*05_value2\":\"0001011300\\r\",\"1-0:2.6.4*06_value1\":\"00.00\",\"1-0:2.6.4*06_unit1\":\"kW\",\"1-0:2.6.4*06_value2\":\"0001011300\\r\",\"1-0:2.6.4*07_value1\":\"00.00\",\"1-0:2.6.4*07_unit1\":\"kW\",\"1-0:2.6.4*07_value2\":\"0001011300\\r\",\"1-0:2.6.4*08_value1\":\"00.00\",\"1-0:2.6.4*08_unit1\":\"kW\",\"1-0:2.6.4*08_value2\":\"0001011300\\r\",\"1-0:2.6.4*09_value1\":\"00.00\",\"1-0:2.6.4*09_unit1\":\"kW\",\"1-0:2.6.4*09_value2\":\"0001011300\\r\",\"1-0:2.6.4*10_value1\":\"00.00\",\"1-0:2.6.4*10_unit1\":\"kW\",\"1-0:2.6.4*10_value2\":\"0001011300\\r\",\"1-0:2.6.4*11_value1\":\"00.00\",\"1-0:2.6.4*11_unit1\":\"kW\",\"1-0:2.6.4*11_value2\":\"0001011300\\r\",\"1-0:2.6.4*12_value1\":\"00.00\",\"1-0:2.6.4*12_unit1\":\"kW\",\"1-0:2.6.4*12_value2\":\"0001011300\\r\",\"1-0:2.6.4*13_value1\":\"00.00\",\"1-0:2.6.4*13_unit1\":\"kW\",\"1-0:2.6.4*13_value2\":\"0001011300\\r\",\"1-0:2.6.4*14_value1\":\"00.00\",\"1-0:2.6.4*14_unit1\":\"kW\",\"1-0:2.6.4*14_value2\":\"0001011300\\r\",\"1-0:2.6.4*15_value1\":\"00.00\",\"1-0:2.6.4*15_unit1\":\"kW\",\"1-0:2.6.4*15_value2\":\"0001011300\\r\",\"1-0:2.8.1*01_value1\":\"0000000.000\",\"1-0:2.8.1*01_unit1\":\"kWh\\r\",\"1-0:2.8.1*02_value1\":\"0000000.000\",\"1-0:2.8.1*02_unit1\":\"kWh\\r\",\"1-0:2.8.1*03_value1\":\"0000000.000\",\"1-0:2.8.1*03_unit1\":\"kWh\\r\",\"1-0:2.8.1*04_value1\":\"0000000.000\",\"1-0:2.8.1*04_unit1\":\"kWh\\r\",\"1-0:2.8.1*05_value1\":\"0000000.000\",\"1-0:2.8.1*05_unit1\":\"kWh\\r\",\"1-0:2.8.1*06_value1\":\"0000000.000\",\"1-0:2.8.1*06_unit1\":\"kWh\\r\",\"1-0:2.8.1*07_value1\":\"0000000.000\",\"1-0:2.8.1*07_unit1\":\"kWh\\r\",\"1-0:2.8.1*08_value1\":\"0000000.000\",\"1-0:2.8.1*08_unit1\":\"kWh\\r\",\"1-0:2.8.1*09_value1\":\"0000000.000\",\"1-0:2.8.1*09_unit1\":\"kWh\\r\",\"1-0:2.8.1*10_value1\":\"0000000.000\",\"1-0:2.8.1*10_unit1\":\"kWh\\r\",\"1-0:2.8.1*11_value1\":\"0000000.000\",\"1-0:2.8.1*11_unit1\":\"kWh\\r\",\"1-0:2.8.1*12_value1\":\"0000000.000\",\"1-0:2.8.1*12_unit1\":\"kWh\\r\",\"1-0:2.8.1*13_value1\":\"0000000.000\",\"1-0:2.8.1*13_unit1\":\"kWh\\r\",\"1-0:2.8.1*14_value1\":\"0000000.000\",\"1-0:2.8.1*14_unit1\":\"kWh\\r\",\"1-0:2.8.1*15_value1\":\"0000000.000\",\"1-0:2.8.1*15_unit1\":\"kWh\\r\",\"1-0:2.8.2*01_value1\":\"0000000.000\",\"1-0:2.8.2*01_unit1\":\"kWh\\r\",\"1-0:2.8.2*02_value1\":\"0000000.000\",\"1-0:2.8.2*02_unit1\":\"kWh\\r\",\"1-0:2.8.2*03_value1\":\"0000000.000\",\"1-0:2.8.2*03_unit1\":\"kWh\\r\",\"1-0:2.8.2*04_value1\":\"0000000.000\",\"1-0:2.8.2*04_unit1\":\"kWh\\r\",\"1-0:2.8.2*05_value1\":\"0000000.000\",\"1-0:2.8.2*05_unit1\":\"kWh\\r\",\"0:2.8.2*06_value1\":\"0000000.000\",\"0:2.8.2*06_unit1\":\"kWh\\r\",\"1-0:2.8.2*07_value1\":\"0000000.000\",\"1-0:2.8.2*07_unit1\":\"kWh\\r\",\"1-0:2.8.2*08_value1\":\"0000000.000\",\"1-0:2.8.2*08_unit1\":\"kWh\\r\",\"1-0:2.8.2*09_value1\":\"0000000.000\",\"1-0:2.8.2*09_unit1\":\"kWh\\r\",\"1-0:2.8.2*10_value1\":\"0000000.000\",\"1-0:2.8.2*10_unit1\":\"kWh\\r\",\"1-0:2.8.2*11_value1\":\"0000000.000\",\"1-0:2.8.2*11_unit1\":\"kWh\\r\",\"1-0:2.8.2*12_value1\":\"0000000.000\",\"1-0:2.8.2*12_unit1\":\"kWh\\r\",\"1-0:2.8.2*13_value1\":\"0000000.000\",\"1-0:2.8.2*13_unit1\":\"kWh\\r\",\"1-0:2.8.2*14_value1\":\"0000000.000\",\"1-0:2.8.2*14_unit1\":\"kWh\\r\",\"1-0:2.8.2*15_value1\":\"0000000.000\",\"1-0:2.8.2*15_unit1\":\"kWh\\r\",\"1-0:2.8.3*01_value1\":\"0000000.000\",\"1-0:2.8.3*01_unit1\":\"kWh\\r\",\"1-0:2.8.3*02_value1\":\"0000000.000\",\"1-0:2.8.3*02_unit1\":\"kWh\\r\",\"1-0:2.8.3*03_value1\":\"0000000.000\",\"1-0:2.8.3*03_unit1\":\"kWh\\r\",\"1-0:2.8.3*04_value1\":\"0000000.000\",\"1-0:2.8.3*04_unit1\":\"kWh\\r\",\"1-0:2.8.3*05_value1\":\"0000000.000\",\"1-0:2.8.3*05_unit1\":\"kWh\\r\",\"1-0:2.8.3*06_value1\":\"0000000.000\",\"1-0:2.8.3*06_unit1\":\"kWh\\r\",\"1-0:2.8.3*07_value1\":\"0000000.000\",\"1-0:2.8.3*07_unit1\":\"kWh\\r\",\"1-0:2.8.3*08_value1\":\"0000000.000\",\"1-0:2.8.3*08_unit1\":\"kWh\\r\",\"1-0:2.8.3*09_value1\":\"0000000.000\",\"1-0:2.8.3*09_unit1\":\"kWh\\r\",\"1-0:2.8.3*10_value1\":\"0000000.000\",\"1-0:2.8.3*10_unit1\":\"kWh\\r\",\"1-0:2.8.3*11_value1\":\"0000000.000\",\"1-0:2.8.3*11_unit1\":\"kWh\\r\",\"1-0:2.8.3*12_value1\":\"0000000.000\",\"1-0:2.8.3*12_unit1\":\"kWh\\r\",\"1-0:2.8.3*13_value1\":\"0000000.000\",\"1-0:2.8.3*13_unit1\":\"kWh\\r\",\"1-0:2.8.3*14_value1\":\"0000000.000\",\"1-0:2.8.3*14_unit1\":\"kWh\\r\",\"1-0:2.8.3*15_value1\":\"0000000.000\",\"1-0:2.8.3*15_unit1\":\"kWh\\r\",\"1-0:2.8.4*01_value1\":\"0000000.000\",\"1-0:2.8.4*01_unit1\":\"kWh\\r\",\"1-0:2.8.4*02_value1\":\"0000000.000\",\"1-0:2.8.4*02_unit1\":\"kWh\\r\",\"1-0:2.8.4*03_value1\":\"0000000.000\",\"1-0:2.8.4*03_unit1\":\"kWh\\r\",\"1-0:2.8.4*04_value1\":\"0000000.000\",\"1-0:2.8.4*04_unit1\":\"kWh\\r\",\"1-0:2.8.4*05_value1\":\"0000000.000\",\"1-0:2.8.4*05_unit1\":\"kWh\\r\",\"1-0:2.8.4*06_value1\":\"0000000.000\",\"1-0:2.8.4*06_unit1\":\"kWh\\r\",\"1-0:2.8.4*07_value1\":\"0000000.000\",\"1-0:2.8.4*07_unit1\":\"kWh\\r\",\"1-0:2.8.4*08_value1\":\"0000000.000\",\"1-0:2.8.4*08_unit1\":\"kWh\\r\",\":2.8.4*09_value1\":\"0000000.000\",\":2.8.4*09_unit1\":\"kWh\\r\",\"1-0:2.8.4*10_value1\":\"0000000.000\",\"1-0:2.8.4*10_unit1\":\"kWh\\r\",\"1-0:2.8.4*11_value1\":\"0000000.000\",\"1-0:2.8.4*11_unit1\":\"kWh\\r\",\"1-0:2.8.4*12_value1\":\"0000000.000\",\"1-0:2.8.4*12_unit1\":\"kWh\\r\",\"1-0:2.8.4*13_value1\":\"0000000.000\",\"1-0:2.8.4*13_unit1\":\"kWh\\r\",\"1-0:2.8.4*14_value1\":\"0000000.000\",\"1-0:2.8.4*14_unit1\":\"kWh\\r\",\"1-0:2.8.4*15_value1\":\"0000000.000\",\"1-0:2.8.4*15_unit1\":\"kWh\\r\",\"1-0:3.8.0*01_value1\":\"0000000.001\",\"1-0:3.8.0*01_unit1\":\"kVArh\\r\",\"1-0:3.8.0*02_value1\":\"0000000.001\",\"1-0:3.8.0*02_unit1\":\"kVArh\\r\",\"1-0:3.8.0*03_value1\":\"0000000.001\",\"1-0:3.8.0*03_unit1\":\"kVArh\\r\",\"1-0:3.8.0*04_value1\":\"0000000.000\",\"1-0:3.8.0*04_unit1\":\"kVArh\\r\",\"1-0:3.8.0*05_value1\":\"0000000.000\",\"1-0:3.8.0*05_unit1\":\"kVArh\\r\",\"1-0:3.8.0*06_value1\":\"0000000.000\",\"1-0:3.8.0*06_unit1\":\"kVArh\\r\",\"1-0:3.8.0*07_value1\":\"0000000.000\",\"1-0:3.8.0*07_unit1\":\"kVArh\\r\",\"1-0:3.8.0*08_value1\":\"0000000.000\",\"1-0:3.8.0*08_unit1\":\"kVArh\\r\",\"1-0:3.8.0*09_value1\":\"0000000.000\",\"1-0:3.8.0*09_unit1\":\"kVArh\\r\",\"1-0:3.8.0*10_value1\":\"0000000.000\",\"1-0:3.8.0*10_unit1\":\"kVArh\\r\",\"1-0:3.8.0*11_value1\":\"0000000.000\",\"1-0:3.8.0*11_unit1\":\"kVArh\\r\",\"1-0:3.8.0*12_value1\":\"0000000.000\",\"1-0:3.8.0*12_unit1\":\"kVArh\\r\",\"1-0:3.8.0*13_value1\":\"0000000.000\",\"1-0:3.8.0*13_unit1\":\"kVArh\\r\",\"1-0:3.8.0*14_value1\":\"0000000.000\",\"1-0:3.8.0*14_unit1\":\"kVArh\\r\",\"1-0:3.8.0*15_value1\":\"0000000.000\",\"1-0:3.8.0*15_unit1\":\"kVArh\\r\",\"1-0:4.8.0*01_value1\":\"0000000.000\",\"1-0:4.8.0*01_unit1\":\"kVArh\\r\",\"1-0:4.8.0*02_value1\":\"0000000.000\",\"1-0:4.8.0*02_unit1\":\"kVArh\\r\",\"1-0:4.8.0*03_value1\":\"0000000.000\",\"1-0:4.8.0*03_unit1\":\"kVArh\\r\",\"1-0:4.8.0*04_value1\":\"0000000.000\",\"1-0:4.8.0*04_unit1\":\"kVArh\\r\",\"1-0:4.8.0*05_value1\":\"0000000.000\",\"1-0:4.8.0*05_unit1\":\"kVArh\\r\",\"1-0:4.8.0*06_value1\":\"0000000.000\",\"1-0:4.8.0*06_unit1\":\"kVArh\\r\",\"1-0:4.8.0*07_value1\":\"0000000.000\",\"1-0:4.8.0*07_unit1\":\"kVArh\\r\",\"1-0:4.8.0*08_value1\":\"0000000.000\",\"1-0:4.8.0*08_unit1\":\"kVArh\\r\",\"1-0:4.8.0*09_value1\":\"0000000.000\",\"1-0:4.8.0*09_unit1\":\"kVArh\\r\",\"1-0:4.8.0*10_value1\":\"00000\",\"1-0:4.8.0*11_value1\":\"0000000.000\",\"1-0:4.8.0*11_unit1\":\"kVArh\\r\",\"1-0:4.8.0*12_value1\":\"0000000.000\",\"1-0:4.8.0*12_unit1\":\"kVArh\\r\",\"1-0:4.8.0*13_value1\":\"0000000.000\",\"1-0:4.8.0*13_unit1\":\"kVArh\\r\",\"1-0:4.8.0*14_value1\":\"0000000.000\",\"1-0:4.8.0*14_unit1\":\"kVArh\\r\",\"1-0:4.8.0*15_value1\":\"0000000.000\",\"1-0:4.8.0*15_unit1\":\"kVArh\\r\",\"1-0:5.8.0*01_value1\":\"0000000.001\",\"1-0:5.8.0*01_unit1\":\"kVArh\\r\",\"1-0:5.8.0*02_value1\":\"0000000.001\",\"1-0:5.8.0*02_unit1\":\"kVArh\\r\",\"1-0:5.8.0*03_value1\":\"0000000.001\",\"1-0:5.8.0*03_unit1\":\"kVArh\\r\",\"1-0:5.8.0*04_value1\":\"0000000.000\",\"1-0:5.8.0*04_unit1\":\"kVArh\\r\",\"1-0:5.8.0*05_value1\":\"0000000.000\",\"1-0:5.8.0*05_unit1\":\"kVArh\\r\",\"1-0:5.8.0*06_value1\":\"0000000.000\",\"1-0:5.8.0*06_unit1\":\"kVArh\\r\",\"1-0:5.8.0*07_value1\":\"0000000.000\",\"1-0:5.8.0*07_unit1\":\"kVArh\\r\",\"1-0:5.8.0*08_value1\":\"0000000.000\",\"1-0:5.8.0*08_unit1\":\"kVArh\\r\",\"1-0:5.8.0*09_value1\":\"0000000.000\",\"1-0:5.8.0*09_unit1\":\"kVArh\\r\",\"1-0:5.8.0*10_value1\":\"0000000.000\",\"1-0:5.8.0*10_unit1\":\"kVArh\\r\",\"1-0:5.8.0*11_value1\":\"0000000.000\",\"1-0:5.8.0*11_unit1\":\"kVArh\\r\",\"1-0:5.8.0*12_value1\":\"0000000.000\",\"1-0:5.8.0*12_unit1\":\"kVArh\\r\",\"1-0:5.8.0*13_value1\":\"0000000.000\",\"1-0:5.8.0*13_unit1\":\"kVArh\\r\",\"1-0:5.8.0*14_value1\":\"0000000.000\",\"1-0:5.8.0*14_unit1\":\"kVArh\\r\",\"1-0:5.8.0*15_value1\":\"0000000.000\",\"1-0:5.8.0*15_unit1\":\"kVArh\\r\",\"1-0:6.8.0*01_value1\":\"0000000.000\",\"1-0:6.8.0*01_unit1\":\"kVArh\\r\",\"1-0:6.8.0*02_value1\":\"0000000.000\",\"1-0:6.8.0*02_unit1\":\"kVArh\\r\",\"1-0:6.8.0*03_value1\":\"0000000.000\",\"1-0:6.8.0*03_unit1\":\"kVArh\\r\",\"1-0:6.8.0*04_value1\":\"0000000.000\",\"1-0:6.8.0*04_unit1\":\"kVArh\\r\",\"1-0:6.8.0*05_value1\":\"0000000.000\",\"1-0:6.8.0*05_unit1\":\"kVArh\\r\",\"1-0:6.8.0*06_value1\":\"0000000.000\",\"1-0:6.8.0*06_unit1\":\"kVArh\\r\",\"1-0:6.8.0*07_value1\":\"0000000.000\",\"1-0:6.8.0*07_unit1\":\"kVArh\\r\",\"1-0:6.8.0*08_value1\":\"0000000.000\",\"1-0:6.8.0*08_unit1\":\"kVArh\\r\",\"1-0:6.8.0*09_value1\":\"0000000.000\",\"1-0:6.8.0*09_unit1\":\"kVArh\\r\",\"1-0:6.8.0*10_value1\":\"0000000.000\",\"1-0:6.8.0*10_unit1\":\"kVArh\\r\",\"1-0:6.8.0*11_value1\":\"000000\",\"1-0:6.8.0*12_value1\":\"0000000.000\",\"1-0:6.8.0*12_unit1\":\"kVArh\\r\",\"1-0:6.8.0*13_value1\":\"0000000.000\",\"1-0:6.8.0*13_unit1\":\"kVArh\\r\",\"1-0:6.8.0*14_value1\":\"0000000.000\",\"1-0:6.8.0*14_unit1\":\"kVArh\\r\",\"1-0:6.8.0*15_value1\":\"0000000.000\",\"1-0:6.8.0*15_unit1\":\"kVArh\\r\",\"1-0:7.8.0*01_value1\":\"0000000.000\",\"1-0:7.8.0*01_unit1\":\"kVArh\\r\",\"1-0:7.8.0*02_value1\":\"0000000.000\",\"1-0:7.8.0*02_unit1\":\"kVArh\\r\",\"1-0:7.8.0*03_value1\":\"0000000.000\",\"1-0:7.8.0*03_unit1\":\"kVArh\\r\",\"1-0:7.8.0*04_value1\":\"0000000.000\",\"1-0:7.8.0*04_unit1\":\"kVArh\\r\",\"1-0:7.8.0*05_value1\":\"0000000.000\",\"1-0:7.8.0*05_unit1\":\"kVArh\\r\",\"1-0:7.8.0*06_value1\":\"0000000.000\",\"1-0:7.8.0*06_unit1\":\"kVArh\\r\",\"1-0:7.8.0*07_value1\":\"0000000.000\",\"1-0:7.8.0*07_unit1\":\"kVArh\\r\",\"1-0:7.8.0*08_value1\":\"0000000.000\",\"1-0:7.8.0*08_unit1\":\"kVArh\\r\",\"1-0:7.8.0*09_value1\":\"0000000.000\",\"1-0:7.8.0*09_unit1\":\"kVArh\\r\",\"1-0:7.8.0*10_value1\":\"0000000.000\",\"1-0:7.8.0*10_unit1\":\"kVArh\\r\",\"1-0:7.8.0*11_value1\":\"0000000.000\",\"1-0:7.8.0*11_unit1\":\"kVArh\\r\",\"1-0:7.8.0*12_value1\":\"0000000.000\",\"1-0:7.8.0*12_unit1\":\"kVArh\\r\",\"1-0:7.8.0*13_value1\":\"0000000.000\",\"1-0:7.8.0*13_unit1\":\"kVArh\\r\",\"1-0:7.8.0*14_value1\":\"0000000.000\",\"1-0:7.8.0*14_unit1\":\"kVArh\\r\",\"1-0:7.8.0*15_value1\":\"0000000.000\",\"1-0:7.8.0*15_unit1\":\"kVArh\\r\",\"1-0:8.8.0*01_value1\":\"0000000.000\",\"1-0:8.8.0*01_unit1\":\"kVArh\\r\",\"1-0:8.8.0*02_value1\":\"0000000.000\",\"1-0:8.8.0*02_unit1\":\"kVArh\\r\",\"1-0:8.8.0*03_value1\":\"0000000.000\",\"1-0:8.8.0*03_unit1\":\"kVArh\\r\",\"1-0:8.8.0*04_value1\":\"0000000.000\",\"1-0:8.8.0*04_unit1\":\"kVArh\\r\",\"1-0:8.8.0*05_value1\":\"0000000.000\",\"1-0:8.8.0*05_unit1\":\"kVArh\\r\",\"1-0:8.8.0*06_value1\":\"0000000.000\",\"1-0:8.8.0*06_unit1\":\"kVArh\\r\",\"1-0:8.8.0*07_value1\":\"0000000.000\",\"1-0:8.8.0*07_unit1\":\"kVArh\\r\",\"1-0:8.8.0*08_value1\":\"0000000.000\",\"1-0:8.8.0*08_unit1\":\"kVArh\\r\",\"1-0:8.8.0*09_value1\":\"0000000.000\",\"1-0:8.8.0*09_unit1\":\"kVArh\\r\",\"1-0:8.8.0*10_value1\":\"0000000.000\",\"1-0:8.8.0*10_unit1\":\"kVArh\\r\",\"1-0:8.8.0*11_value1\":\"0000000.000\",\"1-0:8.8.0*11_unit1\":\"kVArh\\r\",\"1-0:8.8.0*12_value1\":\"0000000\",\"1-0:8.8.0*13_value1\":\"0000000.000\",\"1-0:8.8.0*13_unit1\":\"kVArh\\r\",\"1-0:8.8.0*14_value1\":\"0000000.000\",\"1-0:8.8.0*14_unit1\":\"kVArh\\r\",\"1-0:8.8.0*15_value1\":\"0000000.000\",\"1-0:8.8.0*15_unit1\":\"kVArh\\r\"}",
-                "vt": "json"
-            },
-            {
-                "p": "key",
-                "v": "T2_TEST_TOKEN",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 130,
-        "y": 160,
-        "wires": [
-            [
-                "52ce2382bae1c60a"
-            ]
-        ]
-    },
-    {
-        "id": "d2a20af101789c32",
-        "type": "http request",
-        "z": "d43567c1be96ce60",
-        "name": "",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 870,
-        "y": 160,
-        "wires": [
-            [
-                "ded242fe434a4ecd"
-            ]
-        ]
-    },
-    {
-        "id": "ded242fe434a4ecd",
-        "type": "debug",
-        "z": "d43567c1be96ce60",
-        "name": "debug 11",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1060,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "52ce2382bae1c60a",
-        "type": "function",
-        "z": "d43567c1be96ce60",
-        "name": "Build Req",
-        "func": "msg.url = global.get(\"baseURL\") +\"/api/v1/\"+msg.key+\"/telemetry\"\nmsg.payload = msg.regData\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 460,
-        "y": 160,
-        "wires": [
-            [
-                "dfe02ee9cf8da6af"
-            ]
-        ]
-    },
-    {
-        "id": "fea414a95f926870",
-        "type": "link in",
-        "z": "d43567c1be96ce60",
-        "name": "link - Start Pushing to ThingsBoard",
-        "links": [
-            "0ed4d359f53813f2",
-            "38965ba3b9d58267",
-            "a54d25a717f6b718",
-            "c86738eb328eea89"
-        ],
-        "x": 215,
-        "y": 80,
-        "wires": [
-            [
-                "52ce2382bae1c60a"
-            ]
-        ]
-    },
-    {
-        "id": "dfe02ee9cf8da6af",
-        "type": "delay",
-        "z": "d43567c1be96ce60",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "200",
-        "timeoutUnits": "milliseconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 650,
-        "y": 160,
-        "wires": [
-            [
-                "d2a20af101789c32"
-            ]
-        ]
-    },
-    {
         "id": "83c68889ae60d67a",
         "type": "inject",
         "z": "1509540e3c10b1a5",
@@ -2799,1225 +4019,5 @@
         "x": 1110,
         "y": 120,
         "wires": []
-    },
-    {
-        "id": "0839ed686605f773",
-        "type": "inject",
-        "z": "02206fa51f6a9be8",
-        "name": "Start",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"username\":\"tenant@thingsboard.org\",\"password\":\"tenant\"}",
-        "payloadType": "json",
-        "x": 110,
-        "y": 520,
-        "wires": [
-            [
-                "1c2fbbd703571f20"
-            ]
-        ]
-    },
-    {
-        "id": "0d1c04df5e2655fe",
-        "type": "trigger",
-        "z": "02206fa51f6a9be8",
-        "name": "",
-        "op1": "1",
-        "op2": "0",
-        "op1type": "str",
-        "op2type": "str",
-        "duration": "-5",
-        "extend": false,
-        "overrideDelay": false,
-        "units": "min",
-        "reset": "",
-        "bytopic": "all",
-        "topic": "topic",
-        "outputs": 1,
-        "x": 590,
-        "y": 520,
-        "wires": [
-            [
-                "3faf059f7957f7ba"
-            ]
-        ]
-    },
-    {
-        "id": "1c2fbbd703571f20",
-        "type": "change",
-        "z": "02206fa51f6a9be8",
-        "name": "Set Init global config",
-        "rules": [
-            {
-                "t": "set",
-                "p": "baseURL",
-                "pt": "global",
-                "to": "http://192.168.8.100:8080",
-                "tot": "str"
-            },
-            {
-                "t": "set",
-                "p": "cred",
-                "pt": "global",
-                "to": "{\"username\":\"tenant@thingsboard.org\",\"password\":\"tenant\"}",
-                "tot": "json"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 320,
-        "y": 520,
-        "wires": [
-            [
-                "0d1c04df5e2655fe"
-            ]
-        ]
-    },
-    {
-        "id": "c9036e3dcc3ce1a3",
-        "type": "http request",
-        "z": "02206fa51f6a9be8",
-        "name": "Login",
-        "method": "POST",
-        "ret": "obj",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [
-            {
-                "keyType": "Content-Type",
-                "keyValue": "",
-                "valueType": "other",
-                "valueValue": "application/json"
-            }
-        ],
-        "x": 1070,
-        "y": 520,
-        "wires": [
-            [
-                "209a39880c5e7bca"
-            ]
-        ]
-    },
-    {
-        "id": "3faf059f7957f7ba",
-        "type": "function",
-        "z": "02206fa51f6a9be8",
-        "name": "Set Login Req",
-        "func": "msg.payload = global.get(\"cred\")\nmsg.url = global.get(\"baseURL\") + \"/api/auth/login\"\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 840,
-        "y": 520,
-        "wires": [
-            [
-                "c9036e3dcc3ce1a3"
-            ]
-        ]
-    },
-    {
-        "id": "209a39880c5e7bca",
-        "type": "change",
-        "z": "02206fa51f6a9be8",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "tokenDetails",
-                "pt": "msg",
-                "to": "payload",
-                "tot": "msg",
-                "dc": true
-            },
-            {
-                "t": "set",
-                "p": "tokenDetails.token",
-                "pt": "msg",
-                "to": "$join($append(\"Bearer\", msg.tokenDetails.token)\t, \" \")",
-                "tot": "jsonata"
-            },
-            {
-                "t": "set",
-                "p": "devicePage",
-                "pt": "msg",
-                "to": "0",
-                "tot": "num"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1240,
-        "y": 520,
-        "wires": [
-            [
-                "f05687fab95fc876"
-            ]
-        ]
-    },
-    {
-        "id": "f05687fab95fc876",
-        "type": "function",
-        "z": "02206fa51f6a9be8",
-        "name": "SetGet Devices Req",
-        "func": "msg.url = global.get(\"baseURL\") + \"/api/tenant/deviceInfos?pageSize=10&page=\" + msg.devicePage+\"&sortProperty=createdTime&sortOrder=DESC&deviceProfileId=\"\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 820,
-        "y": 600,
-        "wires": [
-            [
-                "9172b49dc7f78fbc"
-            ]
-        ]
-    },
-    {
-        "id": "9172b49dc7f78fbc",
-        "type": "http request",
-        "z": "02206fa51f6a9be8",
-        "name": "Get Devices",
-        "method": "GET",
-        "ret": "obj",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [
-            {
-                "keyType": "other",
-                "keyValue": "Authorization",
-                "valueType": "msg",
-                "valueValue": "tokenDetails.token"
-            }
-        ],
-        "x": 1090,
-        "y": 600,
-        "wires": [
-            [
-                "28c7a638e1ab4bb8",
-                "0a0f670ec7afdf66"
-            ]
-        ]
-    },
-    {
-        "id": "8aa3c87309bb31f0",
-        "type": "debug",
-        "z": "02206fa51f6a9be8",
-        "name": "debug 31",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1580,
-        "y": 480,
-        "wires": []
-    },
-    {
-        "id": "0a0f670ec7afdf66",
-        "type": "delay",
-        "z": "02206fa51f6a9be8",
-        "name": "",
-        "pauseType": "rate",
-        "timeout": "5",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "30",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 1380,
-        "y": 600,
-        "wires": [
-            [
-                "8aa3c87309bb31f0",
-                "b3a62d262b247ff4"
-            ]
-        ]
-    },
-    {
-        "id": "a8e4d6ec73a89759",
-        "type": "function",
-        "z": "02206fa51f6a9be8",
-        "name": "Query Next Batch",
-        "func": "msg.devicePage = msg.devicePage + 1\nmsg.payload = \"Yes\"\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 530,
-        "y": 720,
-        "wires": [
-            [
-                "67833da0c7aa928f"
-            ]
-        ]
-    },
-    {
-        "id": "28c7a638e1ab4bb8",
-        "type": "switch",
-        "z": "02206fa51f6a9be8",
-        "name": "If There more pages",
-        "property": "payload.hasNext",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "true",
-                "vt": "jsonata"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 1,
-        "x": 720,
-        "y": 660,
-        "wires": [
-            [
-                "a8e4d6ec73a89759"
-            ]
-        ]
-    },
-    {
-        "id": "67833da0c7aa928f",
-        "type": "delay",
-        "z": "02206fa51f6a9be8",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "200",
-        "timeoutUnits": "milliseconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 510,
-        "y": 600,
-        "wires": [
-            [
-                "f05687fab95fc876"
-            ]
-        ]
-    },
-    {
-        "id": "b3a62d262b247ff4",
-        "type": "change",
-        "z": "02206fa51f6a9be8",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "payload.data",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 480,
-        "y": 840,
-        "wires": [
-            [
-                "35ba9307f83b14e3"
-            ]
-        ]
-    },
-    {
-        "id": "35ba9307f83b14e3",
-        "type": "split",
-        "z": "02206fa51f6a9be8",
-        "name": "",
-        "splt": "\\n",
-        "spltType": "str",
-        "arraySplt": 1,
-        "arraySpltType": "len",
-        "stream": false,
-        "addname": "device",
-        "x": 650,
-        "y": 840,
-        "wires": [
-            [
-                "13d92044b418343e"
-            ]
-        ]
-    },
-    {
-        "id": "2b2b65cbdf7eab42",
-        "type": "change",
-        "z": "02206fa51f6a9be8",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "deviceId",
-                "pt": "msg",
-                "to": "payload.id.id",
-                "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "token",
-                "pt": "msg",
-                "to": "tokenDetails.token",
-                "tot": "msg"
-            },
-            {
-                "t": "set",
-                "p": "profile",
-                "pt": "msg",
-                "to": "payload.deviceProfileName",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1060,
-        "y": 840,
-        "wires": [
-            [
-                "9e9491c95846755a"
-            ]
-        ]
-    },
-    {
-        "id": "9e9491c95846755a",
-        "type": "function",
-        "z": "02206fa51f6a9be8",
-        "name": "Build Telemetry Req",
-        "func": "let deviceId = msg.deviceId\n\nmsg.url = global.get(\"baseURL\") + \"/api/plugins/telemetry/DEVICE/\" + deviceId +\"/values/attributes/SERVER_SCOPE\"\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 800,
-        "y": 940,
-        "wires": [
-            [
-                "f31c3e508a25fbc2"
-            ]
-        ]
-    },
-    {
-        "id": "f31c3e508a25fbc2",
-        "type": "http request",
-        "z": "02206fa51f6a9be8",
-        "name": "Get DeviceTelemetry",
-        "method": "GET",
-        "ret": "obj",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [
-            {
-                "keyType": "other",
-                "keyValue": "Authorization",
-                "valueType": "msg",
-                "valueValue": "tokenDetails.token"
-            },
-            {
-                "keyType": "other",
-                "keyValue": "Content-Type",
-                "valueType": "other",
-                "valueValue": "application/json"
-            }
-        ],
-        "x": 1080,
-        "y": 940,
-        "wires": [
-            [
-                "3c4273ac4474d039"
-            ]
-        ]
-    },
-    {
-        "id": "3c4273ac4474d039",
-        "type": "function",
-        "z": "02206fa51f6a9be8",
-        "name": "Build Device",
-        "func": "\nmsg.payload.forEach(function(telemetry) {\n    if (telemetry.key === \"ip\") msg.host = telemetry.value\n    if (telemetry.key === \"port\") msg.port = telemetry.value\n    if (telemetry.key === \"read_obis\") msg.read_obis = telemetry.value \n    if (telemetry.key === \"password\") msg.meterPass = telemetry.value\n    if (telemetry.key === \"clientAdress\") msg.meterAd = telemetry.value\n    if (telemetry.key === \"billingProfileObis\") msg.billObis = telemetry.value\n});\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1310,
-        "y": 940,
-        "wires": [
-            [
-                "c8d7ada22428476b"
-            ]
-        ]
-    },
-    {
-        "id": "92a9738c295c70db",
-        "type": "change",
-        "z": "02206fa51f6a9be8",
-        "name": "Clear unusedData",
-        "rules": [
-            {
-                "t": "delete",
-                "p": "payload",
-                "pt": "msg"
-            },
-            {
-                "t": "delete",
-                "p": "statusCode",
-                "pt": "msg"
-            },
-            {
-                "t": "delete",
-                "p": "responseUrl",
-                "pt": "msg"
-            },
-            {
-                "t": "delete",
-                "p": "redirectList",
-                "pt": "msg"
-            },
-            {
-                "t": "delete",
-                "p": "retry",
-                "pt": "msg"
-            },
-            {
-                "t": "delete",
-                "p": "tokenDetails",
-                "pt": "msg"
-            },
-            {
-                "t": "delete",
-                "p": "headers",
-                "pt": "msg"
-            },
-            {
-                "t": "delete",
-                "p": "parts",
-                "pt": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1070,
-        "y": 1140,
-        "wires": [
-            [
-                "fe2bba608a4cb55d"
-            ]
-        ]
-    },
-    {
-        "id": "13d92044b418343e",
-        "type": "switch",
-        "z": "02206fa51f6a9be8",
-        "name": "Filter Profiles",
-        "property": "payload.deviceProfileId.id",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "6407c800-6fc7-11ed-acc7-7f84f79e863d",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "91c72800-9013-11ed-a729-4d5c2f062be6",
-                "vt": "str"
-            }
-        ],
-        "checkall": "false",
-        "repair": false,
-        "outputs": 2,
-        "x": 830,
-        "y": 840,
-        "wires": [
-            [
-                "2b2b65cbdf7eab42"
-            ],
-            [
-                "2b2b65cbdf7eab42"
-            ]
-        ]
-    },
-    {
-        "id": "c8d7ada22428476b",
-        "type": "function",
-        "z": "02206fa51f6a9be8",
-        "name": "Build meter Key Req",
-        "func": "let deviceId = msg.deviceId\n\nmsg.url = global.get(\"baseURL\") + \"/api/device/\" + deviceId +\"/credentials\"\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 780,
-        "y": 1040,
-        "wires": [
-            [
-                "a0a9dea7bd3e70df"
-            ]
-        ]
-    },
-    {
-        "id": "a0a9dea7bd3e70df",
-        "type": "http request",
-        "z": "02206fa51f6a9be8",
-        "name": "Get Device Key",
-        "method": "GET",
-        "ret": "obj",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [
-            {
-                "keyType": "other",
-                "keyValue": "Authorization",
-                "valueType": "msg",
-                "valueValue": "tokenDetails.token"
-            },
-            {
-                "keyType": "other",
-                "keyValue": "Content-Type",
-                "valueType": "other",
-                "valueValue": "application/json"
-            }
-        ],
-        "x": 1060,
-        "y": 1040,
-        "wires": [
-            [
-                "002883f8a4535aba"
-            ]
-        ]
-    },
-    {
-        "id": "5b99128207912800",
-        "type": "function",
-        "z": "02206fa51f6a9be8",
-        "name": "set Device Key",
-        "func": "\nmsg.key = msg.payload.credentialsId\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 760,
-        "y": 1140,
-        "wires": [
-            [
-                "92a9738c295c70db"
-            ]
-        ]
-    },
-    {
-        "id": "002883f8a4535aba",
-        "type": "delay",
-        "z": "02206fa51f6a9be8",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "200",
-        "timeoutUnits": "milliseconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 490,
-        "y": 1140,
-        "wires": [
-            [
-                "5b99128207912800"
-            ]
-        ]
-    },
-    {
-        "id": "fe2bba608a4cb55d",
-        "type": "link out",
-        "z": "02206fa51f6a9be8",
-        "name": "link out 5",
-        "mode": "link",
-        "links": [
-            "a2e9780ff9d3ae58"
-        ],
-        "x": 1325,
-        "y": 1140,
-        "wires": []
-    },
-    {
-        "id": "360489f1c53f4f2d",
-        "type": "exec",
-        "z": "27eea1c2d9ac95bb",
-        "command": "python3",
-        "addpay": "payload",
-        "append": "",
-        "useSpawn": "false",
-        "timer": "",
-        "winHide": false,
-        "oldrc": false,
-        "name": "Execute Read Obis command",
-        "x": 910,
-        "y": 260,
-        "wires": [
-            [
-                "fc66c0325f0f0f68",
-                "1d590e27dbc81cd6",
-                "cab50461e58ef119"
-            ],
-            [
-                "fc66c0325f0f0f68",
-                "d5d65eed1cc2d595"
-            ],
-            [
-                "fc66c0325f0f0f68"
-            ]
-        ]
-    },
-    {
-        "id": "fc66c0325f0f0f68",
-        "type": "debug",
-        "z": "27eea1c2d9ac95bb",
-        "name": "debug 33",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 600,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "f1fa44d08cbcb7eb",
-        "type": "function",
-        "z": "27eea1c2d9ac95bb",
-        "name": "Build Read Obis Command",
-        "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.read_obis\nlet clientAdd = msg.meterAd\nlet password = msg.meterPass\nlet cashFile = msg.profile\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" \" + msg.meterAd + \" \" + msg.meterPass + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o /usr/src/app/\" + cashFile + \".xml\"\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 600,
-        "y": 260,
-        "wires": [
-            [
-                "360489f1c53f4f2d"
-            ]
-        ]
-    },
-    {
-        "id": "a2e9780ff9d3ae58",
-        "type": "link in",
-        "z": "27eea1c2d9ac95bb",
-        "name": "Gurux Read V2",
-        "links": [
-            "fe2bba608a4cb55d"
-        ],
-        "x": 185,
-        "y": 260,
-        "wires": [
-            [
-                "411739f032457819"
-            ]
-        ]
-    },
-    {
-        "id": "1d590e27dbc81cd6",
-        "type": "function",
-        "z": "27eea1c2d9ac95bb",
-        "name": "Format Read OBIS Data",
-        "func": "let dataString = msg.payload;\nlet dataArray = dataString.split(\"\\n\")\n\n\nlet obisStringArray = dataArray.filter(obisString => obisString.includes('Index'))\n\n\nmsg.regData = {}\n\nlet obiCurrentCode = \"\"\n\nobisStringArray.forEach(function (obisString) {\n    let obisArray = obisString.split(\": \")\n   \n\n    let obisindex = obisArray[1].split(\"V\")[0].trim()\n    \n\n    if (parseInt(obisindex) === 1) { \n        obiCurrentCode = obisArray[2].trim()\n    }\n\n    msg.regData[obiCurrentCode + \":\" + obisindex] = obisArray[2].trim()\n\n});\n\n\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1270,
-        "y": 200,
-        "wires": [
-            [
-                "a54d25a717f6b718"
-            ]
-        ]
-    },
-    {
-        "id": "a54d25a717f6b718",
-        "type": "link out",
-        "z": "27eea1c2d9ac95bb",
-        "name": "link out 6",
-        "mode": "link",
-        "links": [
-            "fea414a95f926870"
-        ],
-        "x": 1625,
-        "y": 200,
-        "wires": []
-    },
-    {
-        "id": "9faa69f9484357d6",
-        "type": "catch",
-        "z": "27eea1c2d9ac95bb",
-        "name": "",
-        "scope": null,
-        "uncaught": false,
-        "x": 760,
-        "y": 40,
-        "wires": [
-            [
-                "e3a02b947eda3d69",
-                "22846360a11da18c"
-            ]
-        ]
-    },
-    {
-        "id": "e3a02b947eda3d69",
-        "type": "function",
-        "z": "27eea1c2d9ac95bb",
-        "name": "Build Error",
-        "func": "msg.regData = {}\n\nmsg.regData[\"Error\"] = msg.error.source.id + \":\" + \":\" + msg.error.source.type +msg.error.source.name + \" : \" + msg.error.message\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 950,
-        "y": 40,
-        "wires": [
-            [
-                "211e1dc3ef6d50a0"
-            ]
-        ]
-    },
-    {
-        "id": "d5d65eed1cc2d595",
-        "type": "function",
-        "z": "27eea1c2d9ac95bb",
-        "name": "Build Error",
-        "func": "msg.regData = {}\n\nmsg.regData[\"Error\"] = msg.payload\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1230,
-        "y": 260,
-        "wires": [
-            [
-                "a54d25a717f6b718"
-            ]
-        ]
-    },
-    {
-        "id": "411739f032457819",
-        "type": "switch",
-        "z": "27eea1c2d9ac95bb",
-        "name": "",
-        "property": "read_obis",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "cont",
-                "v": ".",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 1,
-        "x": 350,
-        "y": 260,
-        "wires": [
-            [
-                "f1fa44d08cbcb7eb"
-            ]
-        ]
-    },
-    {
-        "id": "211e1dc3ef6d50a0",
-        "type": "delay",
-        "z": "27eea1c2d9ac95bb",
-        "name": "",
-        "pauseType": "rate",
-        "timeout": "200",
-        "timeoutUnits": "milliseconds",
-        "rate": "4",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 1130,
-        "y": 40,
-        "wires": [
-            [
-                "a54d25a717f6b718"
-            ]
-        ]
-    },
-    {
-        "id": "9a08c5c5d4595314",
-        "type": "switch",
-        "z": "27eea1c2d9ac95bb",
-        "name": "",
-        "property": "billObis",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "cont",
-                "v": ".",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 1,
-        "x": 350,
-        "y": 560,
-        "wires": [
-            [
-                "5f0b3c4455965640"
-            ]
-        ]
-    },
-    {
-        "id": "5f0b3c4455965640",
-        "type": "function",
-        "z": "27eea1c2d9ac95bb",
-        "name": "Build Billing Profile Command",
-        "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.billObis\nlet clientAdd = msg.meterAd\nlet password = msg.meterPass\nlet cashFile = msg.profile\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" \" + msg.meterAd + \" \" + msg.meterPass + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \":1'\" + \" -o /usr/src/app/\" + cashFile + \".xml\" +\" -M 'queryProfileByDate:01122000000000/01012024000000'\"\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 590,
-        "y": 560,
-        "wires": [
-            [
-                "1c372cbd3c8b4326"
-            ]
-        ]
-    },
-    {
-        "id": "1c372cbd3c8b4326",
-        "type": "exec",
-        "z": "27eea1c2d9ac95bb",
-        "command": "python3",
-        "addpay": "payload",
-        "append": "",
-        "useSpawn": "false",
-        "timer": "",
-        "winHide": false,
-        "oldrc": false,
-        "name": "Execute Billing Profile Command",
-        "x": 900,
-        "y": 560,
-        "wires": [
-            [
-                "5efb4be8823a6f87",
-                "ae53e1864c64b427"
-            ],
-            [
-                "5efb4be8823a6f87"
-            ],
-            [
-                "5efb4be8823a6f87"
-            ]
-        ]
-    },
-    {
-        "id": "5efb4be8823a6f87",
-        "type": "debug",
-        "z": "27eea1c2d9ac95bb",
-        "name": "debug 34",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1140,
-        "y": 460,
-        "wires": []
-    },
-    {
-        "id": "bc7e8d063ed5112d",
-        "type": "inject",
-        "z": "27eea1c2d9ac95bb",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            },
-            {
-                "p": "host",
-                "v": "10.185.0.3",
-                "vt": "str"
-            },
-            {
-                "p": "port",
-                "v": "4059",
-                "vt": "str"
-            },
-            {
-                "p": "billObis",
-                "v": "0.0.21.0.11.255",
-                "vt": "str"
-            },
-            {
-                "p": "meterAd",
-                "v": "-c 100 -s 17",
-                "vt": "str"
-            },
-            {
-                "p": "meterPass",
-                "v": "-a Low -P \"MH_@DSEM\"",
-                "vt": "str"
-            },
-            {
-                "p": "profile",
-                "v": "ElectricalMeter-Electrometer",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 280,
-        "y": 440,
-        "wires": [
-            [
-                "9a08c5c5d4595314"
-            ]
-        ]
-    },
-    {
-        "id": "cab50461e58ef119",
-        "type": "delay",
-        "z": "27eea1c2d9ac95bb",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "200",
-        "timeoutUnits": "milliseconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 630,
-        "y": 400,
-        "wires": [
-            [
-                "9a08c5c5d4595314"
-            ]
-        ]
-    },
-    {
-        "id": "ae53e1864c64b427",
-        "type": "function",
-        "z": "27eea1c2d9ac95bb",
-        "name": "Format Read OBIS Data",
-        "func": "let dataString = msg.payload;\nlet dataArray = dataString.split(\"\\n\")\nlet profileObis = dataArray[7].split(\"On \")[1].split(\" : \")[0]\n\n//dataArray = dataArray.slice(7, dataArray.length)\n\nlet obisStringArray = dataArray.filter(obisString => obisString.includes('::'))\nconsole.log(obisStringArray)\n\nmsg.obisData = {}\nlet regData = {}\nlet currentIndex = \"0\"\n\nobisStringArray.forEach(function (obisString ,id) {\n    let obisArray = obisString.split(\" :: \")\n    let index = obisArray[0]\n\n    let key = profileObis + \":\" + obisArray[1]\n    let value = obisArray[3]\n\n    if ((index != currentIndex && index != \"0\") || (obisStringArray.length -1 == id)){\n        if (obisStringArray.length - 1 == id) regData[key] = value\n        msg.obisData[parseInt(currentIndex)] = regData\n        regData = {}\n        regData[key] = value\n        currentIndex = index\n    } else regData[key] = value\n\n    \n})\nmsg.payload = msg.obisData\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1250,
-        "y": 540,
-        "wires": [
-            [
-                "1bd210459158ba91"
-            ]
-        ]
-    },
-    {
-        "id": "0d8ebfe733beafeb",
-        "type": "debug",
-        "z": "27eea1c2d9ac95bb",
-        "name": "debug 35",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "regData",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1660,
-        "y": 560,
-        "wires": []
-    },
-    {
-        "id": "22846360a11da18c",
-        "type": "debug",
-        "z": "27eea1c2d9ac95bb",
-        "name": "debug 36",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 920,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "1bd210459158ba91",
-        "type": "split",
-        "z": "27eea1c2d9ac95bb",
-        "name": "",
-        "splt": "\\n",
-        "spltType": "str",
-        "arraySplt": 1,
-        "arraySpltType": "len",
-        "stream": false,
-        "addname": "",
-        "x": 1430,
-        "y": 460,
-        "wires": [
-            [
-                "cdd186fd5ad77af2"
-            ]
-        ]
-    },
-    {
-        "id": "cdd186fd5ad77af2",
-        "type": "delay",
-        "z": "27eea1c2d9ac95bb",
-        "name": "",
-        "pauseType": "rate",
-        "timeout": "200",
-        "timeoutUnits": "milliseconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 1610,
-        "y": 440,
-        "wires": [
-            [
-                "ec257cb463a7a41e",
-                "a54d25a717f6b718"
-            ]
-        ]
-    },
-    {
-        "id": "ec257cb463a7a41e",
-        "type": "change",
-        "z": "27eea1c2d9ac95bb",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "regData",
-                "pt": "msg",
-                "to": "payload",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1660,
-        "y": 500,
-        "wires": [
-            [
-                "0d8ebfe733beafeb"
-            ]
-        ]
     }
 ]
