@@ -3882,8 +3882,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 720,
-        "y": 340,
+        "x": 680,
+        "y": 360,
         "wires": []
     }
 ]
