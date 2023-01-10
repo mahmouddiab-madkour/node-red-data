@@ -3525,7 +3525,8 @@
             [
                 "fc66c0325f0f0f68",
                 "1d590e27dbc81cd6",
-                "9a08c5c5d4595314"
+                "9a08c5c5d4595314",
+                "f7639a16f5d87e5a"
             ],
             [
                 "fc66c0325f0f0f68",
@@ -3868,5 +3869,22 @@
                 "9a08c5c5d4595314"
             ]
         ]
+    },
+    {
+        "id": "f7639a16f5d87e5a",
+        "type": "debug",
+        "z": "27eea1c2d9ac95bb",
+        "name": "debug 35",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "billingProfileObis",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 420,
+        "wires": []
     }
 ]
