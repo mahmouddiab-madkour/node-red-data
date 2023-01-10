@@ -3351,27 +3351,9 @@
         "y": 1140,
         "wires": [
             [
-                "6f1c5bef61b1aa16",
                 "fe2bba608a4cb55d"
             ]
         ]
-    },
-    {
-        "id": "6f1c5bef61b1aa16",
-        "type": "debug",
-        "z": "02206fa51f6a9be8",
-        "name": "debug 32",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "billObis",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1340,
-        "y": 1140,
-        "wires": []
     },
     {
         "id": "13d92044b418343e",
@@ -3466,14 +3448,14 @@
         "id": "5b99128207912800",
         "type": "function",
         "z": "02206fa51f6a9be8",
-        "name": "set Device Key",
+        "name": "set Device Key & profile",
         "func": "\nmsg.key = msg.payload.credentialsId\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 760,
+        "x": 790,
         "y": 1140,
         "wires": [
             [
