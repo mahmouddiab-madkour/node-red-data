@@ -1244,8 +1244,8 @@
         "arraySpltType": "len",
         "stream": false,
         "addname": "",
-        "x": 1430,
-        "y": 460,
+        "x": 1130,
+        "y": 620,
         "wires": [
             [
                 "cdd186fd5ad77af2"
@@ -1269,8 +1269,8 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 1610,
-        "y": 440,
+        "x": 1150,
+        "y": 720,
         "wires": [
             [
                 "ec257cb463a7a41e"
@@ -1296,8 +1296,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1660,
-        "y": 500,
+        "x": 1340,
+        "y": 720,
         "wires": [
             [
                 "0d8ebfe733beafeb",
@@ -1419,10 +1419,10 @@
         "type": "delay",
         "z": "d43567c1be96ce60",
         "name": "",
-        "pauseType": "delay",
+        "pauseType": "rate",
         "timeout": "200",
         "timeoutUnits": "milliseconds",
-        "rate": "1",
+        "rate": "3",
         "nbRateUnits": "1",
         "rateUnits": "second",
         "randomFirst": "1",
