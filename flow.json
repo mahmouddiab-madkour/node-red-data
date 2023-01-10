@@ -3729,7 +3729,7 @@
         "type": "switch",
         "z": "27eea1c2d9ac95bb",
         "name": "",
-        "property": "billingProfileObis",
+        "property": "billObis",
         "propertyType": "msg",
         "rules": [
             {
@@ -3754,7 +3754,7 @@
         "type": "function",
         "z": "27eea1c2d9ac95bb",
         "name": "Build Billing Profile Command",
-        "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.billingProfileObis\nlet clientAdd = msg.meterAd\nlet password = msg.meterPass\nlet cashFile = msg.profile\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" \" + msg.meterAd + \" \" + msg.meterPass + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \":1'\" + \" -o /usr/src/app/\" + cashFile + \".xml\" +\" -M 'queryProfileByDate:01122022000000/01012023000000'\"\nreturn msg;",
+        "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.billObis\nlet clientAdd = msg.meterAd\nlet password = msg.meterPass\nlet cashFile = msg.profile\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" \" + msg.meterAd + \" \" + msg.meterPass + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \":1'\" + \" -o /usr/src/app/\" + cashFile + \".xml\" +\" -M 'queryProfileByDate:01122022000000/01012023000000'\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3879,7 +3879,7 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "billingProfileObis",
+        "complete": "billObis",
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
