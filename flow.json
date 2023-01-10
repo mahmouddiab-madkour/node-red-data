@@ -3674,7 +3674,7 @@
         "name": "",
         "scope": null,
         "uncaught": false,
-        "x": 800,
+        "x": 680,
         "y": 140,
         "wires": [
             [
@@ -3693,7 +3693,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1010,
+        "x": 870,
         "y": 140,
         "wires": [
             [
@@ -3762,8 +3762,8 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 1210,
-        "y": 80,
+        "x": 1050,
+        "y": 140,
         "wires": [
             [
                 "a54d25a717f6b718"
