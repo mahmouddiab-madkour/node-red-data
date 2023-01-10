@@ -797,7 +797,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "Query Telemetry Req",
-        "func": "let deviceId = msg.deviceId\n\nmsg.url = global.get(\"baseURL\") + \"/api/plugins/telemetry/DEVICE/\" + deviceId +\"/values/timeseries?agg=MAX&keys=0.0.21.0.11.255:0.0.1.0.0.255:2\"\n\nreturn msg;",
+        "func": "let deviceId = msg.deviceId\n\nlet obis = \"0.0.21.0.11.255:0.0.1.0.0.255:2\"\n\nmsg.url = global.get(\"baseURL\") + \"/api/plugins/telemetry/DEVICE/\" + deviceId + \"/values/timeseries?agg=MAX&keys=\" + obis\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -843,8 +843,40 @@
         "x": 600,
         "y": 1300,
         "wires": [
-            []
+            [
+                "160f360c3ed15c32"
+            ]
         ]
+    },
+    {
+        "id": "7e74672ff785690f",
+        "type": "link in",
+        "z": "02206fa51f6a9be8",
+        "name": "Query Telemetry Billing",
+        "links": [],
+        "x": 95,
+        "y": 1240,
+        "wires": [
+            [
+                "d31bd0999da8c4d7"
+            ]
+        ]
+    },
+    {
+        "id": "160f360c3ed15c32",
+        "type": "debug",
+        "z": "02206fa51f6a9be8",
+        "name": "debug 37",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 1300,
+        "wires": []
     },
     {
         "id": "360489f1c53f4f2d",
