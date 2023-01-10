@@ -1662,7 +1662,7 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 130,
-        "y": 220,
+        "y": 160,
         "wires": [
             [
                 "52ce2382bae1c60a"
@@ -1685,7 +1685,7 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 710,
+        "x": 870,
         "y": 160,
         "wires": [
             [
@@ -1706,8 +1706,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 880,
-        "y": 280,
+        "x": 1060,
+        "y": 160,
         "wires": []
     },
     {
@@ -1725,7 +1725,6 @@
         "y": 160,
         "wires": [
             [
-                "ded242fe434a4ecd",
                 "dfe02ee9cf8da6af"
             ]
         ]
@@ -1766,8 +1765,8 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 610,
-        "y": 80,
+        "x": 650,
+        "y": 160,
         "wires": [
             [
                 "d2a20af101789c32"
