@@ -3536,35 +3536,6 @@
         ]
     },
     {
-        "id": "eaf57b55662269c9",
-        "type": "inject",
-        "z": "27eea1c2d9ac95bb",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 400,
-        "y": 120,
-        "wires": [
-            [
-                "f1fa44d08cbcb7eb"
-            ]
-        ]
-    },
-    {
         "id": "fc66c0325f0f0f68",
         "type": "debug",
         "z": "27eea1c2d9ac95bb",
@@ -3781,7 +3752,7 @@
         "type": "function",
         "z": "27eea1c2d9ac95bb",
         "name": "function 13",
-        "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.read_obis\nlet clientAdd = msg.meterAd\nlet password = msg.meterPass\nlet cashFile = msg.profile\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" \" + msg.meterAd + \" \" + msg.meterPass + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o /usr/src/app/\" + cashFile + \".xml\"\nreturn msg;",
+        "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.billingProfileObis\nlet clientAdd = msg.meterAd\nlet password = msg.meterPass\nlet cashFile = msg.profile\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" \" + msg.meterAd + \" \" + msg.meterPass + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o /usr/src/app/\" + cashFile + \".xml\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3839,7 +3810,7 @@
         "wires": []
     },
     {
-        "id": "3deca35eb302d2b6",
+        "id": "bc7e8d063ed5112d",
         "type": "inject",
         "z": "27eea1c2d9ac95bb",
         "name": "",
@@ -3850,6 +3821,36 @@
             {
                 "p": "topic",
                 "vt": "str"
+            },
+            {
+                "p": "host",
+                "v": "10.185.0.4",
+                "vt": "str"
+            },
+            {
+                "p": "port",
+                "v": "4059",
+                "vt": "str"
+            },
+            {
+                "p": "billingProfileObis",
+                "v": "0.0.21.0.11.255",
+                "vt": "str"
+            },
+            {
+                "p": "meterAd",
+                "v": "-c 100 -s 17",
+                "vt": "str"
+            },
+            {
+                "p": "meterPass",
+                "v": "-a Low -P \"MH_@DSEM\"",
+                "vt": "str"
+            },
+            {
+                "p": "profile",
+                "v": "ElectricalMeter-Electrometer",
+                "vt": "str"
             }
         ],
         "repeat": "",
@@ -3859,11 +3860,11 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 520,
-        "y": 420,
+        "x": 260,
+        "y": 560,
         "wires": [
             [
-                "5f0b3c4455965640"
+                "9a08c5c5d4595314"
             ]
         ]
     }
