@@ -3053,15 +3053,15 @@
         "timeout": "5",
         "timeoutUnits": "seconds",
         "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "minute",
+        "nbRateUnits": "30",
+        "rateUnits": "second",
         "randomFirst": "1",
         "randomLast": "5",
         "randomUnits": "seconds",
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 1370,
+        "x": 1380,
         "y": 600,
         "wires": [
             [
