@@ -2818,7 +2818,7 @@
         "payload": "{\"username\":\"tenant@thingsboard.org\",\"password\":\"tenant\"}",
         "payloadType": "json",
         "x": 110,
-        "y": 520,
+        "y": 500,
         "wires": [
             [
                 "1c2fbbd703571f20"
