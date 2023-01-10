@@ -3210,7 +3210,7 @@
                 "t": "set",
                 "p": "profile",
                 "pt": "msg",
-                "to": "payload.profile",
+                "to": "payload.deviceProfileName",
                 "tot": "msg"
             }
         ],
