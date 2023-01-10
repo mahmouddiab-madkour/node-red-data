@@ -619,11 +619,6 @@
             },
             {
                 "t": "delete",
-                "p": "tokenDetails",
-                "pt": "msg"
-            },
-            {
-                "t": "delete",
                 "p": "headers",
                 "pt": "msg"
             },
