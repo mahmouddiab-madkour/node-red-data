@@ -347,7 +347,7 @@
         "allowrate": false,
         "outputs": 1,
         "x": 1380,
-        "y": 620,
+        "y": 600,
         "wires": [
             [
                 "8aa3c87309bb31f0",
@@ -791,6 +791,60 @@
         "x": 1325,
         "y": 1140,
         "wires": []
+    },
+    {
+        "id": "d31bd0999da8c4d7",
+        "type": "function",
+        "z": "02206fa51f6a9be8",
+        "name": "Query Telemetry Req",
+        "func": "let deviceId = msg.deviceId\n\nmsg.url = global.get(\"baseURL\") + \"/api/plugins/telemetry/DEVICE/\" + deviceId +\"/values/timeseries?agg=MAX&keys=0.0.21.0.11.255:0.0.1.0.0.255:2\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 1300,
+        "wires": [
+            [
+                "843994dff9759d6f"
+            ]
+        ]
+    },
+    {
+        "id": "843994dff9759d6f",
+        "type": "http request",
+        "z": "02206fa51f6a9be8",
+        "name": "Get DeviceTelemetry",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Authorization",
+                "valueType": "msg",
+                "valueValue": "tokenDetails.token"
+            },
+            {
+                "keyType": "other",
+                "keyValue": "Content-Type",
+                "valueType": "other",
+                "valueValue": "application/json"
+            }
+        ],
+        "x": 600,
+        "y": 1300,
+        "wires": [
+            []
+        ]
     },
     {
         "id": "360489f1c53f4f2d",
