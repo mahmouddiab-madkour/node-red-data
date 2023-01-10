@@ -3783,7 +3783,8 @@
         "y": 560,
         "wires": [
             [
-                "5efb4be8823a6f87"
+                "5efb4be8823a6f87",
+                "ae53e1864c64b427"
             ],
             [
                 "5efb4be8823a6f87"
@@ -3893,5 +3894,41 @@
                 "9a08c5c5d4595314"
             ]
         ]
+    },
+    {
+        "id": "ae53e1864c64b427",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "Format Read OBIS Data",
+        "func": "let dataString = msg.payload;\nlet dataArray = dataString.split(\"\\n\")\n\nconsole.log(dataArray)\n\n\n//let obisStringArray = dataArray.filter(obisString => obisString.includes('Index'))\n\n\nmsg.regData = {}\n\n/*let obiCurrentCode = \"\"\n\nobisStringArray.forEach(function (obisString) {\n    let obisArray = obisString.split(\": \")\n   \n\n    let obisindex = obisArray[1].split(\"V\")[0].trim()\n    \n\n    if (parseInt(obisindex) === 1) { \n        obiCurrentCode = obisArray[2].trim()\n    }\n\n    msg.regData[obiCurrentCode + \":\" + obisindex] = obisArray[2].trim()\n\n});*/\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1250,
+        "y": 540,
+        "wires": [
+            [
+                "0d8ebfe733beafeb"
+            ]
+        ]
+    },
+    {
+        "id": "0d8ebfe733beafeb",
+        "type": "debug",
+        "z": "27eea1c2d9ac95bb",
+        "name": "debug 35",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "regData",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1480,
+        "y": 540,
+        "wires": []
     }
 ]
