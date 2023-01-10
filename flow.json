@@ -3835,7 +3835,7 @@
                 "vt": "str"
             },
             {
-                "p": "billingProfileObis",
+                "p": "billObis",
                 "v": "0.0.21.0.11.255",
                 "vt": "str"
             },
