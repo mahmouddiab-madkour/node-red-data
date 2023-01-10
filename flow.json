@@ -3972,7 +3972,7 @@
         "type": "delay",
         "z": "27eea1c2d9ac95bb",
         "name": "",
-        "pauseType": "delay",
+        "pauseType": "rate",
         "timeout": "200",
         "timeoutUnits": "milliseconds",
         "rate": "1",
