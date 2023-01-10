@@ -1269,12 +1269,11 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 1590,
-        "y": 420,
+        "x": 1610,
+        "y": 440,
         "wires": [
             [
-                "ec257cb463a7a41e",
-                "a54d25a717f6b718"
+                "ec257cb463a7a41e"
             ]
         ]
     },
@@ -1301,7 +1300,8 @@
         "y": 500,
         "wires": [
             [
-                "0d8ebfe733beafeb"
+                "0d8ebfe733beafeb",
+                "a54d25a717f6b718"
             ]
         ]
     },
