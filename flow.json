@@ -1410,7 +1410,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 2540,
-        "y": 540,
+        "y": 500,
         "wires": []
     },
     {
