@@ -1383,7 +1383,7 @@
         "type": "function",
         "z": "27eea1c2d9ac95bb",
         "name": "format From Date",
-        "func": "//From Date\nlet meterDate = msg.payload[msg.billObis+\":0.0.1.0.0.255:2\"][0].value\nif (meterDate == null) meterDate = \"01/01/20 00:00:00:000000\"\nlet meterDateArray = meterDate.split(\"/\")\nlet billingQuery = meterDateArray[1] + meterDateArray[0] + \"20\" + meterDateArray[2]\n\nmsg.billingQuery = billingQuery.replace(':', '').replace(':', '').replace(':', '').replace(' ', '').slice(0, -6)\n\nmsg.billingQuery = msg.billingQuery + \"/\"\n\n//To Date\nmeterDate = new Date()\n\nmsg.billingQuery = msg.billingQuery + (parseInt(meterDate.getDate()) + 1) + meterDate.getMonth() + meterDate.getFullYear() + \"000000\"\nreturn msg;",
+        "func": "//From Date\nlet meterDate = msg.payload[msg.billObis+\":0.0.1.0.0.255:2\"][0].value\nif (meterDate == null) meterDate = \"01/01/20 00:00:00:000000\"\nlet meterDateArray = meterDate.split(\"/\")\nlet billingQuery = meterDateArray[1] + meterDateArray[0] + \"20\" + meterDateArray[2]\n\nmsg.billingQuery = billingQuery.replace(':', '').replace(':', '').replace(':', '').replace(' ', '').slice(0, -6)\n\nmsg.billingQuery = msg.billingQuery + \"/\"\n\n//To Date\nmeterDate = new Date()\nmeterDate.setDate(meterDate.getDate() + 1)\n\nmsg.billingQuery = msg.billingQuery + meterDate.getDate() + meterDate.getMonth() + meterDate.getFullYear() + \"000000\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
