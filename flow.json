@@ -1102,7 +1102,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 590,
+        "x": 1190,
         "y": 560,
         "wires": [
             [
@@ -1122,7 +1122,7 @@
         "winHide": false,
         "oldrc": false,
         "name": "Execute Billing Profile Command",
-        "x": 900,
+        "x": 1540,
         "y": 560,
         "wires": [
             [
@@ -1150,8 +1150,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1140,
-        "y": 460,
+        "x": 1740,
+        "y": 400,
         "wires": []
     },
     {
@@ -1242,14 +1242,14 @@
         "id": "ae53e1864c64b427",
         "type": "function",
         "z": "27eea1c2d9ac95bb",
-        "name": "Format Read OBIS Data",
+        "name": "Format Read OBIS Profile Data",
         "func": "let dataString = msg.payload;\nlet dataArray = dataString.split(\"\\n\")\nlet profileObis = dataArray[7].split(\"On \")[1].split(\" : \")[0]\n\n\nlet obisStringArray = dataArray.filter(obisString => obisString.includes('::'))\n\n\nmsg.obisData = {}\nlet regData = {}\nlet currentIndex = \"0\"\n\nobisStringArray.forEach(function (obisString ,id) {\n    let obisArray = obisString.split(\" :: \")\n    let index = obisArray[0]\n\n    let key = profileObis + \":\" + obisArray[1]\n    let value = obisArray[3]\n\n    if ((index != currentIndex && index != \"0\") || (obisStringArray.length -1 == id)){\n        if (obisStringArray.length - 1 == id) regData[key] = value\n        msg.obisData[parseInt(currentIndex)] = regData\n        regData = {}\n        regData[key] = value\n        currentIndex = index\n    } else regData[key] = value\n\n    \n})\nmsg.payload = msg.obisData\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1250,
+        "x": 1910,
         "y": 540,
         "wires": [
             [
@@ -1270,8 +1270,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1660,
-        "y": 560,
+        "x": 2420,
+        "y": 480,
         "wires": []
     },
     {
@@ -1301,8 +1301,8 @@
         "arraySpltType": "len",
         "stream": false,
         "addname": "",
-        "x": 1130,
-        "y": 620,
+        "x": 2130,
+        "y": 540,
         "wires": [
             [
                 "ec257cb463a7a41e"
@@ -1328,8 +1328,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1340,
-        "y": 720,
+        "x": 2300,
+        "y": 540,
         "wires": [
             [
                 "0d8ebfe733beafeb",
@@ -1354,8 +1354,8 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 1530,
-        "y": 500,
+        "x": 2410,
+        "y": 700,
         "wires": [
             []
         ]
@@ -1370,8 +1370,8 @@
         ],
         "linkType": "static",
         "timeout": "30",
-        "x": 470,
-        "y": 700,
+        "x": 570,
+        "y": 560,
         "wires": [
             [
                 "0375a8d1b28ae81f"
@@ -1406,8 +1406,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 610,
-        "y": 860,
+        "x": 850,
+        "y": 560,
         "wires": [
             [
                 "58cccd886338ee81",
