@@ -114,6 +114,7 @@
         "id": "0d1c04df5e2655fe",
         "type": "trigger",
         "z": "02206fa51f6a9be8",
+        "d": true,
         "name": "",
         "op1": "1",
         "op2": "0",
