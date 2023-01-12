@@ -572,7 +572,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "Build Device",
-        "func": "\nmsg.payload.forEach(function(telemetry) {\n    if (telemetry.key === \"ip\") msg.host = telemetry.value\n    if (telemetry.key === \"port\") msg.port = telemetry.value\n    if (telemetry.key === \"read_obis\") msg.read_obis = telemetry.value \n    if (telemetry.key === \"password\") msg.meterPass = telemetry.value\n    if (telemetry.key === \"clientAdress\") msg.meterAd = telemetry.value\n    if (telemetry.key === \"billingProfileObis\") msg.billObis = telemetry.value\n    if (telemetry.key === \"loadProfileObis\") msg.loadObis = telemetry.value\n});\n\nreturn msg;",
+        "func": "\nmsg.payload.forEach(function(telemetry) {\n    if (telemetry.key === \"ip\") msg.host = telemetry.value\n    if (telemetry.key === \"port\") msg.port = telemetry.value\n    if (telemetry.key === \"read_obis\") msg.read_obis = telemetry.value \n    if (telemetry.key === \"password\") msg.meterPass = telemetry.value\n    if (telemetry.key === \"clientAdress\") msg.meterAd = telemetry.value\n    if (telemetry.key === \"billingProfileObis\") msg.billObis = telemetry.value\n    if (telemetry.key === \"loadProfile1Obis\") msg.loadObis = telemetry.value\n});\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
