@@ -1705,7 +1705,8 @@
             "0ed4d359f53813f2",
             "38965ba3b9d58267",
             "a54d25a717f6b718",
-            "c86738eb328eea89"
+            "c86738eb328eea89",
+            "2cf7a84472848a9a"
         ],
         "x": 215,
         "y": 80,
@@ -3912,6 +3913,182 @@
         "statusType": "auto",
         "x": 220,
         "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "7366e81212d7448b",
+        "type": "exec",
+        "z": "9233b0c84f38dab5",
+        "command": "python3",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 900,
+        "y": 1440,
+        "wires": [
+            [
+                "9573bfa2fad47e9c"
+            ],
+            [
+                "9573bfa2fad47e9c",
+                "c3e57af65dda2427",
+                "087f47f9d1691a90"
+            ],
+            [
+                "9573bfa2fad47e9c"
+            ]
+        ]
+    },
+    {
+        "id": "f12832f3f03a0af1",
+        "type": "inject",
+        "z": "9233b0c84f38dab5",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 165,
+        "y": 1360.5555419921875,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9573bfa2fad47e9c",
+        "type": "debug",
+        "z": "9233b0c84f38dab5",
+        "name": "debug 41",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "472de5a975d14290",
+        "type": "function",
+        "z": "9233b0c84f38dab5",
+        "name": "function 12",
+        "func": "\nlet host = msg.req.query.ip\nlet port = msg.req.query.port\nmsg.key = msg.req.query.key\n\nlet method = msg.req.query.method\nlet amount = msg.req.query.amount\n\n\nlet obis = \"Non\"\nif (msg.req.query.method === \"UpdateCredit\")\n    obis = \"0.0.19.10.0.255:2\"\n\nif (msg.req.query.method === \"SetCurrentTime\"){\n    obis = \"0.0.1.0.0.255:2\"\n    amount = \"Non\"\n    }\n\n\n\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" -c 1 -a Low -P '00000000' \" +\" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \"'\" + \" -o '/usr/src/app/ElectricalMeter-Electrometer.xml'\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 1440,
+        "wires": [
+            [
+                "7366e81212d7448b"
+            ]
+        ]
+    },
+    {
+        "id": "5fb0a95e4d8610f6",
+        "type": "http in",
+        "z": "9233b0c84f38dab5",
+        "name": "",
+        "url": "/read",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 65,
+        "y": 1440.5555419921875,
+        "wires": [
+            [
+                "cce601204b7c68c9",
+                "21049fbac24e58a1",
+                "472de5a975d14290"
+            ]
+        ]
+    },
+    {
+        "id": "cce601204b7c68c9",
+        "type": "http response",
+        "z": "9233b0c84f38dab5",
+        "name": "In Progress",
+        "statusCode": "200",
+        "headers": {},
+        "x": 325,
+        "y": 1540.5555419921875,
+        "wires": []
+    },
+    {
+        "id": "c3e57af65dda2427",
+        "type": "debug",
+        "z": "9233b0c84f38dab5",
+        "name": "debug 42",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "087f47f9d1691a90",
+        "type": "function",
+        "z": "9233b0c84f38dab5",
+        "name": "Build Error",
+        "func": "msg.regData = {}\n\nmsg.regData[\"Write Error\"] = msg.payload\nmsg.regData[msg.req.query.method + \"_Write Error\"] = msg.req.query.method + \":\" + msg.req.query.amount + \" : \" + msg.payload\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1150,
+        "y": 1440,
+        "wires": [
+            [
+                "2cf7a84472848a9a"
+            ]
+        ]
+    },
+    {
+        "id": "2cf7a84472848a9a",
+        "type": "link out",
+        "z": "9233b0c84f38dab5",
+        "name": "link out 7",
+        "mode": "link",
+        "links": [
+            "fea414a95f926870"
+        ],
+        "x": 1305,
+        "y": 1480,
+        "wires": []
+    },
+    {
+        "id": "21049fbac24e58a1",
+        "type": "debug",
+        "z": "9233b0c84f38dab5",
+        "name": "debug 43",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "req.query",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 220,
+        "y": 1640,
         "wires": []
     },
     {
