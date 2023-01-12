@@ -1400,7 +1400,8 @@
         "y": 560,
         "wires": [
             [
-                "5f0b3c4455965640"
+                "5f0b3c4455965640",
+                "3ea301a38294fe86"
             ]
         ]
     },
@@ -1433,8 +1434,25 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 640,
-        "y": 500,
+        "x": 600,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "3ea301a38294fe86",
+        "type": "debug",
+        "z": "27eea1c2d9ac95bb",
+        "name": "debug 41",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "billingQuery",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 640,
         "wires": []
     },
     {
