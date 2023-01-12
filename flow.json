@@ -1406,7 +1406,7 @@
         "id": "28bc83691bd94d05",
         "type": "change",
         "z": "27eea1c2d9ac95bb",
-        "name": "",
+        "name": "UpdateQueryPrefex",
         "rules": [
             {
                 "t": "set",
