@@ -119,7 +119,7 @@
         "op2": "0",
         "op1type": "str",
         "op2type": "str",
-        "duration": "-5",
+        "duration": "-15",
         "extend": false,
         "overrideDelay": false,
         "units": "min",
