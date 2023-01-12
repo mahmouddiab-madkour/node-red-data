@@ -792,7 +792,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "Query Telemetry Req",
-        "func": "let deviceId = msg.deviceId\n\nlet obis = msg.billObis+\":0.0.1.0.0.255:2\"\n\nmsg.url = global.get(\"baseURL\") + \"/api/plugins/telemetry/DEVICE/\" + deviceId + \"/values/timeseries?agg=MAX&keys=\" + obis\n\nreturn msg;",
+        "func": "let deviceId = msg.deviceId\n\nlet obis = msg.queryPrefex+\":0.0.1.0.0.255:2\"\n\nmsg.url = global.get(\"baseURL\") + \"/api/plugins/telemetry/DEVICE/\" + deviceId + \"/values/timeseries?agg=MAX&keys=\" + obis\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1107,7 +1107,7 @@
         "y": 580,
         "wires": [
             [
-                "e822d9a060282544"
+                "28bc83691bd94d05"
             ],
             []
         ]
@@ -1399,6 +1399,34 @@
         "wires": [
             [
                 "5f0b3c4455965640"
+            ]
+        ]
+    },
+    {
+        "id": "28bc83691bd94d05",
+        "type": "change",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "queryPrefex",
+                "pt": "msg",
+                "to": "billObis",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 500,
+        "y": 700,
+        "wires": [
+            [
+                "e822d9a060282544"
             ]
         ]
     },
