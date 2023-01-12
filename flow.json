@@ -572,7 +572,7 @@
         "type": "function",
         "z": "02206fa51f6a9be8",
         "name": "Build Device",
-        "func": "\nmsg.payload.forEach(function(telemetry) {\n    if (telemetry.key === \"ip\") msg.host = telemetry.value\n    if (telemetry.key === \"port\") msg.port = telemetry.value\n    if (telemetry.key === \"read_obis\") msg.read_obis = telemetry.value \n    if (telemetry.key === \"password\") msg.meterPass = telemetry.value\n    if (telemetry.key === \"clientAdress\") msg.meterAd = telemetry.value\n    if (telemetry.key === \"billingProfileObis\") msg.billObis = telemetry.value\n});\n\nreturn msg;",
+        "func": "\nmsg.payload.forEach(function(telemetry) {\n    if (telemetry.key === \"ip\") msg.host = telemetry.value\n    if (telemetry.key === \"port\") msg.port = telemetry.value\n    if (telemetry.key === \"read_obis\") msg.read_obis = telemetry.value \n    if (telemetry.key === \"password\") msg.meterPass = telemetry.value\n    if (telemetry.key === \"clientAdress\") msg.meterAd = telemetry.value\n    if (telemetry.key === \"billingProfileObis\") msg.billObis = telemetry.value\n    if (telemetry.key === \"loadProfileObis\") msg.loadObis = telemetry.value\n});\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1088,7 +1088,7 @@
         "type": "switch",
         "z": "27eea1c2d9ac95bb",
         "name": "",
-        "property": "billObis",
+        "property": "loadObis",
         "propertyType": "msg",
         "rules": [
             {
@@ -1109,7 +1109,9 @@
             [
                 "28bc83691bd94d05"
             ],
-            []
+            [
+                "76e7067bad208157"
+            ]
         ]
     },
     {
@@ -1148,7 +1150,8 @@
         "wires": [
             [
                 "5efb4be8823a6f87",
-                "ae53e1864c64b427"
+                "ae53e1864c64b427",
+                "9afd3f63209954f8"
             ],
             [
                 "5efb4be8823a6f87"
@@ -1375,7 +1378,7 @@
         ],
         "linkType": "static",
         "timeout": "30",
-        "x": 570,
+        "x": 690,
         "y": 560,
         "wires": [
             [
@@ -1394,7 +1397,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 850,
+        "x": 930,
         "y": 560,
         "wires": [
             [
@@ -1422,11 +1425,169 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 500,
-        "y": 700,
+        "x": 520,
+        "y": 640,
         "wires": [
             [
                 "e822d9a060282544"
+            ]
+        ]
+    },
+    {
+        "id": "cc0acb827528a10e",
+        "type": "change",
+        "z": "27eea1c2d9ac95bb",
+        "name": "UpdateQueryPrefex",
+        "rules": [
+            {
+                "t": "set",
+                "p": "queryPrefex",
+                "pt": "msg",
+                "to": "billObis",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 520,
+        "y": 840,
+        "wires": [
+            [
+                "6de27d17f28c16fd"
+            ]
+        ]
+    },
+    {
+        "id": "6de27d17f28c16fd",
+        "type": "link call",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "links": [
+            "7e74672ff785690f"
+        ],
+        "linkType": "static",
+        "timeout": "30",
+        "x": 690,
+        "y": 760,
+        "wires": [
+            [
+                "7523c8ef0876c795"
+            ]
+        ]
+    },
+    {
+        "id": "7523c8ef0876c795",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "format From Date",
+        "func": "//From Date\nlet meterDate = msg.payload[msg.billObis+\":0.0.1.0.0.255:2\"][0].value\nif (meterDate == null) meterDate = \"01/01/20 00:00:00:000000\"\nlet meterDateArray = meterDate.split(\"/\")\nlet billingQuery = meterDateArray[1] + meterDateArray[0] + \"20\" + meterDateArray[2]\n\n\nif (billingQuery.length > 17)\n//ElectroMeter\n    msg.billingQuery = billingQuery.replace(':', '').replace(':', '').replace(':', '').replace(' ', '').slice(0, -7) + \"1\"\n//Iskraemeco\nelse msg.billingQuery = billingQuery.replace(':', '').replace(':', '').replace(':', '').replace(' ', '').slice(0, -1) + \"1\"\nmsg.billingQuery = msg.billingQuery + \"/\"\n\n//To Date\nmeterDate = new Date()\nmeterDate.setDate(meterDate.getDate() + 1)\n\nlet todaysDay = parseInt(meterDate.getDate()) > 9 ? meterDate.getDate() : \"0\" + meterDate.getDate()\nlet todaysMonth = parseInt(meterDate.getMonth() + 1) > 9 ? (meterDate.getMonth() + 1) : \"0\" + (meterDate.getMonth() + 1)\n\n\nmsg.billingQuery = msg.billingQuery + todaysDay + todaysMonth + meterDate.getFullYear() + \"000000\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 760,
+        "wires": [
+            [
+                "d111cdd72c857504"
+            ]
+        ]
+    },
+    {
+        "id": "d111cdd72c857504",
+        "type": "function",
+        "z": "27eea1c2d9ac95bb",
+        "name": "Build Billing Profile Command",
+        "func": "//let obis = \"0.0.96.1.0.255:2; 1.0.15.8.0.255:2; 0.0.1.0.0.255:2; 1.0.1.7.0.255:2; 1.0.2.7.0.255:2\"\n//let obis = \"0.0.96.1.0.255:1;0.0.96.1.0.255:2; 1.0.15.8.0.255:1;1.0.15.8.0.255:2; 0.0.1.0.0.255:1;0.0.1.0.0.255:2; 1.0.1.7.0.255:1;1.0.1.7.0.255:2; 1.0.2.7.0.255:1;1.0.2.7.0.255:2\"\n\nlet host = msg.host\nlet port = msg.port\nlet obis = msg.billObis\nlet clientAdd = msg.meterAd\nlet password = msg.meterPass\nlet cashFile = msg.profile\nlet queryDate = msg.billingQuery\n\n\nmsg.payload = \"/usr/src/app/main.py -i WRAPPER \" + \" -p \" + port + \" \" + msg.meterAd + \" \" + msg.meterPass + \" -h \" + \"'\" + host + \"'\" + \" -g \" + \"'\" + obis + \":1'\" + \" -o /usr/src/app/\" + cashFile + \".xml\" + \" -M 'queryProfileByDate:\" + queryDate+\"'\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1190,
+        "y": 760,
+        "wires": [
+            [
+                "6d34fe517e7c50d5"
+            ]
+        ]
+    },
+    {
+        "id": "6d34fe517e7c50d5",
+        "type": "exec",
+        "z": "27eea1c2d9ac95bb",
+        "command": "python3",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Execute Billing Profile Command",
+        "x": 1540,
+        "y": 760,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "76e7067bad208157",
+        "type": "switch",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "property": "billObis",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": ".",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 330,
+        "y": 800,
+        "wires": [
+            [
+                "cc0acb827528a10e"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "9afd3f63209954f8",
+        "type": "delay",
+        "z": "27eea1c2d9ac95bb",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "200",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 750,
+        "y": 700,
+        "wires": [
+            [
+                "76e7067bad208157"
             ]
         ]
     },
