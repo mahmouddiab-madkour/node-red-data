@@ -1453,7 +1453,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 520,
+        "x": 480,
         "y": 840,
         "wires": [
             [
@@ -1471,8 +1471,8 @@
         ],
         "linkType": "static",
         "timeout": "30",
-        "x": 690,
-        "y": 760,
+        "x": 730,
+        "y": 840,
         "wires": [
             [
                 "7523c8ef0876c795"
@@ -1490,8 +1490,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 930,
-        "y": 760,
+        "x": 970,
+        "y": 840,
         "wires": [
             [
                 "d111cdd72c857504"
@@ -1509,8 +1509,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1190,
-        "y": 760,
+        "x": 1230,
+        "y": 840,
         "wires": [
             [
                 "6d34fe517e7c50d5"
@@ -1529,12 +1529,18 @@
         "winHide": false,
         "oldrc": false,
         "name": "Execute Billing Profile Command",
-        "x": 1540,
-        "y": 760,
+        "x": 1560,
+        "y": 840,
         "wires": [
-            [],
-            [],
-            []
+            [
+                "5c587a092dabc843"
+            ],
+            [
+                "5c587a092dabc843"
+            ],
+            [
+                "5c587a092dabc843"
+            ]
         ]
     },
     {
@@ -1557,8 +1563,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 330,
-        "y": 800,
+        "x": 290,
+        "y": 840,
         "wires": [
             [
                 "cc0acb827528a10e"
@@ -1590,6 +1596,22 @@
                 "76e7067bad208157"
             ]
         ]
+    },
+    {
+        "id": "5c587a092dabc843",
+        "type": "debug",
+        "z": "27eea1c2d9ac95bb",
+        "name": "debug 39",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1820,
+        "y": 780,
+        "wires": []
     },
     {
         "id": "69ccf11da49db2f7",
