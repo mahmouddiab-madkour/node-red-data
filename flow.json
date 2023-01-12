@@ -919,7 +919,7 @@
         "type": "debug",
         "z": "27eea1c2d9ac95bb",
         "name": "debug 33",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1107,8 +1107,7 @@
         "y": 580,
         "wires": [
             [
-                "e822d9a060282544",
-                "0f91c6e1eb038274"
+                "e822d9a060282544"
             ],
             []
         ]
@@ -1164,7 +1163,7 @@
         "type": "debug",
         "z": "27eea1c2d9ac95bb",
         "name": "debug 34",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1337,8 +1336,7 @@
         "y": 540,
         "wires": [
             [
-                "80efb02c9a7111cf",
-                "e8ae520d31ba5cda"
+                "80efb02c9a7111cf"
             ]
         ]
     },
@@ -1359,8 +1357,8 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 2410,
-        "y": 700,
+        "x": 2330,
+        "y": 460,
         "wires": [
             [
                 "a54d25a717f6b718"
@@ -1390,7 +1388,7 @@
         "type": "function",
         "z": "27eea1c2d9ac95bb",
         "name": "format From Date",
-        "func": "//From Date\nlet meterDate = msg.payload[msg.billObis+\":0.0.1.0.0.255:2\"][0].value\nif (meterDate == null) meterDate = \"01/01/20 00:00:00:000000\"\nlet meterDateArray = meterDate.split(\"/\")\nlet billingQuery = meterDateArray[1] + meterDateArray[0] + \"20\" + meterDateArray[2]\n\n//ElectroMeter\nconsole.log(msg.host)\nconsole.log(billingQuery.length)\nif (billingQuery.length > 17)\n    msg.billingQuery = billingQuery.replace(':', '').replace(':', '').replace(':', '').replace(' ', '').slice(0, -7) + \"1\"\nelse msg.billingQuery = billingQuery.replace(':', '').replace(':', '').replace(':', '').replace(' ', '').slice(0, -1) + \"1\"\nmsg.billingQuery = msg.billingQuery + \"/\"\n\n//To Date\nmeterDate = new Date()\nmeterDate.setDate(meterDate.getDate() + 1)\n\nlet todaysDay = parseInt(meterDate.getDate()) > 9 ? meterDate.getDate() : \"0\" + meterDate.getDate()\nlet todaysMonth = parseInt(meterDate.getMonth() + 1) > 9 ? (meterDate.getMonth() + 1) : \"0\" + (meterDate.getMonth() + 1)\n\n\nmsg.billingQuery = msg.billingQuery + todaysDay + todaysMonth + meterDate.getFullYear() + \"000000\"\nreturn msg;",
+        "func": "//From Date\nlet meterDate = msg.payload[msg.billObis+\":0.0.1.0.0.255:2\"][0].value\nif (meterDate == null) meterDate = \"01/01/20 00:00:00:000000\"\nlet meterDateArray = meterDate.split(\"/\")\nlet billingQuery = meterDateArray[1] + meterDateArray[0] + \"20\" + meterDateArray[2]\n\n\nif (billingQuery.length > 17)\n//ElectroMeter\n    msg.billingQuery = billingQuery.replace(':', '').replace(':', '').replace(':', '').replace(' ', '').slice(0, -7) + \"1\"\n//Iskraemeco\nelse msg.billingQuery = billingQuery.replace(':', '').replace(':', '').replace(':', '').replace(' ', '').slice(0, -1) + \"1\"\nmsg.billingQuery = msg.billingQuery + \"/\"\n\n//To Date\nmeterDate = new Date()\nmeterDate.setDate(meterDate.getDate() + 1)\n\nlet todaysDay = parseInt(meterDate.getDate()) > 9 ? meterDate.getDate() : \"0\" + meterDate.getDate()\nlet todaysMonth = parseInt(meterDate.getMonth() + 1) > 9 ? (meterDate.getMonth() + 1) : \"0\" + (meterDate.getMonth() + 1)\n\n\nmsg.billingQuery = msg.billingQuery + todaysDay + todaysMonth + meterDate.getFullYear() + \"000000\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1400,60 +1398,9 @@
         "y": 560,
         "wires": [
             [
-                "5f0b3c4455965640",
-                "3ea301a38294fe86"
+                "5f0b3c4455965640"
             ]
         ]
-    },
-    {
-        "id": "e8ae520d31ba5cda",
-        "type": "debug",
-        "z": "27eea1c2d9ac95bb",
-        "name": "debug 39",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 2540,
-        "y": 500,
-        "wires": []
-    },
-    {
-        "id": "0f91c6e1eb038274",
-        "type": "debug",
-        "z": "27eea1c2d9ac95bb",
-        "name": "debug 40",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "billObis",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 600,
-        "y": 680,
-        "wires": []
-    },
-    {
-        "id": "3ea301a38294fe86",
-        "type": "debug",
-        "z": "27eea1c2d9ac95bb",
-        "name": "debug 41",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "billingQuery",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1040,
-        "y": 640,
-        "wires": []
     },
     {
         "id": "69ccf11da49db2f7",
