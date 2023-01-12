@@ -1352,7 +1352,7 @@
         "pauseType": "rate",
         "timeout": "5",
         "timeoutUnits": "seconds",
-        "rate": "1",
+        "rate": "10",
         "nbRateUnits": "1",
         "rateUnits": "second",
         "randomFirst": "1",
@@ -1361,7 +1361,7 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 2330,
+        "x": 2340,
         "y": 460,
         "wires": [
             [
